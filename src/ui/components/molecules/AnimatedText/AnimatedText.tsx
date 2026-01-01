@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import { Wrapper, Text } from '@atoms'
 
 import type { SiteSetting } from '@payload-types'
-import { cn } from '@utils'
 
 type AnimatedTextProps = {
   texts: SiteSetting['animatedTexts']
@@ -15,7 +14,7 @@ type AnimatedTextProps = {
 
 const AnimatedText = ({ texts, interval = 3000, className }: AnimatedTextProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
     if (texts?.length && texts.length <= 1) return

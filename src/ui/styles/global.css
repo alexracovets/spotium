@@ -2,6 +2,10 @@
 @import 'tw-animate-css';
 
 @theme {
+
+    --font-jetbrains_mono: var(--font-jetbrains_mono);
+    --font-press_start: var(--font-press_start);
+
     --color-base-bg: rgba(41, 41, 41, 1);
     --color-base-white: rgba(255, 255, 255, 1);
     --color-primary: rgba(254, 197, 50, 1);

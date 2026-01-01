@@ -6,17 +6,17 @@ import { Slot } from '@radix-ui/react-slot'
 import { TextType } from '@types'
 import { cn } from '@utils'
 
-const variantText = cva('', {
+const variantText = cva('font-jetbrains_mono font-medium', {
   variants: {
     variant: {
       default: '',
       animated_text_first_word: cn(
-        'text-[32px] font-press_start_2p font-regular',
+        'text-[32px] font-press_start',
         'opacity-0 -translate-y-2.5 transition-all duration-300 ease-in-out',
         '[&[data-active="true"]]:opacity-100 [&[data-active="true"]]:translate-y-0',
       ),
       animated_text_second_word: cn(
-        'text-[32px] font-press_start_2p font-regular text-primary',
+        'text-[32px] font-press_start text-primary',
         'opacity-0 -translate-y-2.5 transition-all duration-300 ease-in-out',
         '[&[data-active="true"]]:opacity-100 [&[data-active="true"]]:translate-y-0',
       ),

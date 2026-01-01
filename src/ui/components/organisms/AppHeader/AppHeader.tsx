@@ -4,7 +4,7 @@ import { Logo } from '@molecules'
 
 import type { Media, SiteSetting } from '@payload-types'
 import { Container, Wrapper } from '@atoms'
-import { AnimatedText } from '@molecules'
+import { AnimatedText, NavigationButton } from '@molecules'
 
 type AppHeaderProps = {
   logo: Media
@@ -19,7 +19,7 @@ const AppHeader = ({ logo, animatedTexts }: AppHeaderProps) => {
           <Wrapper variant="heder_wrapper">
             <Logo image={logo} />
             <AnimatedText texts={animatedTexts} />
-            <div></div>
+            <NavigationButton />
           </Wrapper>
         </Wrapper>
       </header>
