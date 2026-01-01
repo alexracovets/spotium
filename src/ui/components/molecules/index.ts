@@ -1,4 +1,5 @@
 export { NavigationButton } from './NavigationButton'
 export { NavigationMenu } from './NavigationMenu'
+export { NavigationSheet } from './NavigationSheet'
 export { AnimatedText } from './AnimatedText'
 export { Logo } from './Logo'

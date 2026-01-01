@@ -9,5 +9,9 @@ type NavigationStore = {
 
 export const useNavigation = create<NavigationStore>((set) => ({
   isOpenNavigation: false,
-  setIsOpenNavigation: (isOpenNavigation: boolean) => set({ isOpenNavigation }),
+  setIsOpenNavigation: (isOpenNavigation: boolean) => {
+    setTimeout(() => {
+      set({ isOpenNavigation: isOpenNavigation })
+    }, 100)
+  },
 }))

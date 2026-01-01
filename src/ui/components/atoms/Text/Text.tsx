@@ -20,6 +20,11 @@ const variantText = cva('font-jetbrains_mono font-medium', {
         'opacity-0 -translate-y-2.5 transition-all duration-300 ease-in-out',
         '[&[data-active="true"]]:opacity-100 [&[data-active="true"]]:translate-y-0',
       ),
+      navigation_button: cn(
+        'text-[32px] font-press_start uppercase text-base-white',
+        "data-[active='true']:text-primary",
+        'transition-all duration-300 ease-in-out',
+      ),
     },
   },
   defaultVariants: {

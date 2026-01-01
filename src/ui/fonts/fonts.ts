@@ -1,4 +1,4 @@
-import { JetBrains_Mono, Press_Start_2P } from 'next/font/google'
+import { JetBrains_Mono, Press_Start_2P, Anton } from 'next/font/google'
 
 export const jetbrains_mono = JetBrains_Mono({
   weight: ['500'],
@@ -13,5 +13,13 @@ export const press_start_2p = Press_Start_2P({
   variable: '--font-press_start',
   style: ['normal'],
   subsets: ['latin', 'cyrillic'],
+  display: 'swap',
+})
+
+export const bebas_neue = Anton({
+  weight: ['400'],
+  variable: '--font-anton',
+  style: ['normal'],
+  subsets: ['latin'],
   display: 'swap',
 })

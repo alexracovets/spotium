@@ -14,7 +14,7 @@ type AppHeaderProps = {
 const AppHeader = ({ logo, animatedTexts }: AppHeaderProps) => {
   return (
     <Container asChild>
-      <header>
+      <header className="relative z-[51] bg-base-dark">
         <Wrapper variant="header" asChild>
           <Wrapper variant="heder_wrapper">
             <Logo image={logo} />

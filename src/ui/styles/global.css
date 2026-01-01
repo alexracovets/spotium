@@ -10,6 +10,11 @@
     --color-base-white: rgba(255, 255, 255, 1);
     --color-primary: rgba(254, 197, 50, 1);
     --color-base-text: #e4e4e7;
+    --color-base-dark: #292929;
 
     --shadow-custom: 0px 0px 10px white;
+}
+
+.nav_shadow {
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2), 0 0 20px 24px rgba(0, 0, 0, 0.3), 0 0 110px 50px rgba(255, 255, 255, 0.1);
 }

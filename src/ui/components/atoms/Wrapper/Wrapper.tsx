@@ -17,6 +17,8 @@ const variantWrapper = cva('', {
       heder_wrapper: 'grid grid-cols-[auto_1fr_auto] items-center gap-x-[16px]',
       animated_text: 'flex justify-center items-center gap-[32px]',
       navigation_button: 'w-[72px] min-w-[72px] h-[48px] min-h-[48px] relative',
+      navigation_button_inner:
+        'w-[72px] h-[76px] absolute top-[50%] left-0 translate-y-[-50%] flex items-center justify-center',
     },
   },
   defaultVariants: {
