@@ -3,4 +3,5 @@
 
 @theme {
     --color-base-bg: rgba(41, 41, 41, 1);
+    --color-base-white: rgba(255, 255, 255, 1);
 }

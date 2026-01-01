@@ -1,10 +1,15 @@
 import { AppHeader, AppFooter } from '@organisms'
 import { ChildrenType } from '@types'
+import type { Media } from '@payload-types'
 
-const LayoutSpotium = ({ children }: ChildrenType) => {
+type LayoutSpotiumProps = ChildrenType & {
+  logo: Media
+}
+
+const LayoutSpotium = ({ children, logo }: LayoutSpotiumProps) => {
   return (
     <>
-      <AppHeader />
+      <AppHeader logo={logo} />
       {children}
       <AppFooter />
     </>

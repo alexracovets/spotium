@@ -21,6 +21,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@payload-config": ["src/config/payload/payload.config.ts"],
+      "@payload-types": ["./src/config/payload/payload-types.ts"],
       "@collections": ["./src/config/payload/collections"],
       "@globals": ["./src/config/payload/globals"],
       "@components": ["./src/components"],
