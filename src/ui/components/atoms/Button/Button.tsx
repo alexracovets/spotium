@@ -12,7 +12,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: '',
-        navigation: 'w-[72px] h-[48px] relative',
+        navigation: 'w-[72px] min-w-[72px] h-[48px] min-h-[48px] relative',
         destructive: '',
         outline: '',
         secondary: '',

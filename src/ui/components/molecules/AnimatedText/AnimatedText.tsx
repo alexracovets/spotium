@@ -12,7 +12,7 @@ type AnimatedTextProps = {
   className?: string
 }
 
-const AnimatedText = ({ texts, interval = 3000, className }: AnimatedTextProps) => {
+const AnimatedText = ({ texts, interval = 6000, className }: AnimatedTextProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
 
