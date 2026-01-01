@@ -11,9 +11,11 @@ const variantWrapper = cva('', {
     variant: {
       default: 'w-full',
       container: 'px-[50px] mx-auto',
-      app: 'grid grid-rows-[auto_1fr_auto] h-[100dvh] bg-base-bg antialiased',
+      app: 'grid grid-rows-[auto_1fr_auto] h-[100dvh] bg-base-bg antialiased text-base-text',
       header:
         'py-[30px] relative before:absolute before:content-[" "] before:left-0 before:bottom-[-2px] before:w-full before:h-[1px] before:bg-base-white',
+      heder_wrapper: 'grid grid-cols-[auto_1fr_auto] items-center',
+      animated_text: 'inline-flex items-baseline gap-[4px]',
     },
   },
   defaultVariants: {

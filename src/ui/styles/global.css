@@ -4,4 +4,6 @@
 @theme {
     --color-base-bg: rgba(41, 41, 41, 1);
     --color-base-white: rgba(255, 255, 255, 1);
+    --color-primary: rgba(254, 197, 50, 1);
+    --color-base-text: #e4e4e7;
 }

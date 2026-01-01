@@ -28,5 +28,37 @@ export const SiteSettings: GlobalConfig = {
         },
       },
     },
+    {
+      name: 'animatedTexts',
+      type: 'array',
+      label: {
+        uk: 'Анімовані тексти',
+        en: 'Animated Texts',
+      },
+      admin: {
+        description: {
+          uk: 'Список текстів для анімації. Кожен елемент складається з двох слів',
+          en: 'List of texts for animation. Each element consists of two words',
+        },
+      },
+      fields: [
+        {
+          name: 'firstWord',
+          type: 'text',
+          label: {
+            uk: 'Перше слово',
+            en: 'First Word',
+          },
+        },
+        {
+          name: 'secondWord',
+          type: 'text',
+          label: {
+            uk: 'Друге слово',
+            en: 'Second Word',
+          },
+        },
+      ],
+    },
   ],
 }

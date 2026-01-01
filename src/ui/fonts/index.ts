@@ -1,1 +1,1 @@
-export { bebas_neue, jetbrains_mono } from './fonts'
+export { bebas_neue, jetbrains_mono, press_start_2p } from './fonts'

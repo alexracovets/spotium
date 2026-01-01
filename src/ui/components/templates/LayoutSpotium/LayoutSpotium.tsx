@@ -1,15 +1,16 @@
 import { AppHeader, AppFooter } from '@organisms'
 import { ChildrenType } from '@types'
-import type { Media } from '@payload-types'
+import type { Media, SiteSetting } from '@payload-types'
 
 type LayoutSpotiumProps = ChildrenType & {
   logo: Media
+  animatedTexts?: SiteSetting['animatedTexts']
 }
 
-const LayoutSpotium = ({ children, logo }: LayoutSpotiumProps) => {
+const LayoutSpotium = ({ children, logo, animatedTexts }: LayoutSpotiumProps) => {
   return (
     <>
-      <AppHeader logo={logo} />
+      <AppHeader logo={logo} animatedTexts={animatedTexts} />
       {children}
       <AppFooter />
     </>
