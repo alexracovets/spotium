@@ -1,16 +1,11 @@
-import { cn } from '@lib'
-import { getLocale } from '@/utils/locale/locale'
+import { AppBody } from '@organisms'
 
-import { bebas_neue, jetbrains_mono } from '@fonts'
+import { ChildrenType } from '@types'
 
-export const LayoutDefault = async ({ children }: { children: React.ReactNode }) => {
-  const locale = await getLocale()
-
+export const LayoutDefault = async ({ children }: ChildrenType) => {
   return (
-    <html lang={locale} data-scroll-behavior={'smooth'}>
-      <body className={cn(bebas_neue.variable, jetbrains_mono.variable, 'antialiased')}>
-        {children}
-      </body>
+    <html lang="uk" data-scroll-behavior={'smooth'}>
+      <AppBody>{children}</AppBody>
     </html>
   )
 }

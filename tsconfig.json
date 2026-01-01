@@ -26,11 +26,12 @@
       "@molecules": ["./src/ui/components/molecules"],
       "@organisms": ["./src/ui/components/organisms"],
       "@templates": ["./src/ui/components/templates"],
+      "@styles/*": ["./src/ui/styles/*"],
+      "@types": ["./src/ui/types"],
       "@fonts": ["./src/ui/fonts"],
       "@hooks": ["./src/hooks"],
       "@utils": ["./src/utils"],
-      "@store": ["./src/store"],
-      "@lib": ["./src/lib"]
+      "@store": ["./src/store"]
     },
     "target": "ES2022"
   },
