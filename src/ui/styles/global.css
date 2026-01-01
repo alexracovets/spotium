@@ -10,4 +10,6 @@
     --color-base-white: rgba(255, 255, 255, 1);
     --color-primary: rgba(254, 197, 50, 1);
     --color-base-text: #e4e4e7;
+
+    --shadow-custom: 0px 0px 10px white;
 }

@@ -27,6 +27,7 @@
     "@payloadcms/storage-s3": "^3.69.0",
     "@payloadcms/translations": "^3.69.0",
     "@payloadcms/ui": "3.69.0",
+    "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/react-slot": "^1.2.4",
     "@tailwindcss/postcss": "^4.1.18",
