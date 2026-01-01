@@ -16,9 +16,10 @@ export default async function RootLayout({ children }: ChildrenType) {
 
   const logo = siteSettings.logo as Media
   const animatedTexts = siteSettings.animatedTexts as SiteSetting['animatedTexts']
+  const footer = siteSettings.footer as SiteSetting['footer']
 
   return (
-    <LayoutSpotium logo={logo} animatedTexts={animatedTexts}>
+    <LayoutSpotium logo={logo} animatedTexts={animatedTexts} footer={footer}>
       {children}
     </LayoutSpotium>
   )

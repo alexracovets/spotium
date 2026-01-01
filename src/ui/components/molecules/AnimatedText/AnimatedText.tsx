@@ -14,7 +14,7 @@ type AnimatedTextProps = {
 
 const AnimatedText = ({ texts, interval = 6000, className }: AnimatedTextProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
 
   useEffect(() => {
     if (texts?.length && texts.length <= 1) return

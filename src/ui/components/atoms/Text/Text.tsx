@@ -25,6 +25,9 @@ const variantText = cva('font-jetbrains_mono font-medium', {
         "data-[active='true']:text-primary",
         'transition-all duration-300 ease-in-out',
       ),
+      footer: cn(
+        'text-[16px] font-jetbrains_mono text-center font-medium text-base-white uppercase',
+      ),
     },
   },
   defaultVariants: {

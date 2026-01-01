@@ -9,9 +9,10 @@ import { useLayoutDimensions } from '@hooks'
 type LayoutSpotiumProps = ChildrenType & {
   logo: Media
   animatedTexts?: SiteSetting['animatedTexts']
+  footer: SiteSetting['footer']
 }
 
-const LayoutSpotium = ({ children, logo, animatedTexts }: LayoutSpotiumProps) => {
+const LayoutSpotium = ({ children, logo, animatedTexts, footer }: LayoutSpotiumProps) => {
   useLayoutDimensions()
 
   return (
@@ -19,7 +20,7 @@ const LayoutSpotium = ({ children, logo, animatedTexts }: LayoutSpotiumProps) =>
       <AppHeader logo={logo} animatedTexts={animatedTexts} />
       <NavigationSheet />
       {children}
-      <AppFooter />
+      <AppFooter footer={footer} />
     </>
   )
 }

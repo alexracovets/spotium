@@ -60,5 +60,19 @@ export const SiteSettings: GlobalConfig = {
         },
       ],
     },
+    {
+      name: 'footer',
+      type: 'text',
+      label: {
+        uk: 'Текст в футері',
+        en: 'Footer Text',
+      },
+      admin: {
+        description: {
+          uk: 'Текст в футері, який буде виведений в правій частині',
+          en: 'Footer Text in the right part',
+        },
+      },
+    },
   ],
 }
