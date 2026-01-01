@@ -1,9 +1,11 @@
 'use client'
 
-export const AppHeader = () => {
+const AppHeader = () => {
   return (
-    <div>
+    <header>
       <h1>AppHeader</h1>
-    </div>
+    </header>
   )
 }
+
+export { AppHeader }

@@ -1,2 +1,1 @@
-export { Button, buttonVariants } from './Button'
 export { Wrapper, variantWrapper } from './Wrapper'

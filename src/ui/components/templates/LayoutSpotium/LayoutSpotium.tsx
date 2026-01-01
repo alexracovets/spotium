@@ -1,9 +1,7 @@
-'use client'
-
 import { AppHeader, AppFooter } from '@organisms'
 import { ChildrenType } from '@types'
 
-export const LayoutSpotium = ({ children }: ChildrenType) => {
+const LayoutSpotium = ({ children }: ChildrenType) => {
   return (
     <>
       <AppHeader />
@@ -12,3 +10,5 @@ export const LayoutSpotium = ({ children }: ChildrenType) => {
     </>
   )
 }
+
+export { LayoutSpotium }

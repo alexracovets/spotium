@@ -1,9 +1,11 @@
 'use client'
 
-export const AppFooter = () => {
+const AppFooter = () => {
   return (
-    <div>
+    <footer>
       <h1>AppFooter</h1>
-    </div>
+    </footer>
   )
 }
+
+export { AppFooter }

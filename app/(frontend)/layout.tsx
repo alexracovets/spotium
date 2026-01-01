@@ -1,9 +1,19 @@
-import { LayoutDefault } from '@templates'
+import { Wrapper } from '@atoms'
 
-interface RootLayoutProps {
-  children: React.ReactNode
-}
+import { bebas_neue, jetbrains_mono } from '@fonts'
+import { ChildrenType } from '@types'
+import { cn } from '@utils'
 
-export default function RootLayout({ children }: RootLayoutProps) {
-  return <LayoutDefault>{children}</LayoutDefault>
+import '@styles/global.css'
+
+export default function RootLayout({ children }: ChildrenType) {
+  return (
+    <html lang="uk" data-scroll-behavior={'smooth'}>
+      <Wrapper variant="app" asChild>
+        <body suppressHydrationWarning className={cn(bebas_neue.style, jetbrains_mono.style)}>
+          {children}
+        </body>
+      </Wrapper>
+    </html>
+  )
 }

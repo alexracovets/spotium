@@ -1,1 +1,4 @@
+export { type SeparatorType } from './SeparatorType'
 export { type ChildrenType } from './ChildrenType'
+export { type WrapperType } from './WrapperType'
+export { type ButtonType } from './ButtonType'

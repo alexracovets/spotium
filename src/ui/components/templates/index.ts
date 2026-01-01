@@ -1,2 +1,1 @@
-export { LayoutDefault } from './LayoutDefault'
 export { LayoutSpotium } from './LayoutSpotium'
