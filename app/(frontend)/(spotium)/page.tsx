@@ -1,9 +1,24 @@
 import React from 'react'
+import { getPayload } from 'payload'
+import { Page } from '@payload-types'
+
+import config from '@payload-config'
+
+import { Main } from '@pages'
 
 export default async function HomePage() {
-  return (
-    <main>
-      <h1 className="text-3xl font-bold underline">Welcome to your new project.</h1>
-    </main>
-  )
+  const payload = await getPayload({ config })
+
+  const page = await payload.find({
+    collection: 'pages',
+    where: {
+      slug: {
+        equals: '/',
+      },
+    },
+  })
+
+  const data = page.docs[0] as Page
+
+  return <Main data={data} />
 }

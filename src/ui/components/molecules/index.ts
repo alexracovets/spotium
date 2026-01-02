@@ -1,5 +1,6 @@
 export { NavigationButton } from './NavigationButton'
-export { NavigationMenu } from './NavigationMenu'
 export { NavigationSheet } from './NavigationSheet'
+export { NavigationMenu } from './NavigationMenu'
+export { RichTextRender } from './RichTextRender'
 export { AnimatedText } from './AnimatedText'
 export { Logo } from './Logo'

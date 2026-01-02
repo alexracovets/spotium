@@ -5,8 +5,10 @@
 
     --font-jetbrains_mono: var(--font-jetbrains_mono);
     --font-press_start: var(--font-press_start);
+    --font-bebas_neue: var(--font-bebas_neue);
+    --font-anton: var(--font-anton);
 
-    --color-base-bg: rgba(41, 41, 41, 1);
+    --color-base-black: rgba(41, 41, 41, 1);
     --color-base-white: rgba(255, 255, 255, 1);
     --color-primary: rgba(254, 197, 50, 1);
     --color-base-text: #e4e4e7;
@@ -15,6 +17,24 @@
     --shadow-custom: 0px 0px 10px white;
 }
 
+@keyframes navShadowAppear {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2), 0 0 20px 24px rgba(0, 0, 0, 0.3), 0 0 110px 50px rgba(255, 255, 255, 0.1);
+    }
+}
+
 .nav_shadow {
-    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2), 0 0 20px 24px rgba(0, 0, 0, 0.3), 0 0 110px 50px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(255, 255, 255, 0);
+}
+
+.nav_shadow[data-state="open"] {
+    animation: navShadowAppear 0.2s ease-in-out 200ms forwards;
+}
+
+[data-lexical-text-state-highlight="yellow"] {
+    color: var(--color-primary) !important;
 }
