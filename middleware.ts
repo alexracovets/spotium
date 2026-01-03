@@ -134,10 +134,20 @@ export function middleware(request: NextRequest) {
       httpOnly: false,
     })
 
+    // Додаємо headers для оптимізації попереднього завантаження
+    // Вказуємо поточну локаль для правильного керування ресурсами
+    response.headers.set('x-middleware-locale', pathLocale)
+
     return response
   }
 
-  return NextResponse.next()
+  const response = NextResponse.next()
+  // Для дефолтної локалі також додаємо header
+  if (!pathnameHasLocale) {
+    response.headers.set('x-middleware-locale', DEFAULT_LOCALE)
+  }
+
+  return response
 }
 
 export const config = {

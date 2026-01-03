@@ -1,5 +1,7 @@
 'use client'
 
+import { memo } from 'react'
+
 import { Container, Wrapper, Text } from '@atoms'
 import { Localization } from '@molecules'
 
@@ -11,7 +13,7 @@ type AppFooterProps = {
   locale?: string
 }
 
-const AppFooter = ({ footer, lacales, locale }: AppFooterProps) => {
+const AppFooter = memo(({ footer, lacales, locale }: AppFooterProps) => {
   return (
     <Container asChild>
       <footer className="relative z-[51] bg-base-dark">
@@ -22,6 +24,8 @@ const AppFooter = ({ footer, lacales, locale }: AppFooterProps) => {
       </footer>
     </Container>
   )
-}
+})
+
+AppFooter.displayName = 'AppFooter'
 
 export { AppFooter }

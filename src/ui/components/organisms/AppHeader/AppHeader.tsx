@@ -1,5 +1,7 @@
 'use client'
 
+import { memo } from 'react'
+
 import { Logo } from '@molecules'
 
 import type { Media, SiteSetting } from '@payload-types'
@@ -11,7 +13,7 @@ type AppHeaderProps = {
   animatedTexts?: SiteSetting['animatedTexts']
 }
 
-const AppHeader = ({ logo, animatedTexts }: AppHeaderProps) => {
+const AppHeader = memo(({ logo, animatedTexts }: AppHeaderProps) => {
   return (
     <>
       <a
@@ -33,6 +35,8 @@ const AppHeader = ({ logo, animatedTexts }: AppHeaderProps) => {
       </Container>
     </>
   )
-}
+})
+
+AppHeader.displayName = 'AppHeader'
 
 export { AppHeader }

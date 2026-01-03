@@ -1,5 +1,6 @@
 'use client'
 
+import { memo } from 'react'
 import { usePathname } from 'next/navigation'
 
 import { ImageAtom, LinkAtom, Text, Wrapper } from '@atoms'
@@ -14,7 +15,7 @@ type LocalizationProps = {
   currentLocale?: string
 }
 
-export const Localization = ({ lacales, currentLocale }: LocalizationProps) => {
+export const Localization = memo(({ lacales, currentLocale }: LocalizationProps) => {
   const pathname = usePathname()
 
   return (
@@ -48,4 +49,6 @@ export const Localization = ({ lacales, currentLocale }: LocalizationProps) => {
       })}
     </Wrapper>
   )
-}
+})
+
+Localization.displayName = 'Localization'

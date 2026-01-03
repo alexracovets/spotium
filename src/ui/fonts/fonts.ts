@@ -6,6 +6,7 @@ export const jetbrains_mono = JetBrains_Mono({
   style: ['normal'],
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
+  preload: false,
 })
 
 export const press_start_2p = Press_Start_2P({
@@ -14,6 +15,7 @@ export const press_start_2p = Press_Start_2P({
   style: ['normal'],
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
+  preload: false,
 })
 
 export const anton = Anton({
@@ -22,6 +24,7 @@ export const anton = Anton({
   style: ['normal'],
   subsets: ['latin'],
   display: 'swap',
+  preload: false,
 })
 
 export const bebas_neue = Bebas_Neue({
@@ -30,4 +33,5 @@ export const bebas_neue = Bebas_Neue({
   style: ['normal'],
   subsets: ['latin'],
   display: 'swap',
+  preload: false,
 })
