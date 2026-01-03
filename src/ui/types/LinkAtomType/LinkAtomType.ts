@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { VariantProps } from 'class-variance-authority'
 import { variantsLinkAtom } from '@atoms'
@@ -10,7 +10,6 @@ export interface LinkAtomType {
   href: string
   style?: React.CSSProperties
   target?: string
-  locale?: string
   onMouseEnter?: () => void
   onMouseLeave?: () => void
 }

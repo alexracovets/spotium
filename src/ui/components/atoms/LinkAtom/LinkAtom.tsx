@@ -25,7 +25,6 @@ const LinkAtom = ({
   href,
   style,
   target,
-  locale,
   onMouseEnter,
   onMouseLeave,
   ...props
@@ -36,7 +35,6 @@ const LinkAtom = ({
       className={cn(variantsLinkAtom({ variant, className }))}
       style={style}
       target={target}
-      locale={locale}
       rel={target === '_blank' ? 'noopener noreferrer' : undefined}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

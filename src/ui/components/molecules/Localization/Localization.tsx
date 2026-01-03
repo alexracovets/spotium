@@ -28,7 +28,6 @@ export const Localization = ({ lacales, currentLocale }: LocalizationProps) => {
           <LinkAtom
             href={getLocalizedHref(pathname, locale.name as SupportedLocaleType['name'])}
             key={locale.id}
-            locale={locale.name}
             variant="locale"
             aria-label={`Switch to ${locale.name}`}
             aria-current={isActive ? 'true' : 'false'}
