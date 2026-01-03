@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 import type { LocalizationApp, Media } from '@payload-types'
 import { switchLocale, getLocaleCodeFromName } from '@utils'
@@ -13,6 +13,7 @@ type LocalizationProps = {
 
 export const Localization = ({ lacales, currentLocale }: LocalizationProps) => {
   const pathname = usePathname()
+  const router = useRouter()
 
   const handleLocaleSwitch = async (localeName: string) => {
     // Знаходимо локаль за ім'ям
@@ -43,9 +44,8 @@ export const Localization = ({ lacales, currentLocale }: LocalizationProps) => {
       console.error('Failed to update locale cookie:', error)
     }
 
-    // Використовуємо window.location для форсування повного перезавантаження
-    // щоб middleware точно побачив новий cookie
-    window.location.href = newPath
+    // Використовуємо клієнтський роутинг для навігації без повного перезавантаження
+    router.push(newPath)
   }
 
   return (
