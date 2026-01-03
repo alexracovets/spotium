@@ -1,6 +1,5 @@
 import * as React from 'react'
 import * as SheetPrimitive from '@radix-ui/react-dialog'
-import { useNavigation } from '@store'
 
 import { cn } from '@utils'
 

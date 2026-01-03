@@ -8,15 +8,16 @@ import type { SiteSetting, LocalizationApp } from '@payload-types'
 type AppFooterProps = {
   footer: SiteSetting['footer']
   lacales: LocalizationApp['lacales']
+  locale?: string
 }
 
-const AppFooter = ({ footer, lacales }: AppFooterProps) => {
+const AppFooter = ({ footer, lacales, locale }: AppFooterProps) => {
   return (
     <Container asChild>
       <footer className="relative z-[51] bg-base-dark">
         <Wrapper variant="footer">
           <Text variant="footer">{footer}</Text>
-          <Localization lacales={lacales} />
+          <Localization lacales={lacales} currentLocale={locale} />
         </Wrapper>
       </footer>
     </Container>

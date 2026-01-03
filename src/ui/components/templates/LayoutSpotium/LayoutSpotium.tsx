@@ -5,7 +5,7 @@ import { NavigationSheet } from '@molecules'
 import { Container } from '@atoms'
 
 import type { Media, SiteSetting, LocalizationApp } from '@payload-types'
-import { useLayoutDimensions } from '@hooks'
+import { useLayoutDimensions, useLocaleLang } from '@hooks'
 import { ChildrenType } from '@types'
 
 type LayoutSpotiumProps = ChildrenType & {
@@ -13,10 +13,19 @@ type LayoutSpotiumProps = ChildrenType & {
   animatedTexts?: SiteSetting['animatedTexts']
   footer: SiteSetting['footer']
   lacales: LocalizationApp['lacales']
+  locale?: string
 }
 
-const LayoutSpotium = ({ children, logo, animatedTexts, footer, lacales }: LayoutSpotiumProps) => {
+const LayoutSpotium = ({
+  children,
+  logo,
+  animatedTexts,
+  footer,
+  lacales,
+  locale,
+}: LayoutSpotiumProps) => {
   useLayoutDimensions()
+  useLocaleLang()
 
   return (
     <>
@@ -27,7 +36,7 @@ const LayoutSpotium = ({ children, logo, animatedTexts, footer, lacales }: Layou
           {children}
         </main>
       </Container>
-      <AppFooter footer={footer} lacales={lacales} />
+      <AppFooter footer={footer} lacales={lacales} locale={locale} />
     </>
   )
 }

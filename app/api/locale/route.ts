@@ -6,18 +6,13 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { locale } = body
 
-    // Validate locale
-    if (locale !== 'uk' && locale !== 'en') {
-      return NextResponse.json({ error: 'Invalid locale' }, { status: 400 })
-    }
-
-    // Set locale cookie
+    //Зберігаємо кукі
     const cookieStore = await cookies()
     cookieStore.set('payload-locale', locale, {
       path: '/',
-      maxAge: 60 * 60 * 24 * 365, // 1 year
+      maxAge: 60 * 60 * 24 * 365,
       sameSite: 'lax',
-      httpOnly: false, // Allow client-side access
+      httpOnly: false,
     })
 
     return NextResponse.json({ success: true, locale })
@@ -27,10 +22,19 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const cookieStore = await cookies()
-  const locale = cookieStore.get('payload-locale')?.value || 'uk'
+
+  // Спробуємо отримати локаль з URL, якщо вона там є
+  const { pathname } = request.nextUrl
+  const urlLocale = pathname.split('/')[1]
+
+  let locale = cookieStore.get('payload-locale')?.value || 'en'
+
+  // Якщо локаль в URL валідна, використовуємо її
+  if (urlLocale) {
+    locale = urlLocale || 'en'
+  }
 
   return NextResponse.json({ locale })
 }
-
