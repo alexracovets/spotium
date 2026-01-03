@@ -16,6 +16,7 @@ const variantsImage = cva('', {
         "data-[disabled='true']:grayscale-100",
         'transition-all duration-300 ease-in-out',
       ),
+      development: 'w-[48px] h-[24px]',
     },
   },
   defaultVariants: {

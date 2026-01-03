@@ -25,6 +25,7 @@
       "@collections": ["./src/config/payload/collections"],
       "@globals": ["./src/config/payload/globals"],
       "@features": ["./src/config/payload/features"],
+      "@fields": ["./src/config/payload/fields"],
       "@components": ["./src/components"],
       "@atoms": ["./src/ui/components/atoms"],
       "@molecules": ["./src/ui/components/molecules"],

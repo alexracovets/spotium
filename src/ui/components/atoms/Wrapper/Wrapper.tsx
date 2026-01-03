@@ -23,6 +23,12 @@ const variantWrapper = cva('', {
       navigation_button_inner:
         'w-[72px] h-[76px] absolute top-[50%] left-0 translate-y-[-50%] flex items-center justify-center',
       localization: 'absolute right-0 top-0 h-full flex items-center justify-center gap-x-[8px]',
+      main_page_wrapper: 'flex flex-col justify-center items-start h-full min-h-0',
+      main_page_content: 'flex flex-col justify-start items-start gap-y-[24px]',
+      developments_wrapper: 'max-w-[640px]',
+      developments: 'flex justify-center items-center gap-x-[20px] px-[10px]',
+      development_item: 'flex justify-center items-center gap-x-[16px]',
+      column: 'flex flex-col justify-start items-start',
     },
   },
   defaultVariants: {

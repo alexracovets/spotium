@@ -1,6 +1,6 @@
 import { Wrapper } from '@atoms'
 
-import { bebas_neue, jetbrains_mono, press_start_2p, anton } from '@fonts'
+import { bebas_neue, jetbrains_mono, press_start_2p, anton, dm_sans } from '@fonts'
 import { ChildrenType, SupportedLocaleType } from '@types'
 import { cn } from '@utils'
 
@@ -23,6 +23,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
             press_start_2p.variable,
             bebas_neue.variable,
             anton.variable,
+            dm_sans.variable,
           )}
         >
           {children}

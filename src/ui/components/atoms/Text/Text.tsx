@@ -35,6 +35,9 @@ const variantText = cva('font-jetbrains_mono font-medium', {
         "data-[active='true']:text-primary",
         'transition-all duration-300 ease-in-out',
       ),
+      development: cn(
+        'text-[14px] text-neutral-white font-dm_sans font-[700] uppercase leading-[1]',
+      ),
     },
   },
   defaultVariants: {
