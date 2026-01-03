@@ -2,26 +2,20 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Your Next.js config here
   experimental: {
-    // Оптимізація попереднього завантаження CSS
     optimizePackageImports: ['@payloadcms/ui', '@payloadcms/richtext-lexical'],
-    // Оптимізація попереднього завантаження - завантажувати тільки поточну локаль
     optimizeServerReact: true,
   },
   // Налаштування попереднього завантаження
   onDemandEntries: {
     // Максимальний час утримання сторінки в пам'яті
     maxInactiveAge: 25 * 1000,
-    // Кількість одночасних сторінок - зменшено для оптимізації
     pagesBufferLength: 1,
   },
-  // Налаштування компіляції
   compiler: {
-    // Видаляє console.log в production
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
   },
-  // Налаштування для вимкнення автоматичного попереднього завантаження CSS
+
   poweredByHeader: false,
   webpack: (webpackConfig, { isServer }) => {
     webpackConfig.resolve.extensionAlias = {

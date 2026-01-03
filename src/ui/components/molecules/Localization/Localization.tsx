@@ -1,7 +1,6 @@
 'use client'
 
-import { memo } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useParams } from 'next/navigation'
 
 import { LocalizationItem } from './LocalizationItem'
 import { Wrapper } from '@atoms'
@@ -13,8 +12,11 @@ type LocalizationProps = {
   currentLocale?: string
 }
 
-export const Localization = memo(({ lacales, currentLocale }: LocalizationProps) => {
+export const Localization = ({ lacales, currentLocale: propCurrentLocale }: LocalizationProps) => {
   const pathname = usePathname()
+  const params = useParams()
+  const localeFromParams = params?.locale as string | undefined
+  const currentLocale = propCurrentLocale || localeFromParams || 'en'
 
   return (
     <Wrapper variant="localization">
@@ -24,13 +26,11 @@ export const Localization = memo(({ lacales, currentLocale }: LocalizationProps)
           <LocalizationItem
             key={locale.id}
             locale={locale}
-            currentLocale={currentLocale || 'en'}
+            currentLocale={currentLocale}
             pathname={pathname}
           />
         )
       })}
     </Wrapper>
   )
-})
-
-Localization.displayName = 'Localization'
+}
