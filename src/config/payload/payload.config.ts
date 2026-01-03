@@ -42,10 +42,11 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
-      max: 10, // Максимальна кількість підключень у пулі
+      max: 20, // Максимальна кількість підключень у пулі (збільшено для production)
       min: 2, // Мінімальна кількість підключень у пулі
       idleTimeoutMillis: 30000, // Час очікування перед закриттям неактивних з'єднань
-      connectionTimeoutMillis: 2000, // Час очікування на встановлення з'єднання
+      connectionTimeoutMillis: 5000, // Час очікування на встановлення з'єднання (збільшено)
+      allowExitOnIdle: true, // Дозволити закриття з'єднань при простої
     },
   }),
   sharp,
