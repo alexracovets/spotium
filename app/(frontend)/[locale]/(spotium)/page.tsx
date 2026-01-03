@@ -4,10 +4,10 @@ import { getPayload } from 'payload'
 
 import { Main } from '@pages'
 
-import { LocalType } from '@types'
+import { SupportedLocaleType } from '@types'
 
 interface HomePageProps {
-  params: Promise<LocalType>
+  params: Promise<{ locale: SupportedLocaleType['name'] }>
 }
 
 export default async function HomePage({ params }: HomePageProps) {
@@ -22,7 +22,7 @@ export default async function HomePage({ params }: HomePageProps) {
         equals: '/',
       },
     },
-    locale,
+    locale: locale,
   })
 
   const data = page.docs[0] as Page

@@ -29,7 +29,6 @@ const buttonVariants = cva(
           'flex justify-end items-center min-w-[280px] gap-x-[24px] disabled:opacity-100 disabled:cursor-pointer shadow-none!',
           'outline-none',
         ),
-        locale: 'flex items-center gap-x-[8px]',
         destructive: '',
         outline: '',
         secondary: '',
@@ -39,7 +38,6 @@ const buttonVariants = cva(
       size: {
         default: '',
         normal: 'text-[28px] font-[700] px-[30px] py-[16px]',
-        small: 'p-[8px]',
       },
     },
     defaultVariants: {

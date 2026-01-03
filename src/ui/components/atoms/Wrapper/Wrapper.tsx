@@ -22,6 +22,7 @@ const variantWrapper = cva('', {
       navigation_button: 'w-[72px] min-w-[72px] h-[48px] min-h-[48px] relative',
       navigation_button_inner:
         'w-[72px] h-[76px] absolute top-[50%] left-0 translate-y-[-50%] flex items-center justify-center',
+      localization: 'absolute right-0 top-0 h-full flex items-center justify-center gap-x-[8px]',
     },
   },
   defaultVariants: {

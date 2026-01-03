@@ -1,126 +1,28 @@
-const SUPPORTED_LOCALES = ['uk', 'en'] as const
-const DEFAULT_LOCALE = 'en'
+const DEFAULT_LOCALE = process.env.DEFAULT_LOCALE as string
+const SUPPORTED_LOCALES = [DEFAULT_LOCALE, 'uk'] as const
+import { SupportedLocaleType } from '@types'
 
-type SupportedLocale = (typeof SUPPORTED_LOCALES)[number]
-
-/**
- * Отримує локаль з URL pathname
- * @param pathname - шлях URL (наприклад, '/uk/page' або '/en')
- * @returns локаль або null якщо не знайдено
- */
-export function getLocaleFromUrl(pathname: string): SupportedLocale | null {
+const getLocaleFromUrl = (pathname: string): SupportedLocaleType['name'] => {
   const segments = pathname.split('/').filter(Boolean)
   const firstSegment = segments[0]
 
-  if (firstSegment && SUPPORTED_LOCALES.includes(firstSegment as SupportedLocale)) {
-    return firstSegment as SupportedLocale
+  if (firstSegment && SUPPORTED_LOCALES.includes(firstSegment as SupportedLocaleType['name'])) {
+    return firstSegment as SupportedLocaleType['name']
   }
 
-  return null
+  return DEFAULT_LOCALE as SupportedLocaleType['name']
 }
 
-/**
- * Додає локаль до шляху
- * @param path - шлях без локалі (наприклад, '/page' або '/about')
- * @param locale - локаль для додавання
- * @returns шлях з локаллю (наприклад, '/uk/page') або без локалі для дефолтної мови
- */
-export function addLocaleToPath(path: string, locale: SupportedLocale): string {
-  // Для дефолтної мови не додаємо locale в URL
-  if (locale === DEFAULT_LOCALE) {
-    const existingLocale = getLocaleFromUrl(path)
-    if (existingLocale) {
-      // Якщо шлях вже містить локаль, видаляємо її
-      return removeLocaleFromPath(path)
-    }
-    // Якщо локалі немає, повертаємо path як є
-    return path
-  }
-
-  // Якщо шлях вже починається з локалі, замінюємо її
-  const existingLocale = getLocaleFromUrl(path)
-  if (existingLocale) {
-    return path.replace(`/${existingLocale}`, `/${locale}`)
-  }
-
-  // Якщо шлях порожній або '/', повертаємо просто '/locale'
-  if (path === '/' || path === '') {
-    return `/${locale}`
-  }
-
-  // Додаємо локаль на початок шляху
-  return `/${locale}${path.startsWith('/') ? path : `/${path}`}`
-}
-
-/**
- * Перемикає локаль в поточному шляху
- * @param currentPath - поточний шлях з локаллю (наприклад, '/uk/page') або без неї
- * @param newLocale - нова локаль
- * @returns новий шлях з новою локаллю (наприклад, '/uk/page') або без локалі для дефолтної
- */
-export function switchLocale(currentPath: string, newLocale: SupportedLocale): string {
-  // Для дефолтної мови видаляємо locale з URL
-  if (newLocale === DEFAULT_LOCALE) {
-    return removeLocaleFromPath(currentPath)
-  }
-
-  const currentLocale = getLocaleFromUrl(currentPath)
-
-  if (currentLocale) {
-    // Замінюємо поточну локаль на нову
-    return currentPath.replace(`/${currentLocale}`, `/${newLocale}`)
-  }
-
-  // Якщо локалі немає, додаємо нову
-  return addLocaleToPath(currentPath, newLocale)
-}
-
-/**
- * Видаляє локаль з шляху
- * @param pathname - шлях з локаллю (наприклад, '/uk/page')
- * @returns шлях без локалі (наприклад, '/page')
- */
-export function removeLocaleFromPath(pathname: string): string {
+export function getLocalizedHref(
+  pathname: string,
+  targetLocale: SupportedLocaleType['name'],
+): string {
   const locale = getLocaleFromUrl(pathname)
-  if (locale) {
-    const pathWithoutLocale = pathname.replace(`/${locale}`, '')
-    return pathWithoutLocale || '/'
+  const pathWithoutLocale = locale ? pathname.replace(`/${locale}`, '') || '/' : pathname || '/'
+
+  if (targetLocale === DEFAULT_LOCALE) {
+    return pathWithoutLocale
   }
-  return pathname
+
+  return `/${targetLocale}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`
 }
-
-/**
- * Визначає код локалі за ім'ям
- * @param name - ім'я локалі (наприклад, 'Українська', 'English')
- * @returns код локалі ('uk' або 'en') або null
- */
-export function getLocaleCodeFromName(name: string | null | undefined): SupportedLocale | null {
-  if (!name) return null
-
-  const lowerName = name.toLowerCase().trim()
-
-  // Українська мова
-  if (
-    lowerName === 'українська' ||
-    lowerName === 'ukrainian' ||
-    lowerName === 'uk' ||
-    lowerName.includes('укр')
-  ) {
-    return 'uk'
-  }
-
-  // Англійська мова
-  if (
-    lowerName === 'english' ||
-    lowerName === 'англійська' ||
-    lowerName === 'en' ||
-    lowerName.includes('eng')
-  ) {
-    return 'en'
-  }
-
-  return null
-}
-
-export { SUPPORTED_LOCALES, DEFAULT_LOCALE }
-export type { SupportedLocale }

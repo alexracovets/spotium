@@ -1,13 +1,13 @@
 import { Wrapper } from '@atoms'
 
 import { bebas_neue, jetbrains_mono, press_start_2p, anton } from '@fonts'
-import { ChildrenType, LocalType } from '@types'
+import { ChildrenType, SupportedLocaleType } from '@types'
 import { cn } from '@utils'
 
 import '@styles/global.css'
 
 interface RootLayoutProps extends ChildrenType {
-  params: Promise<LocalType>
+  params: Promise<{ locale: SupportedLocaleType['name'] }>
 }
 
 export default async function RootLayout({ children, params }: RootLayoutProps) {

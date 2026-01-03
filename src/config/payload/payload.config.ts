@@ -22,7 +22,7 @@ export default buildConfig({
   },
   localization: {
     locales: ['uk', 'en'],
-    defaultLocale: 'en',
+    defaultLocale: process.env.DEFAULT_LOCALE as string,
   },
   admin: {
     user: Users.slug,
@@ -42,6 +42,7 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
+      max: 2, // Максимальна кількість підключень у пулі
     },
   }),
   sharp,

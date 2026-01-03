@@ -8,6 +8,7 @@ import { variantsImage } from '@atoms'
 import { Media } from '@payload-types'
 
 export interface ImageType extends ComponentProps<'input'> {
+  disabled?: boolean
   image?: Media
   src?: string
   alt?: string

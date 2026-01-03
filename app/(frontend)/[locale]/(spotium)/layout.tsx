@@ -4,10 +4,10 @@ import config from '@payload-config'
 import { LayoutSpotium } from '@templates'
 
 import { Media, SiteSetting, LocalizationApp } from '@payload-types'
-import { ChildrenType, LocalType } from '@types'
+import { ChildrenType, SupportedLocaleType } from '@types'
 
 interface LocaleLayoutProps extends ChildrenType {
-  params: Promise<LocalType>
+  params: Promise<{ locale: SupportedLocaleType['name'] }>
 }
 
 export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
@@ -18,7 +18,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   const siteSettings = await payload.findGlobal({
     slug: 'site-settings',
     depth: 1,
-    locale,
+    locale: locale,
   })
 
   const logo = siteSettings.logo as Media
@@ -28,7 +28,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   const localizations = await payload.findGlobal({
     slug: 'localization-app',
     depth: 1,
-    locale,
+    locale: locale,
   })
 
   const lacales = localizations.lacales as LocalizationApp['lacales']

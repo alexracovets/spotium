@@ -2,16 +2,15 @@
 
 import { cva } from 'class-variance-authority'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
 
 import { LinkAtomType } from '@types'
 import { cn } from '@utils'
-import { addLocaleToPath } from '@utils'
 
 const variantsLinkAtom = cva('outline-none!', {
   variants: {
     variant: {
-      default: 'bg-red',
+      default: '',
+      locale: 'flex items-center gap-x-[8px] p-[8px]',
     },
   },
   defaultVariants: {
@@ -26,32 +25,21 @@ const LinkAtom = ({
   href,
   style,
   target,
+  locale,
+  onMouseEnter,
+  onMouseLeave,
   ...props
 }: LinkAtomType) => {
-  const params = useParams()
-  const locale = params?.locale as string | undefined
-
-  // Якщо це зовнішнє посилання або href вже містить локаль, використовуємо як є
-  const isExternal =
-    href?.startsWith('http') ||
-    href?.startsWith('//') ||
-    href?.startsWith('mailto:') ||
-    href?.startsWith('tel:')
-  const hasLocale = locale && href && (href.startsWith(`/${locale}/`) || href === `/${locale}`)
-
-  // Додаємо локаль до внутрішніх посилань
-  const finalHref =
-    isExternal || hasLocale || !locale || !href
-      ? href
-      : addLocaleToPath(href, locale as 'uk' | 'en')
-
   return (
     <Link
-      href={finalHref}
+      href={href}
       className={cn(variantsLinkAtom({ variant, className }))}
       style={style}
       target={target}
+      locale={locale}
       rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       {...props}
     >
       {children}
