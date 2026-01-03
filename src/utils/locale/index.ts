@@ -19,10 +19,10 @@ export function getLocalizedHref(
 ): string {
   // Нормалізуємо pathname
   const normalizedPathname = pathname || '/'
-
+  
   // Визначаємо поточну локаль з URL
   const currentLocale = getLocaleFromUrl(normalizedPathname)
-
+  
   // Видаляємо локаль з pathname, якщо вона є
   let pathWithoutLocale: string
   if (currentLocale) {
