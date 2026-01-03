@@ -65,66 +65,20 @@ export function middleware(request: NextRequest) {
 
   // Якщо це кореневий шлях або шлях без локалі
   if (pathname === '/' || !pathnameHasLocale) {
-    // Перевіряємо query параметр для явного перемикання локалі
-    const localeParam = request.nextUrl.searchParams.get('locale')
-    const explicitLocale = localeParam && isValidLocale(localeParam) ? localeParam : null
-
-    // Перевіряємо referer для визначення явного переходу на дефолтну локаль
-    const referer = request.headers.get('referer') || ''
-    let refererHasUk = false
-    if (referer) {
-      try {
-        const refererUrl = new URL(referer)
-        const refererPath = refererUrl.pathname || ''
-        refererHasUk = refererPath.includes('/uk') && refererUrl.origin === request.nextUrl.origin
-      } catch {
-        // Якщо referer не є валідним URL, ігноруємо його
-      }
-    }
-
     // Визначаємо локаль з cookies або headers
     const localeFromCookie = getLocaleFromCookie(request)
     const localeFromHeader = getLocaleFromHeader(request)
-
-    // Якщо є явний query параметр, використовуємо його
-    // Або якщо referer містить /uk і користувач переходить на /,
-    // це явний перехід на дефолтну локаль - ігноруємо cookie
-    let targetLocale: string
-    if (explicitLocale) {
-      targetLocale = explicitLocale
-    } else if (pathname === '/' && refererHasUk) {
-      targetLocale = DEFAULT_LOCALE
-    } else {
-      targetLocale =
-        localeFromCookie && isValidLocale(localeFromCookie)
-          ? localeFromCookie
-          : localeFromHeader && isValidLocale(localeFromHeader)
-            ? localeFromHeader
-            : DEFAULT_LOCALE
-    }
+    const targetLocale =
+      localeFromCookie && isValidLocale(localeFromCookie)
+        ? localeFromCookie
+        : localeFromHeader && isValidLocale(localeFromHeader)
+          ? localeFromHeader
+          : DEFAULT_LOCALE
 
     // Для дефолтної мови використовуємо rewrite (URL залишається без /en)
     if (targetLocale === DEFAULT_LOCALE) {
       const newUrl = request.nextUrl.clone()
       newUrl.pathname = `/${DEFAULT_LOCALE}${pathname === '/' ? '' : pathname}`
-
-      // Якщо є query параметр locale для явного перемикання, використовуємо redirect
-      // щоб видалити його з URL
-      if (explicitLocale) {
-        const cleanUrl = request.nextUrl.clone()
-        cleanUrl.pathname = pathname
-        cleanUrl.searchParams.delete('locale')
-
-        const response = NextResponse.redirect(cleanUrl)
-        response.cookies.set('payload-locale', DEFAULT_LOCALE, {
-          path: '/',
-          maxAge: 60 * 60 * 24 * 365,
-          sameSite: 'lax',
-          httpOnly: false,
-        })
-
-        return response
-      }
 
       const response = NextResponse.rewrite(newUrl)
       response.cookies.set('payload-locale', DEFAULT_LOCALE, {
@@ -180,20 +134,10 @@ export function middleware(request: NextRequest) {
       httpOnly: false,
     })
 
-    // Додаємо headers для оптимізації попереднього завантаження
-    // Вказуємо поточну локаль для правильного керування ресурсами
-    response.headers.set('x-middleware-locale', pathLocale)
-
     return response
   }
 
-  const response = NextResponse.next()
-  // Для дефолтної локалі також додаємо header
-  if (!pathnameHasLocale) {
-    response.headers.set('x-middleware-locale', DEFAULT_LOCALE)
-  }
-
-  return response
+  return NextResponse.next()
 }
 
 export const config = {
