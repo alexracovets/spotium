@@ -1,4 +1,4 @@
-import { Wrapper, PreloadOptimizer } from '@atoms'
+import { Wrapper } from '@atoms'
 
 import { bebas_neue, jetbrains_mono, press_start_2p, anton } from '@fonts'
 import { ChildrenType, SupportedLocaleType } from '@types'
@@ -25,7 +25,6 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
             anton.variable,
           )}
         >
-          <PreloadOptimizer />
           {children}
         </body>
       </Wrapper>

@@ -6,15 +6,8 @@ const nextConfig = {
   experimental: {
     // Оптимізація попереднього завантаження CSS
     optimizePackageImports: ['@payloadcms/ui', '@payloadcms/richtext-lexical'],
-    // Оптимізація CSS для локалізованих маршрутів
-    optimizeCss: true,
     // Оптимізація попереднього завантаження - завантажувати тільки поточну локаль
     optimizeServerReact: true,
-    // Вимкнути автоматичне попереднє завантаження для невикористовуваних локалей
-    staleTimes: {
-      dynamic: 30,
-      static: 180,
-    },
   },
   // Налаштування попереднього завантаження
   onDemandEntries: {

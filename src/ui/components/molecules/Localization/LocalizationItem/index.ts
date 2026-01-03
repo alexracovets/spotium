@@ -1,2 +1,1 @@
-export { Localization } from './Localization'
 export { LocalizationItem } from './LocalizationItem'
