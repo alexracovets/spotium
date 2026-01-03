@@ -1,2 +1,1 @@
-export { SiteSettings } from './SiteSettings'
 export { Localization } from './Localization'

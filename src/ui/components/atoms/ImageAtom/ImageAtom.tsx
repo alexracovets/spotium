@@ -11,6 +11,7 @@ const variantsImage = cva('', {
     variant: {
       default: 'w-full',
       logo: 'w-[152px] h-[41px]',
+      locale: 'w-[22px] h-[16px]',
     },
   },
   defaultVariants: {

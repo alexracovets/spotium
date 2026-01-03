@@ -15,7 +15,7 @@ const variantWrapper = cva('', {
       header:
         'py-[30px] relative before:absolute before:content-[" "] before:left-0 before:bottom-[-2px] before:w-full before:h-[1px] before:bg-base-white',
       footer:
-        'py-[30px] relative before:absolute before:content-[" "] before:left-0 before:top-[-2px] before:w-full before:h-[1px] before:bg-base-white',
+        'relative py-[30px] relative before:absolute before:content-[" "] before:left-0 before:top-[-2px] before:w-full before:h-[1px] before:bg-base-white',
       heder_wrapper: 'flex  justify-between items-center gap-x-[16px] relative',
       animated_text:
         'flex justify-center items-center gap-[32px] absolute top-0 left-0 w-full h-full z-[-1]',
