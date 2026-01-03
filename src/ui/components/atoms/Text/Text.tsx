@@ -28,7 +28,7 @@ const variantText = cva('font-jetbrains_mono font-medium', {
       footer: cn(
         'text-[16px] font-jetbrains_mono text-center font-medium text-base-white uppercase',
       ),
-      header_1: cn('text-[80px] font-bebas_neue uppercase text-base-white'),
+      header_1: cn('text-[80px] font-bebas_neue uppercase text-base-white leading-[1]'),
       header_2: cn('text-[40px] uppercase text-base-white font-[700] leading-[1]'),
       locale: cn(
         'text-[16px] font-jetbrains_mono text-center text-base-white uppercase',
