@@ -40,7 +40,12 @@ export function getLocalizedHref(
   }
 
   // Якщо цільова локаль - дефолтна, повертаємо pathname без локалі
+  // Додаємо query параметр для явного перемикання, якщо поточна локаль не дефолтна
   if (targetLocale === DEFAULT_LOCALE) {
+    // Якщо поточна локаль не дефолтна, додаємо query параметр для явного перемикання
+    if (currentLocale && currentLocale !== DEFAULT_LOCALE) {
+      return `${pathWithoutLocale}?locale=${DEFAULT_LOCALE}`
+    }
     return pathWithoutLocale
   }
 
