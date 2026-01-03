@@ -35,6 +35,7 @@ export const SiteSettings: GlobalConfig = {
         uk: 'Анімовані тексти',
         en: 'Animated Texts',
       },
+      localized: true,
       admin: {
         description: {
           uk: 'Список текстів для анімації. Кожен елемент складається з двох слів',
@@ -45,6 +46,7 @@ export const SiteSettings: GlobalConfig = {
         {
           name: 'firstWord',
           type: 'text',
+          localized: true,
           label: {
             uk: 'Перше слово',
             en: 'First Word',
@@ -53,6 +55,7 @@ export const SiteSettings: GlobalConfig = {
         {
           name: 'secondWord',
           type: 'text',
+          localized: true,
           label: {
             uk: 'Друге слово',
             en: 'Second Word',
@@ -63,6 +66,7 @@ export const SiteSettings: GlobalConfig = {
     {
       name: 'footer',
       type: 'text',
+      localized: true,
       label: {
         uk: 'Текст в футері',
         en: 'Footer Text',

@@ -4,7 +4,7 @@ export const YellowHighlightFeature = TextStateFeature({
   state: {
     highlight: {
       yellow: {
-        label: 'Жовте виділення',
+        label: 'Yellow highlight',
         css: {
           color: '#FEC532',
         },

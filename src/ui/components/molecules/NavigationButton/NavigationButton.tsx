@@ -23,6 +23,7 @@ const NavigationButton = () => {
         aria-label={isOpenNavigation ? 'Close menu' : 'Open menu'}
         aria-expanded={isOpenNavigation}
         aria-controls="navigation-menu"
+        aria-haspopup="dialog"
       >
         <Text variant="navigation_button" data-active={isOpenNavigation || isHovered}>
           {isOpenNavigation ? 'Close' : 'Menu'}

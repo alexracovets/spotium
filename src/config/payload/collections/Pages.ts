@@ -30,6 +30,7 @@ export const Pages: CollectionConfig = {
               name: 'name',
               type: 'text',
               required: false,
+              localized: true,
               label: {
                 uk: 'Назва',
                 en: 'Name',
@@ -45,6 +46,7 @@ export const Pages: CollectionConfig = {
               name: 'title',
               type: 'richText',
               required: true,
+              localized: true,
               label: {
                 uk: 'Заголовок',
                 en: 'Title',
@@ -73,6 +75,7 @@ export const Pages: CollectionConfig = {
               name: 'description',
               type: 'richText',
               required: true,
+              localized: true,
               label: {
                 uk: 'Опис',
                 en: 'Description',
@@ -100,6 +103,7 @@ export const Pages: CollectionConfig = {
                 {
                   name: 'button',
                   type: 'text',
+                  localized: true,
                   label: {
                     uk: 'Текст кнопки',
                     en: 'Button text',

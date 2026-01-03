@@ -22,7 +22,7 @@ export default buildConfig({
   },
   localization: {
     locales: ['uk', 'en'],
-    defaultLocale: 'uk',
+    defaultLocale: 'en',
   },
   admin: {
     user: Users.slug,
