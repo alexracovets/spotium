@@ -1,5 +1,6 @@
+export { LinkAtom, variantsLinkAtom } from './LinkAtom'
+export { ImageAtom, variantsImage } from './ImageAtom'
 export { Wrapper, variantWrapper } from './Wrapper'
-export { ImageAtom, variantsImage } from './Image'
 export { Button, buttonVariants } from './Button'
 export { Text, variantText } from './Text'
 export { Container } from './Container'

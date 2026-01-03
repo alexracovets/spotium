@@ -15,9 +15,24 @@ type AnimatedTextProps = {
 const AnimatedText = ({ texts, interval = 6000, className }: AnimatedTextProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isVisible, setIsVisible] = useState(true)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(mediaQuery.matches)
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches)
+    }
+
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [])
 
   useEffect(() => {
     if (texts?.length && texts.length <= 1) return
+    if (prefersReducedMotion) return
+
     const timer = setInterval(() => {
       setIsVisible(false)
 
@@ -28,7 +43,7 @@ const AnimatedText = ({ texts, interval = 6000, className }: AnimatedTextProps) 
     }, interval)
 
     return () => clearInterval(timer)
-  }, [texts?.length, interval])
+  }, [texts?.length, interval, prefersReducedMotion])
 
   const currentText = texts?.[currentIndex]
 

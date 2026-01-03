@@ -2,9 +2,11 @@
 
 import { AppHeader, AppFooter } from '@organisms'
 import { NavigationSheet } from '@molecules'
-import { ChildrenType } from '@types'
+import { Container } from '@atoms'
+
 import type { Media, SiteSetting } from '@payload-types'
 import { useLayoutDimensions } from '@hooks'
+import { ChildrenType } from '@types'
 
 type LayoutSpotiumProps = ChildrenType & {
   logo: Media
@@ -19,7 +21,11 @@ const LayoutSpotium = ({ children, logo, animatedTexts, footer }: LayoutSpotiumP
     <>
       <AppHeader logo={logo} animatedTexts={animatedTexts} />
       <NavigationSheet />
-      {children}
+      <Container asChild>
+        <main id="main-content" tabIndex={-1}>
+          {children}
+        </main>
+      </Container>
       <AppFooter footer={footer} />
     </>
   )

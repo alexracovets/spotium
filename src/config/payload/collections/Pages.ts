@@ -58,7 +58,7 @@ export const Pages: CollectionConfig = {
               editor: lexicalEditor({
                 features: [
                   HeadingFeature({
-                    enabledHeadingSizes: ['h1'], // Default: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+                    enabledHeadingSizes: ['h1'],
                   }),
                   ParagraphFeature(),
                   BoldFeature(),
@@ -93,6 +93,26 @@ export const Pages: CollectionConfig = {
                   YellowHighlightFeature,
                 ],
               }),
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'button',
+                  type: 'text',
+                  label: {
+                    uk: 'Текст кнопки',
+                    en: 'Button text',
+                  },
+                  admin: {
+                    description: {
+                      uk: 'Кнопка форми для консультації',
+                      en: 'Consultation form button',
+                    },
+                    width: '50%',
+                  },
+                },
+              ],
             },
           ],
         },

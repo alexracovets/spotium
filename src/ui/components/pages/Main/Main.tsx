@@ -4,7 +4,7 @@ import { RichTextRender } from '@molecules'
 import { MdArrowOutward } from 'react-icons/md'
 
 import { Page } from '@payload-types'
-import { Button, Container } from '@atoms'
+import { Button } from '@atoms'
 
 type MainProps = {
   data: Page
@@ -12,21 +12,21 @@ type MainProps = {
 
 export const Main = ({ data }: MainProps) => {
   return (
-    <Container>
-      <div className="flex flex-col justify-center items-start h-full min-h-0">
-        <div className="flex flex-col justify-start items-start gap-y-[24px]">
-          <RichTextRender text={data.title} variant="header_1" />
-          <div>
-            <RichTextRender text={data.description} variant="header_2" />
-          </div>
+    <div className="flex flex-col justify-center items-start h-full min-h-0">
+      <div className="flex flex-col justify-start items-start gap-y-[24px]">
+        <RichTextRender text={data.title} variant="header_1" />
+        <div>
+          <RichTextRender text={data.description} variant="header_2" />
+        </div>
+        {data.button && (
           <Button size="normal">
             <p>
-              <span>Консультація</span>
+              <span>{data.button}</span>
               <MdArrowOutward />
             </p>
           </Button>
-        </div>
+        )}
       </div>
-    </Container>
+    </div>
   )
 }

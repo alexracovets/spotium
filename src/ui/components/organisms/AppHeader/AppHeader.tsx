@@ -13,17 +13,25 @@ type AppHeaderProps = {
 
 const AppHeader = ({ logo, animatedTexts }: AppHeaderProps) => {
   return (
-    <Container asChild>
-      <header className="relative z-[51] bg-base-dark">
-        <Wrapper variant="header" asChild>
-          <Wrapper variant="heder_wrapper">
-            <Logo image={logo} />
-            <AnimatedText texts={animatedTexts} />
-            <NavigationButton />
+    <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-base-black focus:font-jetbrains_mono focus:uppercase focus:rounded focus:outline-2 focus:outline-primary focus:outline-offset-2"
+      >
+        Main content
+      </a>
+      <Container asChild>
+        <header className="relative z-[51] bg-base-dark">
+          <Wrapper variant="header" asChild>
+            <Wrapper variant="heder_wrapper">
+              <Logo image={logo} />
+              <AnimatedText texts={animatedTexts} />
+              <NavigationButton />
+            </Wrapper>
           </Wrapper>
-        </Wrapper>
-      </header>
-    </Container>
+        </header>
+      </Container>
+    </>
   )
 }
 

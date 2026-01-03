@@ -52,10 +52,12 @@ function SheetContent({
       <SheetPrimitive.Content
         data-slot="sheet-content"
         className={cn(
-          'bg-base-dark',
-          'data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500',
+          'bg-base-dark outline-none fixed z-50',
+          'data-[state=open]:animate-in data-[state=closed]:animate-out',
+          'data-[state=open]:duration-300 data-[state=closed]:duration-300',
+          'data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0',
           side === 'right' &&
-            'data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right right-0 nav_shadow',
+            'data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right data-[state=open]:duration-300 data-[state=closed]:duration-300 right-0 nav_shadow',
           side === 'left' &&
             'data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left left-0',
           side === 'top' &&

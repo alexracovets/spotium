@@ -9,7 +9,8 @@ type LogoProps = {
 }
 
 const Logo = ({ image }: LogoProps) => {
-  return <ImageAtom image={image} alt="Logo" variant="logo" />
+  const logoAlt = image?.alt || 'Spotium - головна сторінка'
+  return <ImageAtom image={image} alt={logoAlt} variant="logo" />
 }
 
 export { Logo }
