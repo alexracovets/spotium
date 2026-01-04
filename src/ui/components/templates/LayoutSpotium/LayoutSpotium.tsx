@@ -1,6 +1,6 @@
 'use client'
 
-import { AppHeader, AppFooter } from '@organisms'
+import { AppHeader, AppFooter, CanvasExperience } from '@organisms'
 import { NavigationSheet } from '@molecules'
 import { Container } from '@atoms'
 
@@ -37,6 +37,7 @@ const LayoutSpotium = ({
         </main>
       </Container>
       <AppFooter footer={footer} lacales={lacales} locale={locale} />
+      <CanvasExperience />
     </>
   )
 }

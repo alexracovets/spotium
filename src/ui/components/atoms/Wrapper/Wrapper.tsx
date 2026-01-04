@@ -11,7 +11,7 @@ const variantWrapper = cva('', {
     variant: {
       default: 'w-full',
       container: 'px-[50px] mx-auto',
-      app: 'grid grid-rows-[auto_1fr_auto] h-[100dvh] bg-base-black antialiased text-base-text',
+      app: 'relative grid grid-rows-[auto_1fr_auto] h-[100dvh] bg-base-black antialiased text-base-text',
       header:
         'py-[30px] relative before:absolute before:content-[" "] before:left-0 before:bottom-[-2px] before:w-full before:h-[1px] before:bg-base-white',
       footer:
@@ -29,6 +29,7 @@ const variantWrapper = cva('', {
       developments: 'flex justify-center items-center gap-x-[20px] px-[10px]',
       development_item: 'flex justify-center items-center gap-x-[16px]',
       column: 'flex flex-col justify-start items-start',
+      canvas_experience: 'absolute top-0 left-0 w-full h-full',
     },
   },
   defaultVariants: {
