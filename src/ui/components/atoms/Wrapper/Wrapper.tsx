@@ -10,8 +10,8 @@ const variantWrapper = cva('', {
   variants: {
     variant: {
       default: 'w-full',
-      container: 'px-[50px] mx-auto',
-      app: 'relative grid grid-rows-[auto_1fr_auto] h-[100dvh] bg-base-black antialiased text-base-text',
+      container: 'px-[50px] mx-auto h-full',
+      app: 'relative grid grid-rows-[auto_1fr_auto] h-[100dvh] bg-base-black antialiased text-base-text max-h-screen h-screen',
       header:
         'py-[30px] relative before:absolute before:content-[" "] before:left-0 before:bottom-[-2px] before:w-full before:h-[1px] before:bg-base-white',
       footer:
@@ -23,7 +23,7 @@ const variantWrapper = cva('', {
       navigation_button_inner:
         'w-[72px] h-[76px] absolute top-[50%] left-0 translate-y-[-50%] flex items-center justify-center',
       localization: 'absolute right-0 top-0 h-full flex items-center justify-center gap-x-[8px]',
-      main_page_wrapper: 'flex flex-col justify-center items-start h-full min-h-0',
+      main_page_wrapper: 'flex py-[64px] flex-col justify-center items-start',
       main_page_content: 'flex flex-col justify-start items-start gap-y-[32px]',
       developments_wrapper: 'max-w-[640px] relative overflow-hidden developments_wrapper_mask',
       developments: 'flex justify-center items-center gap-x-[20px] px-[10px]',
