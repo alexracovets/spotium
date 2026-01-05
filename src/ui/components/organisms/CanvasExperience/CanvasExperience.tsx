@@ -41,7 +41,7 @@ export const CanvasExperience = memo(() => {
         camera={{ position: [0, 0.5, 2].map((v) => v * 8) as [number, number, number], fov: 45 }}
         shadows
       >
-        <ambientLight intensity={0.5} />
+        <ambientLight intensity={1} />
         <LightHolder />
         <Voxels />
         <OrbitControls
