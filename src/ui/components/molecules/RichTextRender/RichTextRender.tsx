@@ -6,7 +6,7 @@ import { Page } from '@payload-types'
 import { Text, variantText } from '@atoms'
 import { VariantProps } from 'class-variance-authority'
 
-type LexicalRichTextType = Page['title']
+type LexicalRichTextType = NonNullable<Page['main_type_fields']>['title']
 type LexicalNode = NonNullable<LexicalRichTextType>['root']['children'][number]
 
 interface LexicalTextPart {
