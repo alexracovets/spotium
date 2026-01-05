@@ -35,7 +35,7 @@ export const CanvasExperience = memo(() => {
   }, [])
 
   return (
-    <Wrapper variant="canvas_experience" className="z-1">
+    <Wrapper variant="canvas_experience">
       <Canvas
         gl={initRenderer}
         camera={{ position: [0, 0.5, 2].map((v) => v * 8) as [number, number, number], fov: 45 }}
