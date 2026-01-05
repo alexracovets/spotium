@@ -1,12 +1,27 @@
 'use client'
 
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
-import { float, vec3, mix, smoothstep, attribute, uniform, positionLocal } from 'three/tsl'
-import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import {
+  float,
+  vec3,
+  mix,
+  smoothstep,
+  attribute,
+  uniform,
+  positionLocal,
+  texture,
+  normalView,
+} from 'three/tsl'
+import { useEffect, useRef, useCallback, useMemo } from 'react'
 import { MeshStandardNodeMaterial } from 'three/webgpu'
 import * as THREE from 'three'
 import gsap from 'gsap'
+
+import { useModel } from '@store'
+
+import servicesData from './data/services.json'
+import aboutData from './data/about.json'
+import logoData from './data/logo.json'
 
 // Types
 type Voxel = {
@@ -16,30 +31,21 @@ type Voxel = {
 type VoxelModelData = Voxel[]
 
 // Кількість воекселів
-const FIXED_INSTANCE_COUNT = 15000
+const FIXED_INSTANCE_COUNT = 20000
 const HIDDEN_POSITION = new THREE.Vector3(0, -1000, 0)
 
 // Параметри воекселів
 const params = {
-  modelSize: 10,
-  gridSize: 0.2,
   boxSize: 0.18,
   boxRoundness: 0.03,
-  rotationInterval: 5000,
 }
 
-export const Voxels = () => {
-  const models = useMemo(
-    () => ['./models/about.gltf', './models/logo.glb', './models/services.gltf'],
-    [],
-  )
+const TEXTURE_PATH = '/texture/voxel/white.png'
 
-  // Скоуп моделей
-  const [loadedModelsCount, setLoadedModelsCount] = useState<number>(0)
+export const Voxels = () => {
+  const { activeModel, setActiveModel } = useModel()
 
   const meshRef = useRef<THREE.InstancedMesh>(null)
-  const voxelDataPerModelRef = useRef<VoxelModelData[]>([])
-  const rayCasterRef = useRef<THREE.Raycaster>(new THREE.Raycaster())
   const groupRef = useRef<THREE.Group>(null)
 
   // Анімації
@@ -99,6 +105,14 @@ export const Voxels = () => {
   // TSL Setup
   const uProgress = useMemo(() => uniform(0), [])
 
+  // Завантаження текстури
+  const voxelTexture = useMemo(() => {
+    const loader = new THREE.TextureLoader()
+    const tex = loader.load(TEXTURE_PATH)
+    tex.colorSpace = THREE.SRGBColorSpace
+    return tex
+  }, [])
+
   const material = useMemo(() => {
     const m = new MeshStandardNodeMaterial()
 
@@ -133,81 +147,37 @@ export const Voxels = () => {
     // Інтерполяція масштабу
     const scale = mix(aScaleStart, aScaleEnd, t)
 
-    // Фіксований колір
-    const color = vec3(254.0 / 255.0, 197.0 / 255.0, 50.0 / 255.0)
-
     // Застосування позиції та масштабу
     m.positionNode = pos.add(positionLocal.mul(scale))
-    m.colorNode = color
+
+    // Matcap: перетворюємо нормалі в UV координати
+    // normalView дає нормалі в view space (-1..1)
+    // Перетворюємо в UV координати (0..1)
+    const matcapUV = normalView.xy.mul(0.5).add(0.5)
+    const matcapColor = texture(voxelTexture, matcapUV)
+    const baseColor = vec3(254.0 / 255.0, 197.0 / 255.0, 50.0 / 255.0)
+    const finalColor = matcapColor.rgb.mul(baseColor)
+
+    m.colorNode = finalColor
 
     return m
-  }, [uProgress])
+  }, [uProgress, voxelTexture])
 
-  // Функція допомоги: Перевірка чи точка знаходиться всередині меша
-  const isInsideMesh = (
-    pos: THREE.Vector3,
-    ray: THREE.Vector3,
-    mesh: THREE.Mesh,
-    rayCaster: THREE.Raycaster,
-  ): boolean => {
-    rayCaster.set(pos, ray)
-    const intersects = rayCaster.intersectObject(mesh, false)
-    return intersects.length % 2 === 1
-  }
-
-  // Функція допомоги: Вoxelізація моделі
-  const voxelizeModel = useCallback(
-    (scene: THREE.Group, rayCaster: THREE.Raycaster): VoxelModelData => {
-      const importedMeshes: THREE.Mesh[] = []
-      scene.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          child.material.side = THREE.DoubleSide
-          importedMeshes.push(child)
-        }
-      })
-
-      // Обчислення коробки обмежень та масштабування моделі
-      let boundingBox = new THREE.Box3().setFromObject(scene)
-      const size = boundingBox.getSize(new THREE.Vector3())
-      const scaleFactor = params.modelSize / size.length()
-      const center = boundingBox.getCenter(new THREE.Vector3()).multiplyScalar(-scaleFactor)
-
-      scene.scale.multiplyScalar(scaleFactor)
-      scene.position.copy(center)
-
-      boundingBox = new THREE.Box3().setFromObject(scene)
-      boundingBox.min.y += 0.5 * params.gridSize
-
-      const modelVoxels: Voxel[] = []
-
-      // Обрахунок
-      for (let i = boundingBox.min.x; i < boundingBox.max.x; i += params.gridSize) {
-        for (let j = boundingBox.min.y; j < boundingBox.max.y; j += params.gridSize) {
-          for (let k = boundingBox.min.z; k < boundingBox.max.z; k += params.gridSize) {
-            for (let meshCnt = 0; meshCnt < importedMeshes.length; meshCnt++) {
-              const mesh = importedMeshes[meshCnt]
-
-              const pos = new THREE.Vector3(i, j, k)
-
-              if (isInsideMesh(pos, new THREE.Vector3(0, 0, 1), mesh, rayCaster)) {
-                modelVoxels.push({ position: pos })
-                break
-              }
-            }
-          }
-        }
-      }
-
-      return modelVoxels.slice(0, FIXED_INSTANCE_COUNT)
-    },
-    [],
-  )
+  // Обробка даних при ініціалізації
+  const voxelDataPerModel = useMemo(() => {
+    const rawData = [aboutData, logoData, servicesData]
+    return rawData.map((data) =>
+      data.map((item: any) => ({
+        position: new THREE.Vector3(item.position.x, item.position.y, item.position.z),
+      })),
+    )
+  }, [])
 
   // Перемикання моделей
   const switchToModel = useCallback(
     (newModelIdx: number) => {
       // обираєсо модель для відмалювання
-      const targetData = voxelDataPerModelRef.current[newModelIdx]
+      const targetData = voxelDataPerModel[newModelIdx]
       if (!targetData) return
 
       isAnimatingRef.current = true
@@ -270,50 +240,16 @@ export const Voxels = () => {
 
       currentModelIdxRef.current = newModelIdx
     },
-    [uProgress, geometry],
+    [uProgress, geometry, voxelDataPerModel],
   )
-
-  // завантаження моделей
-  useEffect(() => {
-    const loader = new GLTFLoader()
-    const rayCaster = rayCasterRef.current
-
-    const loadModelsSequentially = async () => {
-      for (let modelIdx = 0; modelIdx < models.length; modelIdx++) {
-        await new Promise<void>((resolve) => {
-          loader.load(
-            models[modelIdx],
-            (gltf) => {
-              const voxelData = voxelizeModel(gltf.scene, rayCaster)
-              voxelDataPerModelRef.current[modelIdx] = voxelData
-              setLoadedModelsCount((prev) => prev + 1)
-              resolve()
-            },
-            undefined,
-            (error) => {
-              console.error('Error loading model:', error)
-              resolve()
-            },
-          )
-        })
-      }
-    }
-
-    loadModelsSequentially()
-  }, [models, voxelizeModel])
 
   // старт ініціалізації першої моделі
   useEffect(() => {
-    if (loadedModelsCount !== models.length) return
-    // завантаження всіх моделей
-    console.log('All instances gathered')
-
-    // ініціалізація першої моделі
-    switchToModel(0)
-  }, [loadedModelsCount, models.length, switchToModel])
+    switchToModel(activeModel)
+  }, [switchToModel, activeModel])
 
   return (
-    <group ref={groupRef}>
+    <group ref={groupRef} onClick={() => setActiveModel(1)}>
       <mesh ref={meshRef} geometry={geometry}>
         <primitive object={material} attach="material" />
       </mesh>
