@@ -37,7 +37,7 @@ export const bebas_neue = Bebas_Neue({
 })
 
 export const dm_sans = DM_Sans({
-  weight: ['700'],
+  weight: ['700', '800'],
   variable: '--font-dm_sans',
   style: ['normal'],
   subsets: ['latin'],

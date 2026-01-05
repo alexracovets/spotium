@@ -1,2 +1,1 @@
 export { ServicesPageFields } from './ServicesPageFields'
-export { MainPageFields } from './MainPageFields'

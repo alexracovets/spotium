@@ -155,8 +155,7 @@ export const Voxels = () => {
     // Перетворюємо в UV координати (0..1)
     const matcapUV = normalView.xy.mul(0.5).add(0.5)
     const matcapColor = texture(voxelTexture, matcapUV)
-    const baseColor = vec3(254.0 / 255.0, 197.0 / 255.0, 50.0 / 255.0)
-    const finalColor = matcapColor.rgb.mul(baseColor)
+    const finalColor = matcapColor
 
     m.colorNode = finalColor
 

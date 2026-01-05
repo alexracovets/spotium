@@ -1,2 +1,1 @@
 export { Services } from './Services'
-export { Main } from './Main'
