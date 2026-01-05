@@ -4,8 +4,9 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { Wrapper } from '@atoms'
 import { Voxels } from './Voxels'
-import { useRef } from 'react'
+import { useRef, memo, useCallback } from 'react'
 import * as THREE from 'three'
+import { WebGPURenderer } from 'three/webgpu'
 
 const LightHolder = () => {
   const groupRef = useRef<THREE.Group>(null)
@@ -26,10 +27,17 @@ const LightHolder = () => {
   )
 }
 
-export const CanvasExperience = () => {
+export const CanvasExperience = memo(() => {
+  const initRenderer = useCallback(async (props: any) => {
+    const renderer = new WebGPURenderer(props)
+    await renderer.init()
+    return renderer
+  }, [])
+
   return (
     <Wrapper variant="canvas_experience" className="z-1">
       <Canvas
+        gl={initRenderer}
         camera={{ position: [0, 0.5, 2].map((v) => v * 8) as [number, number, number], fov: 45 }}
         shadows
       >
@@ -48,4 +56,4 @@ export const CanvasExperience = () => {
       </Canvas>
     </Wrapper>
   )
-}
+})

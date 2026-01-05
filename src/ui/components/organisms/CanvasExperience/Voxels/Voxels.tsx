@@ -6,6 +6,19 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
 import gsap from 'gsap'
+// @ts-ignore
+import { MeshStandardNodeMaterial } from 'three/webgpu'
+import {
+  float,
+  vec3,
+  mix,
+  smoothstep,
+  attribute,
+  uniform,
+  positionLocal,
+  instanceIndex,
+  hash,
+} from 'three/tsl'
 
 // Types
 type Voxel = {
@@ -16,110 +29,30 @@ type Voxel = {
 type VoxelModelData = Voxel[]
 
 // Constants
-const FIXED_INSTANCE_COUNT = 5000
+const FIXED_INSTANCE_COUNT = 15000
 const HIDDEN_POSITION = new THREE.Vector3(0, -1000, 0)
 
 // Parameters
 const params = {
   modelSize: 10,
-  gridSize: 0.35,
-  boxSize: 0.35,
-  boxRoundness: 0.03,
+  gridSize: 0.2,
+  boxSize: 0.18,
+  boxRoundness: 0.05,
   rotationInterval: 5000,
 }
 
-// Shaders
-const vertexShader = `
-  attribute vec3 aPositionStart;
-  attribute vec3 aPositionEnd;
-  attribute vec3 aColorStart;
-  attribute vec3 aColorEnd;
-  attribute float aScaleStart;
-  attribute float aScaleEnd;
-  attribute float aRandom;
-
-  uniform float uProgress;
-  uniform float uTime;
-  
-  varying vec3 vColor;
-  varying vec3 vNormal;
-
-  // Easing function (Back Out)
-  float backOut(float t) {
-    float s = 1.70158;
-    return --t * t * ((s + 1.0) * t + s) + 1.0;
-  }
-
-  void main() {
-    // Calculate local progress based on randomness
-    // Delay is based on aRandom (0.0 to 1.0)
-    // We want the animation to take part of the total time, shifted by delay
-    
-    float duration = 0.6; // Duration of individual particle animation relative to total time
-    float delay = aRandom * 0.4; // Max delay
-    
-    // Map uProgress (0..1) to local progress (0..1)
-    float t = smoothstep(delay, delay + duration, uProgress);
-    
-    // Apply easing
-    float easedT = backOut(t);
-    
-    // Interpolate position
-    vec3 pos = mix(aPositionStart, aPositionEnd, easedT);
-    
-    // Interpolate scale
-    // We want scale to go to 0 if end scale is 0 (hidden)
-    float scale = mix(aScaleStart, aScaleEnd, t); // Linear scale for smoothness
-    
-    // Interpolate color
-    // Color transition happens slightly later
-    float colorT = smoothstep(delay + duration * 0.5, delay + duration, uProgress);
-    vColor = mix(aColorStart, aColorEnd, colorT);
-    
-    vNormal = normal;
-
-    // Apply instance transform
-    vec3 transformed = position * scale;
-    
-    // Standard Three.js vertex transform
-    vec4 mvPosition = modelViewMatrix * vec4(pos + transformed, 1.0);
-    gl_Position = projectionMatrix * mvPosition;
-  }
-`
-
-const fragmentShader = `
-  varying vec3 vColor;
-  varying vec3 vNormal;
-
-  void main() {
-    // Simple lighting
-    vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
-    float diff = max(dot(vNormal, lightDir), 0.0);
-    
-    // Ambient + Diffuse
-    vec3 lighting = vec3(0.4) + vec3(0.6) * diff;
-    
-    gl_FragColor = vec4(vColor * lighting, 1.0);
-  }
-`
-
 export const Voxels = () => {
   const models = useMemo(
-    () => [
-      './models/logo_13x86x55.glb',
-      './models/about_48x48x48.glb',
-      './models/servises_27x24x28.glb',
-    ],
+    () => ['./models/about.gltf', './models/logo.glb', './models/services.gltf'],
     [],
   )
 
   // State
   const [loadedModelsCount, setLoadedModelsCount] = useState<number>(0)
+  // Removed isReady state as we will ensure geometry is ready immediately
 
   // Refs
   const meshRef = useRef<THREE.InstancedMesh>(null)
-  const geometryRef = useRef<THREE.InstancedBufferGeometry>(null)
-  const materialRef = useRef<THREE.ShaderMaterial>(null)
   const voxelDataPerModelRef = useRef<VoxelModelData[]>([])
   const rayCasterRef = useRef<THREE.Raycaster>(new THREE.Raycaster())
   const groupRef = useRef<THREE.Group>(null)
@@ -127,6 +60,110 @@ export const Voxels = () => {
   // Animation state
   const currentModelIdxRef = useRef<number>(0)
   const isAnimatingRef = useRef<boolean>(false)
+
+  // Geometry Setup
+  const geometry = useMemo(() => {
+    const geo = new THREE.InstancedBufferGeometry()
+
+    // Base geometry is a rounded box
+    const baseGeometry = new RoundedBoxGeometry(
+      params.boxSize,
+      params.boxSize,
+      params.boxSize,
+      2,
+      params.boxRoundness,
+    )
+
+    geo.index = baseGeometry.index
+    geo.setAttribute('position', baseGeometry.attributes.position)
+    geo.setAttribute('normal', baseGeometry.attributes.normal)
+    geo.setAttribute('uv', baseGeometry.attributes.uv)
+
+    // Instanced attributes
+    const aPositionStart = new Float32Array(FIXED_INSTANCE_COUNT * 3)
+    const aPositionEnd = new Float32Array(FIXED_INSTANCE_COUNT * 3)
+    const aColorStart = new Float32Array(FIXED_INSTANCE_COUNT * 3)
+    const aColorEnd = new Float32Array(FIXED_INSTANCE_COUNT * 3)
+    // Packed: x = scaleStart, y = scaleEnd, z = random
+    const aMisc = new Float32Array(FIXED_INSTANCE_COUNT * 3)
+
+    for (let i = 0; i < FIXED_INSTANCE_COUNT; i++) {
+      const idx3 = i * 3
+
+      // Misc: scaleStart, scaleEnd, random
+      aMisc[idx3] = 0 // scaleStart
+      aMisc[idx3 + 1] = 0 // scaleEnd
+      aMisc[idx3 + 2] = Math.random() // random
+
+      aPositionStart[idx3] = HIDDEN_POSITION.x
+      aPositionStart[idx3 + 1] = HIDDEN_POSITION.y
+      aPositionStart[idx3 + 2] = HIDDEN_POSITION.z
+
+      aPositionEnd[idx3] = HIDDEN_POSITION.x
+      aPositionEnd[idx3 + 1] = HIDDEN_POSITION.y
+      aPositionEnd[idx3 + 2] = HIDDEN_POSITION.z
+    }
+
+    geo.setAttribute('aPositionStart', new THREE.InstancedBufferAttribute(aPositionStart, 3))
+    geo.setAttribute('aPositionEnd', new THREE.InstancedBufferAttribute(aPositionEnd, 3))
+    geo.setAttribute('aColorStart', new THREE.InstancedBufferAttribute(aColorStart, 3))
+    geo.setAttribute('aColorEnd', new THREE.InstancedBufferAttribute(aColorEnd, 3))
+    geo.setAttribute('aMisc', new THREE.InstancedBufferAttribute(aMisc, 3))
+
+    geo.instanceCount = FIXED_INSTANCE_COUNT
+
+    return geo
+  }, [])
+
+  // TSL Setup
+  const uProgress = useMemo(() => uniform(0), [])
+
+  const material = useMemo(() => {
+    const m = new MeshStandardNodeMaterial()
+
+    // Attributes
+    const aPositionStart = attribute('aPositionStart', 'vec3')
+    const aPositionEnd = attribute('aPositionEnd', 'vec3')
+    const aColorStart = attribute('aColorStart', 'vec3')
+    const aColorEnd = attribute('aColorEnd', 'vec3')
+    const aMisc = attribute('aMisc', 'vec3')
+
+    // Unpack Misc
+    const aScaleStart = aMisc.x
+    const aScaleEnd = aMisc.y
+    const aRandom = aMisc.z
+
+    // Logic
+    const duration = float(0.6)
+    const delay = aRandom.mul(0.4)
+
+    // Map uProgress (0..1) to local progress (0..1)
+    const t = smoothstep(delay, delay.add(duration), uProgress)
+
+    // Easing (Back Out)
+    const s = float(1.70158)
+    const tMinus1 = t.sub(1.0)
+    const easedT = tMinus1
+      .mul(tMinus1)
+      .mul(tMinus1.mul(s.add(1.0)).add(s))
+      .add(1.0)
+
+    // Interpolate position
+    const pos = mix(aPositionStart, aPositionEnd, easedT)
+
+    // Interpolate scale
+    const scale = mix(aScaleStart, aScaleEnd, t)
+
+    // Interpolate color
+    const colorT = smoothstep(delay.add(duration.mul(0.5)), delay.add(duration), uProgress)
+    const color = mix(aColorStart, aColorEnd, colorT)
+
+    // Apply position and scale
+    m.positionNode = pos.add(positionLocal.mul(scale))
+    m.colorNode = vec3(color)
+
+    return m
+  }, [uProgress])
 
   // Helper function: Check if a point is inside a mesh using ray casting
   const isInsideMesh = (
@@ -196,148 +233,97 @@ export const Voxels = () => {
     [],
   )
 
-  // Initialize geometry attributes
-  const initGeometry = useCallback(() => {
-    if (!geometryRef.current) return
-
-    const geometry = geometryRef.current
-
-    // Base geometry is a rounded box
-    const baseGeometry = new RoundedBoxGeometry(
-      params.boxSize,
-      params.boxSize,
-      params.boxSize,
-      2,
-      params.boxRoundness,
-    )
-
-    geometry.index = baseGeometry.index
-    geometry.attributes.position = baseGeometry.attributes.position
-    geometry.attributes.normal = baseGeometry.attributes.normal
-    geometry.attributes.uv = baseGeometry.attributes.uv
-
-    // Instanced attributes
-    const aPositionStart = new Float32Array(FIXED_INSTANCE_COUNT * 3)
-    const aPositionEnd = new Float32Array(FIXED_INSTANCE_COUNT * 3)
-    const aColorStart = new Float32Array(FIXED_INSTANCE_COUNT * 3)
-    const aColorEnd = new Float32Array(FIXED_INSTANCE_COUNT * 3)
-    const aScaleStart = new Float32Array(FIXED_INSTANCE_COUNT)
-    const aScaleEnd = new Float32Array(FIXED_INSTANCE_COUNT)
-    const aRandom = new Float32Array(FIXED_INSTANCE_COUNT)
-
-    for (let i = 0; i < FIXED_INSTANCE_COUNT; i++) {
-      aRandom[i] = Math.random()
-      // Initialize hidden
-      aScaleStart[i] = 0
-      aScaleEnd[i] = 0
-
-      const idx3 = i * 3
-      aPositionStart[idx3] = HIDDEN_POSITION.x
-      aPositionStart[idx3 + 1] = HIDDEN_POSITION.y
-      aPositionStart[idx3 + 2] = HIDDEN_POSITION.z
-
-      aPositionEnd[idx3] = HIDDEN_POSITION.x
-      aPositionEnd[idx3 + 1] = HIDDEN_POSITION.y
-      aPositionEnd[idx3 + 2] = HIDDEN_POSITION.z
-    }
-
-    geometry.setAttribute('aPositionStart', new THREE.InstancedBufferAttribute(aPositionStart, 3))
-    geometry.setAttribute('aPositionEnd', new THREE.InstancedBufferAttribute(aPositionEnd, 3))
-    geometry.setAttribute('aColorStart', new THREE.InstancedBufferAttribute(aColorStart, 3))
-    geometry.setAttribute('aColorEnd', new THREE.InstancedBufferAttribute(aColorEnd, 3))
-    geometry.setAttribute('aScaleStart', new THREE.InstancedBufferAttribute(aScaleStart, 1))
-    geometry.setAttribute('aScaleEnd', new THREE.InstancedBufferAttribute(aScaleEnd, 1))
-    geometry.setAttribute('aRandom', new THREE.InstancedBufferAttribute(aRandom, 1))
-  }, [])
-
   // Switch to model
-  const switchToModel = useCallback((newModelIdx: number) => {
-    if (!geometryRef.current || !materialRef.current) return
+  const switchToModel = useCallback(
+    (newModelIdx: number) => {
+      // geometry is now in scope from useMemo, but we need to access it.
+      // Since it's stable, we can use it directly.
 
-    const targetData = voxelDataPerModelRef.current[newModelIdx]
-    if (!targetData) return
+      const targetData = voxelDataPerModelRef.current[newModelIdx]
+      if (!targetData) return
 
-    isAnimatingRef.current = true
+      isAnimatingRef.current = true
 
-    const geometry = geometryRef.current
-    const attrPosStart = geometry.attributes.aPositionStart as THREE.InstancedBufferAttribute
-    const attrPosEnd = geometry.attributes.aPositionEnd as THREE.InstancedBufferAttribute
-    const attrColorStart = geometry.attributes.aColorStart as THREE.InstancedBufferAttribute
-    const attrColorEnd = geometry.attributes.aColorEnd as THREE.InstancedBufferAttribute
-    const attrScaleStart = geometry.attributes.aScaleStart as THREE.InstancedBufferAttribute
-    const attrScaleEnd = geometry.attributes.aScaleEnd as THREE.InstancedBufferAttribute
+      // Note: When using mesh + instancedBufferGeometry, we don't need to cast to InstancedBufferAttribute if we know the structure,
+      // but for type safety we can keep it.
+      const attrPosStart = geometry.attributes.aPositionStart as THREE.InstancedBufferAttribute
+      const attrPosEnd = geometry.attributes.aPositionEnd as THREE.InstancedBufferAttribute
+      const attrColorStart = geometry.attributes.aColorStart as THREE.InstancedBufferAttribute
+      const attrColorEnd = geometry.attributes.aColorEnd as THREE.InstancedBufferAttribute
+      const attrMisc = geometry.attributes.aMisc as THREE.InstancedBufferAttribute
 
-    // 1. Copy End to Start (current state becomes start state)
-    // We can't just copy arrays because the shader might be in the middle of transition if we interrupted it,
-    // but for simplicity and performance we assume transition finished or we snap to end.
-    // Better: Read the current state from the "End" buffers which represent the visual state at uProgress=1.
+      // 1. Copy End to Start
+      attrPosStart.array.set(attrPosEnd.array)
+      attrColorStart.array.set(attrColorEnd.array)
 
-    attrPosStart.array.set(attrPosEnd.array)
-    attrColorStart.array.set(attrColorEnd.array)
-    attrScaleStart.array.set(attrScaleEnd.array)
-
-    // 2. Set new End state
-    const posEndArray = attrPosEnd.array as Float32Array
-    const colorEndArray = attrColorEnd.array as Float32Array
-    const scaleEndArray = attrScaleEnd.array as Float32Array
-
-    for (let i = 0; i < FIXED_INSTANCE_COUNT; i++) {
-      const idx3 = i * 3
-
-      if (i < targetData.length) {
-        const voxel = targetData[i]
-        posEndArray[idx3] = voxel.position.x
-        posEndArray[idx3 + 1] = voxel.position.y
-        posEndArray[idx3 + 2] = voxel.position.z
-
-        colorEndArray[idx3] = voxel.color.r
-        colorEndArray[idx3 + 1] = voxel.color.g
-        colorEndArray[idx3 + 2] = voxel.color.b
-
-        scaleEndArray[i] = 1.0
-      } else {
-        // Hide unused voxels
-        posEndArray[idx3] = HIDDEN_POSITION.x
-        posEndArray[idx3 + 1] = HIDDEN_POSITION.y
-        posEndArray[idx3 + 2] = HIDDEN_POSITION.z
-
-        scaleEndArray[i] = 0.0
+      // Copy scaleEnd (y) to scaleStart (x) in Misc
+      const miscArray = attrMisc.array as Float32Array
+      for (let i = 0; i < FIXED_INSTANCE_COUNT; i++) {
+        const idx3 = i * 3
+        miscArray[idx3] = miscArray[idx3 + 1] // scaleStart = scaleEnd
       }
-    }
 
-    // Mark attributes as needing update
-    attrPosStart.needsUpdate = true
-    attrPosEnd.needsUpdate = true
-    attrColorStart.needsUpdate = true
-    attrColorEnd.needsUpdate = true
-    attrScaleStart.needsUpdate = true
-    attrScaleEnd.needsUpdate = true
+      // 2. Set new End state
+      const posEndArray = attrPosEnd.array as Float32Array
+      const colorEndArray = attrColorEnd.array as Float32Array
 
-    // 3. Animate uProgress
-    const material = materialRef.current
-    material.uniforms.uProgress.value = 0
+      for (let i = 0; i < FIXED_INSTANCE_COUNT; i++) {
+        const idx3 = i * 3
 
-    gsap.killTweensOf(material.uniforms.uProgress)
-    gsap.to(material.uniforms.uProgress, {
-      value: 1,
-      duration: 1.5, // Total duration including delays
-      ease: 'power1.out',
-      onComplete: () => {
-        isAnimatingRef.current = false
-      },
-    })
+        if (i < targetData.length) {
+          const voxel = targetData[i]
+          posEndArray[idx3] = voxel.position.x
+          posEndArray[idx3 + 1] = voxel.position.y
+          posEndArray[idx3 + 2] = voxel.position.z
 
-    // Rotate the group slightly for effect
-    if (groupRef.current) {
-      gsap.to(groupRef.current.rotation, {
-        y: groupRef.current.rotation.y + Math.PI * 0.5,
-        duration: 2,
-        ease: 'power2.out',
+          colorEndArray[idx3] = voxel.color.r
+          colorEndArray[idx3 + 1] = voxel.color.g
+          colorEndArray[idx3 + 2] = voxel.color.b
+
+          miscArray[idx3 + 1] = 1.0 // scaleEnd = 1.0
+        } else {
+          // Hide unused voxels
+          posEndArray[idx3] = HIDDEN_POSITION.x
+          posEndArray[idx3 + 1] = HIDDEN_POSITION.y
+          posEndArray[idx3 + 2] = HIDDEN_POSITION.z
+
+          miscArray[idx3 + 1] = 0.0 // scaleEnd = 0.0
+        }
+      }
+
+      // Mark attributes as needing update
+      attrPosStart.needsUpdate = true
+      attrPosEnd.needsUpdate = true
+      attrColorStart.needsUpdate = true
+      attrColorEnd.needsUpdate = true
+      attrMisc.needsUpdate = true
+
+      // 3. Animate uProgress
+      uProgress.value = 0
+
+      gsap.killTweensOf(uProgress)
+      gsap.to(uProgress, {
+        value: 1,
+        duration: 1.5,
+        ease: 'power1.out',
+        onComplete: () => {
+          isAnimatingRef.current = false
+        },
       })
-    }
 
-    currentModelIdxRef.current = newModelIdx
-  }, [])
+      // Rotate the group slightly for effect
+      if (groupRef.current) {
+        gsap.to(groupRef.current.rotation, {
+          y: groupRef.current.rotation.y + Math.PI * 0.5,
+          duration: 2,
+          ease: 'power2.out',
+        })
+      }
+
+      currentModelIdxRef.current = newModelIdx
+    },
+    [uProgress, geometry],
+  )
 
   // Load models
   useEffect(() => {
@@ -350,12 +336,10 @@ export const Voxels = () => {
           loader.load(
             models[modelIdx],
             (gltf) => {
-              setTimeout(() => {
-                const voxelData = voxelizeModel(gltf.scene, rayCaster)
-                voxelDataPerModelRef.current[modelIdx] = voxelData
-                setLoadedModelsCount((prev) => prev + 1)
-                resolve()
-              }, 0)
+              const voxelData = voxelizeModel(gltf.scene, rayCaster)
+              voxelDataPerModelRef.current[modelIdx] = voxelData
+              setLoadedModelsCount((prev) => prev + 1)
+              resolve()
             },
             undefined,
             (error) => {
@@ -374,8 +358,7 @@ export const Voxels = () => {
   useEffect(() => {
     if (loadedModelsCount !== models.length) return
 
-    // Initialize geometry once
-    initGeometry()
+    console.log('All instances gathered')
 
     // Initial model show
     switchToModel(0)
@@ -387,33 +370,12 @@ export const Voxels = () => {
     }, params.rotationInterval)
 
     return () => clearInterval(interval)
-  }, [loadedModelsCount, models.length, initGeometry, switchToModel])
-
-  useFrame((state) => {
-    if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = state.clock.elapsedTime
-    }
-  })
+  }, [loadedModelsCount, models.length, switchToModel])
 
   return (
     <group ref={groupRef}>
-      <instancedMesh ref={meshRef} args={[undefined, undefined, FIXED_INSTANCE_COUNT]}>
-        <instancedBufferGeometry ref={geometryRef} />
-        <shaderMaterial
-          ref={materialRef}
-          vertexShader={vertexShader}
-          fragmentShader={fragmentShader}
-          uniforms={{
-            uProgress: { value: 0 },
-            uTime: { value: 0 },
-          }}
-        />
-      </instancedMesh>
-
-      {/* Shadow plane */}
-      <mesh position={[0, -4, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[35, 35]} />
-        <shadowMaterial opacity={0.1} />
+      <mesh ref={meshRef} geometry={geometry}>
+        <primitive object={material} attach="material" />
       </mesh>
     </group>
   )
