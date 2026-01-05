@@ -1,12 +1,14 @@
 'use client'
 
-import { Canvas } from '@react-three/fiber'
+import { DefaultGLProps } from '@react-three/fiber/dist/declarations/src/core/renderer'
+import { useRef, memo, useCallback } from 'react'
 import { OrbitControls } from '@react-three/drei'
+import { WebGPURenderer } from 'three/webgpu'
+import { Canvas } from '@react-three/fiber'
+import * as THREE from 'three'
+
 import { Wrapper } from '@atoms'
 import { Voxels } from './Voxels'
-import { useRef, memo, useCallback } from 'react'
-import * as THREE from 'three'
-import { WebGPURenderer } from 'three/webgpu'
 
 const LightHolder = () => {
   const groupRef = useRef<THREE.Group>(null)
@@ -28,8 +30,8 @@ const LightHolder = () => {
 }
 
 export const CanvasExperience = memo(() => {
-  const initRenderer = useCallback(async (props: any) => {
-    const renderer = new WebGPURenderer(props)
+  const initRenderer = useCallback(async (props: DefaultGLProps) => {
+    const renderer = new WebGPURenderer({ canvas: props.canvas as HTMLCanvasElement })
     await renderer.init()
     return renderer
   }, [])
@@ -57,3 +59,5 @@ export const CanvasExperience = memo(() => {
     </Wrapper>
   )
 })
+
+CanvasExperience.displayName = 'CanvasExperience'

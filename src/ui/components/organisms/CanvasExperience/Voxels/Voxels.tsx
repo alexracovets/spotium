@@ -1,34 +1,26 @@
 'use client'
 
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
-import {
-  float,
-  vec3,
-  mix,
-  smoothstep,
-  attribute,
-  uniform,
-  positionLocal,
-  texture,
-  normalView,
-} from 'three/tsl'
 import { useEffect, useRef, useCallback, useMemo } from 'react'
 import { MeshStandardNodeMaterial } from 'three/webgpu'
 import * as THREE from 'three'
 import gsap from 'gsap'
+import {
+  positionLocal,
+  smoothstep,
+  normalView,
+  attribute,
+  uniform,
+  texture,
+  float,
+  mix,
+} from 'three/tsl'
 
 import { useModel } from '@store'
 
 import servicesData from './data/services.json'
 import aboutData from './data/about.json'
 import logoData from './data/logo.json'
-
-// Types
-type Voxel = {
-  position: THREE.Vector3
-}
-
-type VoxelModelData = Voxel[]
 
 // Кількість воекселів
 const FIXED_INSTANCE_COUNT = 20000
@@ -41,6 +33,15 @@ const params = {
 }
 
 const TEXTURE_PATH = '/texture/voxel/white.png'
+
+// Тип для даних вокселів з JSON
+type VoxelDataItem = {
+  position: {
+    x: number
+    y: number
+    z: number
+  }
+}
 
 export const Voxels = () => {
   const { activeModel, setActiveModel } = useModel()
@@ -164,9 +165,9 @@ export const Voxels = () => {
 
   // Обробка даних при ініціалізації
   const voxelDataPerModel = useMemo(() => {
-    const rawData = [aboutData, logoData, servicesData]
+    const rawData: VoxelDataItem[][] = [aboutData, logoData, servicesData]
     return rawData.map((data) =>
-      data.map((item: any) => ({
+      data.map((item: VoxelDataItem) => ({
         position: new THREE.Vector3(item.position.x, item.position.y, item.position.z),
       })),
     )

@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef } from 'react'
-import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { useEffect, useState, useRef, useCallback } from 'react'
+import * as THREE from 'three'
 
 // Types
 type Voxel = {
@@ -8,6 +8,17 @@ type Voxel = {
 }
 
 type VoxelModelData = Voxel[]
+
+// Тип для GLTF, який повертає GLTFLoader
+type GLTF = {
+  scene: THREE.Group
+  scenes: THREE.Group[]
+  cameras: THREE.Camera[]
+  animations: THREE.AnimationClip[]
+  asset: Record<string, unknown>
+  parser: unknown
+  userData: Record<string, unknown>
+}
 
 // Параметри воекселів
 const params = {
@@ -34,86 +45,91 @@ export const VoxelsCalculate = () => {
   }
 
   // Функція допомоги: Вoxelізація моделі (chunked)
-  const voxelizeModelChunked = (
-    scene: THREE.Group,
-    rayCaster: THREE.Raycaster,
-    onProgress?: (progress: number) => void,
-  ): Promise<VoxelModelData> => {
-    return new Promise((resolve) => {
-      const importedMeshes: THREE.Mesh[] = []
-      scene.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          child.material.side = THREE.DoubleSide
-          importedMeshes.push(child)
-        }
-      })
-
-      // Обчислення коробки обмежень та масштабування моделі
-      let boundingBox = new THREE.Box3().setFromObject(scene)
-      const size = boundingBox.getSize(new THREE.Vector3())
-      const scaleFactor = params.modelSize / size.length()
-      const center = boundingBox.getCenter(new THREE.Vector3()).multiplyScalar(-scaleFactor)
-
-      scene.scale.multiplyScalar(scaleFactor)
-      scene.position.copy(center)
-
-      boundingBox = new THREE.Box3().setFromObject(scene)
-      boundingBox.min.y += 0.5 * params.gridSize
-
-      const modelVoxels: Voxel[] = []
-
-      // Створюємо масив всіх точок для перевірки
-      const points: THREE.Vector3[] = []
-      for (let i = boundingBox.min.x; i < boundingBox.max.x; i += params.gridSize) {
-        for (let j = boundingBox.min.y; j < boundingBox.max.y; j += params.gridSize) {
-          for (let k = boundingBox.min.z; k < boundingBox.max.z; k += params.gridSize) {
-            points.push(new THREE.Vector3(i, j, k))
+  const voxelizeModelChunked = useCallback(
+    (
+      scene: THREE.Group,
+      rayCaster: THREE.Raycaster,
+      onProgress?: (progress: number) => void,
+    ): Promise<VoxelModelData> => {
+      return new Promise((resolve) => {
+        const importedMeshes: THREE.Mesh[] = []
+        scene.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            child.material.side = THREE.DoubleSide
+            importedMeshes.push(child)
           }
-        }
-      }
+        })
 
-      const totalPoints = points.length
-      console.log(`📊 Всього точок для перевірки: ${totalPoints}, meshes: ${importedMeshes.length}`)
-      const CHUNK_SIZE = 100
-      let currentIndex = 0
+        // Обчислення коробки обмежень та масштабування моделі
+        let boundingBox = new THREE.Box3().setFromObject(scene)
+        const size = boundingBox.getSize(new THREE.Vector3())
+        const scaleFactor = params.modelSize / size.length()
+        const center = boundingBox.getCenter(new THREE.Vector3()).multiplyScalar(-scaleFactor)
 
-      const processChunk = () => {
-        const endIndex = Math.min(currentIndex + CHUNK_SIZE, totalPoints)
+        scene.scale.multiplyScalar(scaleFactor)
+        scene.position.copy(center)
 
-        for (let idx = currentIndex; idx < endIndex; idx++) {
-          const pos = points[idx]
+        boundingBox = new THREE.Box3().setFromObject(scene)
+        boundingBox.min.y += 0.5 * params.gridSize
 
-          for (let meshCnt = 0; meshCnt < importedMeshes.length; meshCnt++) {
-            const mesh = importedMeshes[meshCnt]
+        const modelVoxels: Voxel[] = []
 
-            if (isInsideMesh(pos, new THREE.Vector3(0, 0, 1), mesh, rayCaster)) {
-              modelVoxels.push({ position: pos })
-              break
+        // Створюємо масив всіх точок для перевірки
+        const points: THREE.Vector3[] = []
+        for (let i = boundingBox.min.x; i < boundingBox.max.x; i += params.gridSize) {
+          for (let j = boundingBox.min.y; j < boundingBox.max.y; j += params.gridSize) {
+            for (let k = boundingBox.min.z; k < boundingBox.max.z; k += params.gridSize) {
+              points.push(new THREE.Vector3(i, j, k))
             }
           }
         }
 
-        currentIndex = endIndex
+        const totalPoints = points.length
+        console.log(
+          `📊 Всього точок для перевірки: ${totalPoints}, meshes: ${importedMeshes.length}`,
+        )
+        const CHUNK_SIZE = 100
+        let currentIndex = 0
 
-        // Оновлюємо прогрес
-        if (onProgress) {
-          onProgress((currentIndex / totalPoints) * 100)
+        const processChunk = () => {
+          const endIndex = Math.min(currentIndex + CHUNK_SIZE, totalPoints)
+
+          for (let idx = currentIndex; idx < endIndex; idx++) {
+            const pos = points[idx]
+
+            for (let meshCnt = 0; meshCnt < importedMeshes.length; meshCnt++) {
+              const mesh = importedMeshes[meshCnt]
+
+              if (isInsideMesh(pos, new THREE.Vector3(0, 0, 1), mesh, rayCaster)) {
+                modelVoxels.push({ position: pos })
+                break
+              }
+            }
+          }
+
+          currentIndex = endIndex
+
+          // Оновлюємо прогрес
+          if (onProgress) {
+            onProgress((currentIndex / totalPoints) * 100)
+          }
+
+          // Якщо ще є точки для обробки, продовжуємо
+          if (currentIndex < totalPoints) {
+            requestAnimationFrame(processChunk)
+          } else {
+            // Завершено
+            const finalVoxels = modelVoxels.slice(0, FIXED_INSTANCE_COUNT)
+            resolve(finalVoxels)
+          }
         }
 
-        // Якщо ще є точки для обробки, продовжуємо
-        if (currentIndex < totalPoints) {
-          requestAnimationFrame(processChunk)
-        } else {
-          // Завершено
-          const finalVoxels = modelVoxels.slice(0, FIXED_INSTANCE_COUNT)
-          resolve(finalVoxels)
-        }
-      }
-
-      // Запускаємо обробку
-      requestAnimationFrame(processChunk)
-    })
-  }
+        // Запускаємо обробку
+        requestAnimationFrame(processChunk)
+      })
+    },
+    [],
+  )
 
   useEffect(() => {
     const generateAll = async () => {
@@ -131,7 +147,7 @@ export const VoxelsCalculate = () => {
         setStatus(`Обробка ${model.name} (${i + 1}/${models.length})...`)
 
         try {
-          const gltf = await new Promise<any>((resolve, reject) => {
+          const gltf = await new Promise<GLTF>((resolve, reject) => {
             loader.load(model.file, resolve, undefined, reject)
           })
 
@@ -157,9 +173,10 @@ export const VoxelsCalculate = () => {
           URL.revokeObjectURL(url)
 
           console.log(`✅ ${model.name}.json збережено`)
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error(`❌ Помилка ${model.name}:`, error)
-          setStatus(`Помилка: ${error.message}`)
+          const errorMessage = error instanceof Error ? error.message : 'Невідома помилка'
+          setStatus(`Помилка: ${errorMessage}`)
         }
       }
 
@@ -167,7 +184,11 @@ export const VoxelsCalculate = () => {
     }
 
     generateAll()
-  }, [])
+  }, [voxelizeModelChunked])
+
+  useEffect(() => {
+    console.log(status)
+  }, [status])
 
   return (
     <group>

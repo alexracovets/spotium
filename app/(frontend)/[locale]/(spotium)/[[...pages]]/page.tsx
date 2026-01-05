@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation'
+
 import { Page } from '@payload-types'
 import config from '@payload-config'
 import { getPayload } from 'payload'
@@ -9,27 +11,31 @@ import { SupportedLocaleType } from '@types'
 interface PagesPageProps {
   params: Promise<{
     locale: SupportedLocaleType['name']
-    pages: Page['slug']
+    pages?: string[]
   }>
 }
 
 export default async function PagesPage({ params }: PagesPageProps) {
   const { locale, pages } = await params
-
   const payload = await getPayload({ config })
-  console.log(pages)
+  const pageSlug = !pages || pages.length === 0 ? 'home' : pages[0]
+
   const page = await payload.find({
     collection: 'pages',
     where: {
       slug: {
-        equals: pages === '' ? 'home' : pages,
+        equals: pageSlug,
       },
     },
     locale,
   })
 
+  if (!page.docs || page.docs.length === 0) {
+    notFound()
+  }
+
   const data = page.docs[0] as Page
-  console.log(data)
+
   switch (data.type) {
     case 'main':
       return <Main data={data} />

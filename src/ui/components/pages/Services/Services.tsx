@@ -10,7 +10,7 @@ type ServicesProps = {
 export const Services = ({ data }: ServicesProps) => {
   if (!data.services_type_fields) return null
 
-  const { title, services } = data.services_type_fields
+  const { title } = data.services_type_fields
 
   return (
     <CustomScroll className="h-full">
