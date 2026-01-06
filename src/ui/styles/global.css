@@ -17,7 +17,7 @@
   --color-neutral-white: rgba(228, 228, 231, 1);
   --color-bg-content: #0000004f;
 
-  --shadow-custom: 0px 0px 8px white;
+  --shadow-custom: 0px 0px 4px white;
 }
 
 @keyframes navShadowAppear {

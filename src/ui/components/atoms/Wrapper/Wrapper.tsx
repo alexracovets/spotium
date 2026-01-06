@@ -13,13 +13,13 @@ const variantWrapper = cva('', {
       container: 'px-[50px] mx-auto h-full',
       app: 'relative grid grid-rows-[auto_1fr_auto] h-[100dvh] bg-base-black antialiased text-base-text max-h-screen h-screen',
       header:
-        'py-[30px] relative before:absolute before:content-[" "] before:left-0 before:bottom-[-2px] before:w-full before:h-[1px] before:bg-base-white',
+        'py-[12px] relative before:absolute before:content-[" "] before:left-0 before:bottom-[-2px] before:w-full before:h-[1px] before:bg-base-white',
       footer:
         'relative py-[30px] relative before:absolute before:content-[" "] before:left-0 before:top-[-2px] before:w-full before:h-[1px] before:bg-base-white',
-      heder_wrapper: 'flex  justify-between items-center gap-x-[16px] relative',
+      heder_wrapper: 'flex justify-between items-center gap-x-[16px] relative',
       animated_text:
         'flex justify-center items-center gap-[32px] absolute top-0 left-0 w-full h-full z-[-1]',
-      navigation_button: 'w-[72px] min-w-[72px] h-[48px] min-h-[48px] relative',
+      navigation_button: 'w-[72px] min-w-[72px] h-[72px] min-h-[72px] relative',
       navigation_button_inner:
         'w-[72px] h-[76px] absolute top-[50%] left-0 translate-y-[-50%] flex items-center justify-center',
       localization: 'absolute right-0 top-0 h-full flex items-center justify-center gap-x-[8px]',

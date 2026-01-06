@@ -33,7 +33,11 @@ export const Main = ({ data }: MainProps) => {
                 <RichTextRender text={description} variant="main" />
               </Wrapper>
             )}
-            {button && <Button size="normal">{button}</Button>}
+            {button && (
+              <Button size="normal" arrow>
+                {button}
+              </Button>
+            )}
             {developments && <Developments developments={developments} />}
           </Wrapper>
           <Wrapper variant="page_wrapper" id="models_wrapper" />
