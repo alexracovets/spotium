@@ -15,7 +15,8 @@
   --color-base-text: #e4e4e7;
   --color-base-dark: #292929;
   --color-neutral-white: rgba(228, 228, 231, 1);
-
+  --color-bg-content: #0000004f;
+ 
   --shadow-custom: 0px 0px 8px white;
 }
 
@@ -82,6 +83,7 @@
 
 /* Підтримка prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -124,20 +126,16 @@
 
 /* Градієнт прозорості для developments_wrapper */
 .developments_wrapper_mask {
-  mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0) 0px,
-    rgba(0, 0, 0, 1) 10px,
-    rgba(0, 0, 0, 1) calc(100% - 10px),
-    rgba(0, 0, 0, 0) 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0) 0px,
-    rgba(0, 0, 0, 1) 10px,
-    rgba(0, 0, 0, 1) calc(100% - 10px),
-    rgba(0, 0, 0, 0) 100%
-  );
+  mask-image: linear-gradient(to right,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 1) 10px,
+      rgba(0, 0, 0, 1) calc(100% - 10px),
+      rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: linear-gradient(to right,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 1) 10px,
+      rgba(0, 0, 0, 1) calc(100% - 10px),
+      rgba(0, 0, 0, 0) 100%);
 }
 
 .os-theme-custom {

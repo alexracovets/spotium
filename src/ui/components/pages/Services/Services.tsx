@@ -1,7 +1,9 @@
 'use client'
 
 import { Page } from '@payload-types'
-import { CustomScroll, Wrapper, Text } from '@atoms'
+
+import { CustomScroll, Wrapper, Text, Container } from '@atoms'
+import { AcordionBlock } from '@molecules'
 
 type ServicesProps = {
   data: Page
@@ -10,15 +12,23 @@ type ServicesProps = {
 export const Services = ({ data }: ServicesProps) => {
   if (!data.services_type_fields) return null
 
-  const { title } = data.services_type_fields
+  const { title, services } = data.services_type_fields
 
   return (
     <CustomScroll className="h-full">
-      <Wrapper variant="main_page_wrapper">
-        <Wrapper variant="main_page_content">
-          <Text variant="header_pages">{title}</Text>
+      <Container>
+        <Wrapper className="grid grid-cols-2 gap-x-[16px] h-full col-start-2 py-[64px]">
+          <Wrapper variant="page_wrapper">
+            <Wrapper variant="page_content">
+              <Text variant="header_pages">{title}</Text>
+            </Wrapper>
+            {services && <AcordionBlock items={services} />}
+          </Wrapper>
+          <Wrapper variant="page_wrapper">
+            <Wrapper variant="page_content" id="models_wrapper" />
+          </Wrapper>
         </Wrapper>
-      </Wrapper>
+      </Container>
     </CustomScroll>
   )
 }

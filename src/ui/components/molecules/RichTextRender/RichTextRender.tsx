@@ -30,6 +30,7 @@ const FilterTextPart = (part: LexicalTextPart) => {
 }
 
 const FilterText = (text: LexicalNode, variant?: VariantProps<typeof variantText>['variant']) => {
+  console.log(text)
   switch (text.type) {
     case 'paragraph': {
       const paragraphNode = text as TextNode

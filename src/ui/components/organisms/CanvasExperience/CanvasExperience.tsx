@@ -46,15 +46,6 @@ export const CanvasExperience = memo(() => {
         <ambientLight intensity={1} />
         <LightHolder />
         <Voxels />
-        <OrbitControls
-          enablePan={false}
-          autoRotate
-          minDistance={20}
-          maxDistance={30}
-          minPolarAngle={0.35 * Math.PI}
-          maxPolarAngle={0.65 * Math.PI}
-          enableDamping
-        />
       </Canvas>
     </Wrapper>
   )
