@@ -2,29 +2,40 @@
 
 import { Page } from '@payload-types'
 
-import { CustomScroll, Wrapper, Text, Container } from '@atoms'
+import { CustomScroll, Wrapper, Text, Container, Button } from '@atoms'
 import { AcordionBlock } from '@molecules'
+import { useModelsWrapperDimensions } from '@hooks'
+import { useState } from 'react'
+import { MdArrowOutward } from 'react-icons/md'
 
 type ServicesProps = {
   data: Page
 }
 
 export const Services = ({ data }: ServicesProps) => {
+  const [isTrigger, setIsTrigger] = useState<boolean>(false)
+  useModelsWrapperDimensions()
+
   if (!data.services_type_fields) return null
 
-  const { title, services } = data.services_type_fields
+  const { title, services, button } = data.services_type_fields
 
   return (
-    <CustomScroll className="h-full">
-      <Container>
-        <Wrapper className="grid grid-cols-2 gap-x-[16px] h-full col-start-2 py-[64px]">
-          <Wrapper variant="page_wrapper">
-            <Text variant="header_pages">{title}</Text>
-            {services && <AcordionBlock items={services} />}
-          </Wrapper>
-          <Wrapper variant="page_wrapper" id="models_wrapper" />
+    <Container>
+      <Wrapper className="grid grid-cols-2 gap-x-[16px] h-full col-start-2 py-[64px]">
+        <Wrapper variant="page_wrapper" className="min-h-0 h-full w-full gap-y-[16px]">
+          <Text variant="primary_heading">{title}</Text>
+          <CustomScroll isTrigger={isTrigger} setIsTrigger={setIsTrigger}>
+            {services && <AcordionBlock items={services} setIsTrigger={setIsTrigger} />}
+          </CustomScroll>
+          {button && (
+            <Button size="normal" arrow>
+              {button}
+            </Button>
+          )}
         </Wrapper>
-      </Container>
-    </CustomScroll>
+        <Wrapper variant="page_wrapper" id="models_wrapper" />
+      </Wrapper>
+    </Container>
   )
 }

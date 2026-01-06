@@ -2,7 +2,7 @@
 
 import { memo } from 'react'
 
-import { ImageAtom } from '@atoms'
+import { ImageAtom, LinkAtom } from '@atoms'
 
 import { Media } from '@payload-types'
 
@@ -12,7 +12,11 @@ type LogoProps = {
 
 const Logo = memo(({ image }: LogoProps) => {
   const logoAlt = image?.alt || 'Spotium - головна сторінка'
-  return <ImageAtom image={image} alt={logoAlt} variant="logo" />
+  return (
+    <LinkAtom href="/">
+      <ImageAtom image={image} alt={logoAlt} variant="logo" />
+    </LinkAtom>
+  )
 })
 
 Logo.displayName = 'Logo'

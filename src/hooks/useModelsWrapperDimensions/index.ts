@@ -1,0 +1,1 @@
+export { useModelsWrapperDimensions } from './useModelsWrapperDimensions'

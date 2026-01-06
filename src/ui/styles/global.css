@@ -16,7 +16,7 @@
   --color-base-dark: #292929;
   --color-neutral-white: rgba(228, 228, 231, 1);
   --color-bg-content: #0000004f;
- 
+
   --shadow-custom: 0px 0px 8px white;
 }
 
@@ -145,21 +145,10 @@
   --os-handle-bg-hover: var(--color-primary);
   --os-handle-bg-active: var(--color-primary);
   --os-track-bg: transparent;
-  --os-handle-border-radius: 999px;
+  --os-handle-border-radius: 2px;
   --os-handle-border-width: 1px solid var(--color-base-white);
-  --os-padding-right: 2px;
-  --os-handle-right: 2px;
-}
-
-@media (min-width: 1920px) {
-  .os-theme-custom {
-    --os-size: 0.2rem;
-    --os-track-width: 0.2rem;
-    --os-handle-border-radius: 99.9rem;
-    --os-handle-border-width: 0.1rem solid var(--color-white);
-    --os-padding-right: 0.2rem;
-    --os-handle-right: 0.2rem;
-  }
+  --os-padding-right: 1px;
+  --os-handle-right: 1px;
 }
 
 .os-scrollbar-handle {

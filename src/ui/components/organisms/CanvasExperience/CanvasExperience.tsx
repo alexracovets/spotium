@@ -2,7 +2,6 @@
 
 import { DefaultGLProps } from '@react-three/fiber/dist/declarations/src/core/renderer'
 import { useRef, memo, useCallback } from 'react'
-import { OrbitControls } from '@react-three/drei'
 import { WebGPURenderer } from 'three/webgpu'
 import { Canvas } from '@react-three/fiber'
 import * as THREE from 'three'
@@ -42,6 +41,7 @@ export const CanvasExperience = memo(() => {
         gl={initRenderer}
         camera={{ position: [0, 0.5, 2].map((v) => v * 8) as [number, number, number], fov: 45 }}
         shadows
+        dpr={[1, 2]}
       >
         <ambientLight intensity={1} />
         <LightHolder />

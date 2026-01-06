@@ -42,6 +42,20 @@ export const ServicesPageFields = (): Field[] => {
         {
           name: 'services',
           type: 'array',
+          label: {
+            uk: 'Професійні сервіси',
+            en: 'Professional Services',
+          },
+          labels: {
+            singular: {
+              uk: 'Професійний сервіс',
+              en: 'Professional Service',
+            },
+            plural: {
+              uk: 'Професійні сервіси',
+              en: 'Professional Services',
+            },
+          },
           fields: [
             {
               name: 'title',
@@ -88,6 +102,27 @@ export const ServicesPageFields = (): Field[] => {
                   YellowHighlightFeature,
                 ],
               }),
+            }, 
+          ],
+        },
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'button',
+              type: 'text',
+              localized: true,
+              label: {
+                uk: 'Текст кнопки',
+                en: 'Button text',
+              },
+              admin: {
+                description: {
+                  uk: 'Кнопка форми для консультації',
+                  en: 'Consultation form button',
+                },
+                width: '50%',
+              },
             },
           ],
         },

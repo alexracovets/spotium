@@ -5,12 +5,15 @@ import { MdArrowOutward } from 'react-icons/md'
 
 import { Page } from '@payload-types'
 import { Button, Container, CustomScroll, Wrapper } from '@atoms'
+import { useModelsWrapperDimensions } from '@hooks'
 
 type MainProps = {
   data: Page
 }
 
 export const Main = ({ data }: MainProps) => {
+  useModelsWrapperDimensions()
+
   if (!data.main_type_fields) return null
 
   const { title, description, button, developments } = data.main_type_fields
@@ -22,22 +25,15 @@ export const Main = ({ data }: MainProps) => {
           <Wrapper variant="page_wrapper" className="min-h-0 h-full py-[64px] items-start">
             {title && (
               <Wrapper>
-                <RichTextRender text={title} variant="header_1" />
+                <RichTextRender text={title} variant="main" />
               </Wrapper>
             )}
             {description && (
               <Wrapper>
-                <RichTextRender text={description} variant="header_2" />
+                <RichTextRender text={description} variant="main" />
               </Wrapper>
             )}
-            {button && (
-              <Button size="normal">
-                <p>
-                  <span>{button}</span>
-                  <MdArrowOutward />
-                </p>
-              </Button>
-            )}
+            {button && <Button size="normal">{button}</Button>}
             {developments && <Developments developments={developments} />}
           </Wrapper>
           <Wrapper variant="page_wrapper" id="models_wrapper" />

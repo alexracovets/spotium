@@ -31,6 +31,8 @@ const variantWrapper = cva('', {
       development_item: 'flex justify-center items-center gap-x-[16px]',
       column: 'flex flex-col justify-start items-start',
       canvas_experience: 'absolute top-0 left-0 w-full h-full z-[-1]',
+      primary_list: 'flex flex-col justify-start items-start gap-y-[4px]',
+      main_list: 'flex flex-col justify-start items-start',
     },
   },
   defaultVariants: {

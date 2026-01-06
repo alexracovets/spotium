@@ -11,7 +11,7 @@ function Accordion({ ...props }: React.ComponentProps<typeof AccordionPrimitive.
   return (
     <AccordionPrimitive.Root
       data-slot="accordion"
-      className="flex flex-col gap-y-[8px] w-full"
+      className="flex flex-col gap-y-[8px] p-[8px] w-full"
       {...props}
     />
   )
@@ -133,7 +133,10 @@ function AccordionContent({ className, children, triger, ...props }: AccordionCo
       {...props}
     >
       <div
-        className={cn('bg-bg-content p-[16px] rounded-[8px] mb-[16px]', className)}
+        className={cn(
+          'flex flex-col gap-y-[8px] w-full bg-bg-content p-[16px] rounded-[8px] mb-[16px]',
+          className,
+        )}
         onClick={triger ? handleClick : undefined}
       >
         {children}

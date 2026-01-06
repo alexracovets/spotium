@@ -1,10 +1,9 @@
 'use client'
 
 import { Fragment, type ElementType } from 'react'
-
 import { Page } from '@payload-types'
-import { Text, variantText } from '@atoms'
-import { VariantProps } from 'class-variance-authority'
+
+import { Text, Wrapper } from '@atoms'
 
 type LexicalRichTextType = NonNullable<Page['main_type_fields']>['title']
 type LexicalNode = NonNullable<LexicalRichTextType>['root']['children'][number]
@@ -16,7 +15,7 @@ interface LexicalTextPart {
 }
 
 interface TextNode extends LexicalNode {
-  type: 'paragraph' | 'heading'
+  type: 'paragraph' | 'heading' | 'list'
   children?: LexicalTextPart[]
   tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   $?: {
@@ -29,15 +28,14 @@ const FilterTextPart = (part: LexicalTextPart) => {
   return <span className={isHighlight ? 'text-primary' : ''}>{part.text}</span>
 }
 
-const FilterText = (text: LexicalNode, variant?: VariantProps<typeof variantText>['variant']) => {
-  console.log(text)
+const FilterText = (text: LexicalNode, variant?: 'main' | 'primary') => {
   switch (text.type) {
     case 'paragraph': {
       const paragraphNode = text as TextNode
       if (!paragraphNode.children) return null
       const Tag: ElementType = 'p'
       return (
-        <Text variant={variant} asChild>
+        <Text variant={`${variant}_paragraph` as 'main_paragraph' | 'primary_paragraph'} asChild>
           <Tag>
             {paragraphNode.children.map((part: LexicalTextPart, idx: number) => {
               return <Fragment key={idx}>{FilterTextPart(part)}</Fragment>
@@ -53,7 +51,7 @@ const FilterText = (text: LexicalNode, variant?: VariantProps<typeof variantText
       const Tag: ElementType = tag
 
       return (
-        <Text variant={variant} asChild>
+        <Text variant={`${variant}_heading` as 'main_heading' | 'primary_heading'} asChild>
           <Tag>
             {headingNode.children.map((part: LexicalTextPart, idx: number) => {
               return <Fragment key={idx}>{FilterTextPart(part)}</Fragment>
@@ -62,29 +60,50 @@ const FilterText = (text: LexicalNode, variant?: VariantProps<typeof variantText
         </Text>
       )
     }
+    case 'list': {
+      const listNode = text as TextNode
+      const items = listNode.children
+      return (
+        <Wrapper variant={`${variant}_list` as 'main_list' | 'primary_list'} asChild>
+          <ul>
+            {items?.map((text: LexicalTextPart, idx: number) => {
+              const parts = text.children as LexicalTextPart[]
+              return (
+                <Text
+                  variant={`${variant}_list_item` as 'main_list_item' | 'primary_list_item'}
+                  asChild
+                  key={idx}
+                >
+                  <li>
+                    {parts?.map((part: LexicalTextPart, index: number) => {
+                      return <Fragment key={index}>{FilterTextPart(part)}</Fragment>
+                    })}
+                  </li>
+                </Text>
+              )
+            })}
+          </ul>
+        </Wrapper>
+      )
+    }
     default:
       return null
   }
 }
 
-export const RichTextRender = ({
-  text,
-  variant,
-}: {
+interface RichTextRenderProps {
   text: LexicalRichTextType
-  variant?: string
-}) => {
+  variant?: 'main' | 'primary'
+}
+
+export const RichTextRender = ({ text, variant }: RichTextRenderProps) => {
   if (!text || !text.root) return null
   const textArea = text.root.children
 
   return (
     <>
       {textArea.map((item: LexicalNode, index: number) => {
-        return (
-          <Fragment key={index}>
-            {FilterText(item, variant as VariantProps<typeof variantText>['variant'])}
-          </Fragment>
-        )
+        return <Fragment key={index}>{FilterText(item, variant)}</Fragment>
       })}
     </>
   )

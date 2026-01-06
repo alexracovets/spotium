@@ -2,6 +2,7 @@
 
 import { cva } from 'class-variance-authority'
 import { Slot } from '@radix-ui/react-slot'
+import { MdArrowOutward } from 'react-icons/md'
 
 import { ButtonType } from '@types'
 import { cn } from '@utils'
@@ -52,6 +53,8 @@ const Button = ({
   size = 'default',
   asChild = false,
   className,
+  arrow = false,
+  children,
   ...props
 }: ButtonType) => {
   const Comp = asChild ? Slot : 'button'
@@ -63,7 +66,16 @@ const Button = ({
       data-size={size}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-    />
+    >
+      {arrow ? (
+        <p>
+          <span>{children}</span>
+          <MdArrowOutward />
+        </p>
+      ) : (
+        children
+      )}
+    </Comp>
   )
 }
 

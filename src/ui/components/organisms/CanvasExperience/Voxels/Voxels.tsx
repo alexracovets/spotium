@@ -3,6 +3,7 @@
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
 import { useEffect, useRef, useCallback, useMemo } from 'react'
 import { MeshStandardNodeMaterial } from 'three/webgpu'
+import { useThree, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import gsap from 'gsap'
 import {
@@ -44,7 +45,15 @@ type VoxelDataItem = {
 }
 
 export const Voxels = () => {
-  const { activeModel, setActiveModel } = useModel()
+  const {
+    activeModel,
+    setActiveModel,
+    modelsWrapperWidth,
+    modelsWrapperHeight,
+    modelsWrapperX,
+    modelsWrapperY,
+  } = useModel()
+  const { camera, size } = useThree()
 
   const meshRef = useRef<THREE.InstancedMesh>(null)
   const groupRef = useRef<THREE.Group>(null)
@@ -242,6 +251,123 @@ export const Voxels = () => {
     },
     [uProgress, geometry, voxelDataPerModel],
   )
+
+  // Обчислення bounding box для поточної моделі
+  const currentModelBoundingBox = useMemo(() => {
+    const modelData = voxelDataPerModel[activeModel]
+    if (!modelData || modelData.length === 0) return null
+
+    const box = new THREE.Box3()
+    modelData.forEach((voxel) => {
+      box.expandByPoint(voxel.position)
+    })
+    return box
+  }, [voxelDataPerModel, activeModel])
+
+  // Viewport налаштування прибрано - воно обрізало видимість моделі
+  // Модель позиціонується через масштабування та центрування без обмеження viewport
+
+  // Масштабування та позиціонування моделі на основі розмірів та позиції models_wrapper
+  useEffect(() => {
+    if (
+      !groupRef.current ||
+      !currentModelBoundingBox ||
+      !modelsWrapperHeight ||
+      !modelsWrapperWidth ||
+      modelsWrapperX === null ||
+      modelsWrapperY === null ||
+      !camera ||
+      !size
+    )
+      return
+
+    const box = currentModelBoundingBox
+    const modelSize = box.getSize(new THREE.Vector3())
+    const modelCenter = box.getCenter(new THREE.Vector3())
+
+    // Отримуємо відстань від камери до центру моделі
+    const cameraDistance = camera.position.length()
+
+    // Обчислюємо aspect ratio Canvas та models_wrapper
+    const canvasAspect = size.width / size.height
+    const wrapperAspect = modelsWrapperWidth / modelsWrapperHeight
+
+    // Перевіряємо тип камери та отримуємо FOV
+    let canvasVisibleHeight: number
+    let canvasVisibleWidth: number
+
+    if (camera instanceof THREE.PerspectiveCamera) {
+      // FOV камери в радіанах
+      const fovRad = (camera.fov * Math.PI) / 180
+
+      // Обчислюємо висоту видимої області всього Canvas на відстані cameraDistance
+      // Формула: height = 2 * distance * tan(fov/2)
+      canvasVisibleHeight = 2 * cameraDistance * Math.tan(fovRad / 2)
+      canvasVisibleWidth = canvasVisibleHeight * canvasAspect
+    } else {
+      // Для OrthographicCamera використовуємо розміри Canvas напряму
+      canvasVisibleHeight = size.height
+      canvasVisibleWidth = size.width
+    }
+
+    // Обчислюємо видиму область для models_wrapper на Canvas
+    // Частка розміру models_wrapper відносно Canvas
+    const wrapperWidthRatio = modelsWrapperWidth / size.width
+    const wrapperHeightRatio = modelsWrapperHeight / size.height
+
+    // Видима область для models_wrapper в 3D просторі
+    const wrapperVisibleWidth = canvasVisibleWidth * wrapperWidthRatio
+    const wrapperVisibleHeight = canvasVisibleHeight * wrapperHeightRatio
+
+    // Обчислюємо масштаб на основі розмірів models_wrapper
+    const scaleFactor = 0.7
+    const targetHeight = wrapperVisibleHeight * scaleFactor
+    const targetWidth = wrapperVisibleWidth * scaleFactor
+
+    // Обчислюємо масштаб на основі обох розмірів (вибираємо менший, щоб модель вмістилася)
+    const scaleByHeight = targetHeight / modelSize.y
+    const scaleByWidth = targetWidth / modelSize.x
+    const finalScale = Math.min(scaleByHeight, scaleByWidth)
+
+    // Застосовуємо масштаб
+    groupRef.current.scale.set(finalScale, finalScale, finalScale)
+
+    // Обчислюємо позицію models_wrapper відносно центру Canvas
+    // Canvas центр: (0, 0) в 3D просторі відповідає центру Canvas
+    // models_wrapper центр на Canvas: (modelsWrapperX + modelsWrapperWidth/2, modelsWrapperY + modelsWrapperHeight/2)
+    // Перетворюємо координати Canvas в 3D координати
+
+    const canvasCenterX = size.width / 2
+    const canvasCenterY = size.height / 2
+    const wrapperCenterX = modelsWrapperX + modelsWrapperWidth / 2
+    const wrapperCenterY = modelsWrapperY + modelsWrapperHeight / 2
+
+    // Нормалізуємо координати відносно центру Canvas (-1 до 1)
+    const normalizedX = ((wrapperCenterX - canvasCenterX) / size.width) * 2
+    const normalizedY = ((canvasCenterY - wrapperCenterY) / size.height) * 2 // Y інвертований
+
+    // Перетворюємо нормалізовані координати в 3D простір
+    // Використовуємо видиму ширину та висоту всього Canvas для перетворення
+    const positionX = normalizedX * (canvasVisibleWidth / 2)
+    const positionY = normalizedY * (canvasVisibleHeight / 2)
+
+    // Центруємо модель та позиціонуємо її в правильному місці
+    const scaledCenter = modelCenter.clone().multiplyScalar(finalScale)
+    groupRef.current.position.set(
+      positionX - scaledCenter.x,
+      positionY - scaledCenter.y,
+      -scaledCenter.z,
+    )
+  }, [
+    currentModelBoundingBox,
+    modelsWrapperHeight,
+    modelsWrapperWidth,
+    modelsWrapperX,
+    modelsWrapperY,
+    activeModel,
+    camera,
+    size,
+  ])
 
   // старт ініціалізації першої моделі
   useEffect(() => {
