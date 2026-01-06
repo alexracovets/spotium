@@ -7,15 +7,17 @@ import { RichTextRender } from '@molecules'
 
 type AcordionBlockProps = {
   items: NonNullable<NonNullable<Page['services_type_fields']>['services']>
-  setIsTrigger: (isTrigger: boolean) => void
+  onOpenChange: (itemId: string | null) => void
 }
 
-export const AcordionBlock = ({ items, setIsTrigger }: AcordionBlockProps) => {
+export const AcordionBlock = ({ items, onOpenChange }: AcordionBlockProps) => {
   return (
-    <Accordion type="single" collapsible onValueChange={() => setIsTrigger(true)}>
+    <Accordion type="single" collapsible onValueChange={(value) => onOpenChange(value || null)}>
       {items.map((item, idx) => (
         <AccordionItem key={idx} value={idx.toString()}>
-          <AccordionTrigger>{item.title}</AccordionTrigger>
+          <AccordionTrigger data-accordion-trigger-id={idx.toString()}>
+            {item.title}
+          </AccordionTrigger>
           <AccordionContent triger>
             <RichTextRender text={item.description} variant="primary" />
           </AccordionContent>

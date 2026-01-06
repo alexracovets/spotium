@@ -12,7 +12,7 @@ type ServicesProps = {
 }
 
 export const Services = ({ data }: ServicesProps) => {
-  const [isTrigger, setIsTrigger] = useState<boolean>(false)
+  const [openItemId, setOpenItemId] = useState<string | null>(null)
   useModelsWrapperDimensions()
 
   if (!data.services_type_fields) return null
@@ -25,11 +25,11 @@ export const Services = ({ data }: ServicesProps) => {
         <Wrapper variant="page_wrapper" className="min-h-0 w-full gap-y-[16px]">
           <Text variant="primary_heading">{title}</Text>
           <CustomScroll
-            isTrigger={isTrigger}
-            setIsTrigger={setIsTrigger}
+            scrollToElementId={openItemId}
+            setScrollToElementId={setOpenItemId}
             className="content_wrapper_mask"
           >
-            {services && <AcordionBlock items={services} setIsTrigger={setIsTrigger} />}
+            {services && <AcordionBlock items={services} onOpenChange={setOpenItemId} />}
           </CustomScroll>
           {button && (
             <Button size="normal" arrow className="mx-auto">
