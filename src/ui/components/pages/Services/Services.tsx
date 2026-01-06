@@ -19,14 +19,10 @@ export const Services = ({ data }: ServicesProps) => {
       <Container>
         <Wrapper className="grid grid-cols-2 gap-x-[16px] h-full col-start-2 py-[64px]">
           <Wrapper variant="page_wrapper">
-            <Wrapper variant="page_content">
-              <Text variant="header_pages">{title}</Text>
-            </Wrapper>
+            <Text variant="header_pages">{title}</Text>
             {services && <AcordionBlock items={services} />}
           </Wrapper>
-          <Wrapper variant="page_wrapper">
-            <Wrapper variant="page_content" id="models_wrapper" />
-          </Wrapper>
+          <Wrapper variant="page_wrapper" id="models_wrapper" />
         </Wrapper>
       </Container>
     </CustomScroll>

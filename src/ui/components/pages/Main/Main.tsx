@@ -17,9 +17,9 @@ export const Main = ({ data }: MainProps) => {
 
   return (
     <CustomScroll className="h-full">
-      <Container asChild>
-        <Wrapper variant="main_page_wrapper" className="min-h-0 h-full py-[64px]">
-          <Wrapper variant="page_content">
+      <Container>
+        <Wrapper className="grid grid-cols-2 gap-x-[16px] h-full col-start-2 py-[64px]">
+          <Wrapper variant="page_wrapper" className="min-h-0 h-full py-[64px] items-start">
             {title && (
               <Wrapper>
                 <RichTextRender text={title} variant="header_1" />
@@ -40,6 +40,7 @@ export const Main = ({ data }: MainProps) => {
             )}
             {developments && <Developments developments={developments} />}
           </Wrapper>
+          <Wrapper variant="page_wrapper" id="models_wrapper" />
         </Wrapper>
       </Container>
     </CustomScroll>
