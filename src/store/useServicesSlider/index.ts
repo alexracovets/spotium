@@ -1,0 +1,1 @@
+export { useServicesSlider } from './useServicesSlider'

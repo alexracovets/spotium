@@ -1,11 +1,12 @@
 'use client'
 
-import { Page } from '@payload-types'
+import { useEffect, useState } from 'react'
+import { Media, Page } from '@payload-types'
 
 import { CustomScroll, Wrapper, Text, Container, Button } from '@atoms'
 import { AcordionBlock } from '@molecules'
-import { useModelsWrapperDimensions } from '@hooks'
-import { useState } from 'react'
+
+import { useGetServicesMedia, useModelsWrapperDimensions } from '@hooks'
 
 type ServicesProps = {
   data: Page
@@ -13,11 +14,13 @@ type ServicesProps = {
 
 export const Services = ({ data }: ServicesProps) => {
   const [openItemId, setOpenItemId] = useState<string | null>(null)
-  useModelsWrapperDimensions()
 
   if (!data.services_type_fields) return null
 
   const { title, services, button } = data.services_type_fields
+
+  useModelsWrapperDimensions()
+  useGetServicesMedia({ items: services?.map((service) => service.media) || [] })
 
   return (
     <Container>

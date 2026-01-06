@@ -24,20 +24,42 @@ export const ServicesPageFields = (): Field[] => {
       },
       fields: [
         {
-          name: 'title',
-          type: 'text',
-          required: true,
-          localized: true,
-          label: {
-            uk: 'Заголовок',
-            en: 'Title',
-          },
-          admin: {
-            description: {
-              uk: 'Основний заголовок сторінки.',
-              en: 'Main page title.',
+          type: 'row',
+          fields: [
+            {
+              name: 'title',
+              type: 'text',
+              required: true,
+              localized: true,
+              label: {
+                uk: 'Заголовок',
+                en: 'Title',
+              },
+              admin: {
+                description: {
+                  uk: 'Основний заголовок сторінки.',
+                  en: 'Main page title.',
+                },
+                width: '50%',
+              },
             },
-          },
+            {
+              name: 'button',
+              type: 'text',
+              localized: true,
+              label: {
+                uk: 'Текст кнопки',
+                en: 'Button text',
+              },
+              admin: {
+                description: {
+                  uk: 'Кнопка форми для консультації',
+                  en: 'Consultation form button',
+                },
+                width: '50%',
+              },
+            },
+          ],
         },
         {
           name: 'services',
@@ -58,20 +80,43 @@ export const ServicesPageFields = (): Field[] => {
           },
           fields: [
             {
-              name: 'title',
-              type: 'text',
-              required: true,
-              localized: true,
-              label: {
-                uk: 'Заголовок Професійного сервісу',
-                en: 'Title of Professional Service',
-              },
-              admin: {
-                description: {
-                  uk: 'Заголовок професійного сервісу.',
-                  en: 'Title of professional service.',
+              type: 'row',
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                  required: true,
+                  localized: true,
+                  label: {
+                    uk: 'Заголовок Професійного сервісу',
+                    en: 'Title of Professional Service',
+                  },
+                  admin: {
+                    description: {
+                      uk: 'Заголовок професійного сервісу.',
+                      en: 'Title of professional service.',
+                    },
+                    width: '50%',
+                  },
                 },
-              },
+                {
+                  name: 'media',
+                  type: 'upload',
+                  relationTo: 'media',
+                  required: true,
+                  label: {
+                    uk: 'Медіа файл',
+                    en: 'Media file',
+                  },
+                  admin: {
+                    description: {
+                      uk: 'Медіа файл для слайдера',
+                      en: 'Media file for slider',
+                    },
+                    width: '50%',
+                  },
+                },
+              ],
             },
             {
               name: 'description',
@@ -102,27 +147,6 @@ export const ServicesPageFields = (): Field[] => {
                   YellowHighlightFeature,
                 ],
               }),
-            }, 
-          ],
-        },
-        {
-          type: 'row',
-          fields: [
-            {
-              name: 'button',
-              type: 'text',
-              localized: true,
-              label: {
-                uk: 'Текст кнопки',
-                en: 'Button text',
-              },
-              admin: {
-                description: {
-                  uk: 'Кнопка форми для консультації',
-                  en: 'Consultation form button',
-                },
-                width: '50%',
-              },
             },
           ],
         },
