@@ -138,6 +138,19 @@
       rgba(0, 0, 0, 0) 100%);
 }
 
+.content_wrapper_mask div[data-overlayscrollbars-contents] {
+  mask-image: linear-gradient(to top,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 1) 4px,
+      rgba(0, 0, 0, 1) calc(100% - 4px),
+      rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: linear-gradient(to top,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 1) 4px,
+      rgba(0, 0, 0, 1) calc(100% - 4px),
+      rgba(0, 0, 0, 0) 100%);
+}
+
 .os-theme-custom {
   --os-size: 2px;
   --os-track-width: 2px;
@@ -149,6 +162,10 @@
   --os-handle-border-width: 1px solid var(--color-base-white);
   --os-padding-right: 1px;
   --os-handle-right: 1px;
+}
+
+.os-scrollbar {
+  z-index: 1;
 }
 
 .os-scrollbar-handle {

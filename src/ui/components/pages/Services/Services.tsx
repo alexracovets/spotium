@@ -6,7 +6,6 @@ import { CustomScroll, Wrapper, Text, Container, Button } from '@atoms'
 import { AcordionBlock } from '@molecules'
 import { useModelsWrapperDimensions } from '@hooks'
 import { useState } from 'react'
-import { MdArrowOutward } from 'react-icons/md'
 
 type ServicesProps = {
   data: Page
@@ -23,13 +22,17 @@ export const Services = ({ data }: ServicesProps) => {
   return (
     <Container>
       <Wrapper className="grid grid-cols-2 gap-x-[16px] h-full col-start-2 py-[64px]">
-        <Wrapper variant="page_wrapper" className="min-h-0 h-full w-full gap-y-[16px]">
+        <Wrapper variant="page_wrapper" className="min-h-0 w-full gap-y-[16px]">
           <Text variant="primary_heading">{title}</Text>
-          <CustomScroll isTrigger={isTrigger} setIsTrigger={setIsTrigger}>
+          <CustomScroll
+            isTrigger={isTrigger}
+            setIsTrigger={setIsTrigger}
+            className="content_wrapper_mask"
+          >
             {services && <AcordionBlock items={services} setIsTrigger={setIsTrigger} />}
           </CustomScroll>
           {button && (
-            <Button size="normal" arrow>
+            <Button size="normal" arrow className="mx-auto">
               {button}
             </Button>
           )}
