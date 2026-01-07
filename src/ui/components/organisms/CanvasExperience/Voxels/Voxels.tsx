@@ -3,7 +3,7 @@
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
 import { useEffect, useRef, useCallback, useMemo } from 'react'
 import { MeshStandardNodeMaterial } from 'three/webgpu'
-import { useThree, useFrame } from '@react-three/fiber'
+import { useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import gsap from 'gsap'
 import {
@@ -22,6 +22,7 @@ import { useModel } from '@store'
 import servicesData from './data/services.json'
 import aboutData from './data/about.json'
 import logoData from './data/logo.json'
+import { Carousel } from '../Carousel'
 
 // Кількість воекселів
 const FIXED_INSTANCE_COUNT = 20000
@@ -267,6 +268,20 @@ export const Voxels = () => {
   // Viewport налаштування прибрано - воно обрізало видимість моделі
   // Модель позиціонується через масштабування та центрування без обмеження viewport
 
+  // Центр та рекомендований радіус для каруселі (в локальних координатах моделі)
+  const currentModelCenter = useMemo(() => {
+    if (!currentModelBoundingBox) return new THREE.Vector3(0, 0, 0)
+    return currentModelBoundingBox.getCenter(new THREE.Vector3())
+  }, [currentModelBoundingBox])
+
+  const carouselRadius = useMemo(() => {
+    if (!currentModelBoundingBox) return 2
+    const size = currentModelBoundingBox.getSize(new THREE.Vector3())
+    const maxDim = Math.max(size.x, size.y, size.z)
+    // Трохи більший за модель, щоб слайди були довкола
+    return (maxDim / 2) * 1.3
+  }, [currentModelBoundingBox])
+
   // Масштабування та позиціонування моделі на основі розмірів та позиції models_wrapper
   useEffect(() => {
     if (
@@ -290,7 +305,6 @@ export const Voxels = () => {
 
     // Обчислюємо aspect ratio Canvas та models_wrapper
     const canvasAspect = size.width / size.height
-    const wrapperAspect = modelsWrapperWidth / modelsWrapperHeight
 
     // Перевіряємо тип камери та отримуємо FOV
     let canvasVisibleHeight: number
@@ -379,6 +393,10 @@ export const Voxels = () => {
       <mesh ref={meshRef} geometry={geometry}>
         <primitive object={material} attach="material" />
       </mesh>
+      {/* Карусель всередині групи вокселів, щоб наслідувати позицію/масштаб */}
+      <group position={[currentModelCenter.x, currentModelCenter.y, currentModelCenter.z]}>
+        <Carousel radius={carouselRadius} />
+      </group>
     </group>
   )
 }

@@ -1,7 +1,6 @@
 'use client'
 
 import { Developments, RichTextRender } from '@molecules'
-import { MdArrowOutward } from 'react-icons/md'
 
 import { Page } from '@payload-types'
 import { Button, Container, CustomScroll, Wrapper } from '@atoms'

@@ -1,7 +1,7 @@
 'use client'
 
 import { OverlayScrollbarsComponent, OverlayScrollbarsComponentRef } from 'overlayscrollbars-react'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useCallback } from 'react'
 
 import { cn } from '@utils'
 
@@ -30,7 +30,7 @@ export const CustomScroll = ({
   }
 
   // Функція для скролу до конкретного елемента
-  const scrollToElement = (elementId: string, retryCount = 0) => {
+  const scrollToElement = useCallback((elementId: string, retryCount = 0) => {
     const osInstance = scrollRef.current?.osInstance()
     if (!osInstance) {
       // Якщо елемент ще не готовий і це не остання спроба - повторюємо
@@ -112,7 +112,7 @@ export const CustomScroll = ({
         }
       }, 100)
     }
-  }
+  }, [])
 
   // Скрол до елемента при зміні scrollToElementId
   useEffect(() => {
@@ -125,7 +125,7 @@ export const CustomScroll = ({
     }, 100)
 
     return () => clearTimeout(timeoutId)
-  }, [scrollToElementId, setScrollToElementId])
+  }, [scrollToElementId, setScrollToElementId, scrollToElement])
 
   // ResizeObserver для автоматичного оновлення при зміні розміру контенту
   useEffect(() => {

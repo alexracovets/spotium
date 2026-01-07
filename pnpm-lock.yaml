@@ -77,6 +77,9 @@ importers:
       lucide-react:
         specifier: ^0.562.0
         version: 0.562.0(react@19.2.1)
+      maath:
+        specifier: ^0.10.7
+        version: 0.10.8(@types/three@0.182.0)(three@0.182.0)
       next:
         specifier: 15.4.10
         version: 15.4.10(@babel/core@7.28.5)(@playwright/test@1.56.1)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(sass@1.77.4)

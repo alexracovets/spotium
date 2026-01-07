@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Media, Page } from '@payload-types'
+import { Page } from '@payload-types'
+import { useState } from 'react'
 
 import { CustomScroll, Wrapper, Text, Container, Button } from '@atoms'
 import { AcordionBlock } from '@molecules'
@@ -15,12 +15,15 @@ type ServicesProps = {
 export const Services = ({ data }: ServicesProps) => {
   const [openItemId, setOpenItemId] = useState<string | null>(null)
 
+  // Всі хуки повинні викликатися перед умовними поверненнями
+  useModelsWrapperDimensions()
+  useGetServicesMedia({
+    items: data.services_type_fields?.services?.map((service) => service.media) || [],
+  })
+
   if (!data.services_type_fields) return null
 
   const { title, services, button } = data.services_type_fields
-
-  useModelsWrapperDimensions()
-  useGetServicesMedia({ items: services?.map((service) => service.media) || [] })
 
   return (
     <Container>
