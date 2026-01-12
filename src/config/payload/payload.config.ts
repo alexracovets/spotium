@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 import path from 'path'
 
-import { Users, Media, Pages } from '@collections'
+import { Users, Media, Pages, Cases } from '@collections'
 import { SiteSettings, Localization } from '@globals'
 
 const filename = fileURLToPath(import.meta.url)
@@ -32,7 +32,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Pages],
+  collections: [Users, Media, Pages, Cases],
   globals: [SiteSettings, Localization],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
