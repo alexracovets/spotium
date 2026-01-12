@@ -12,7 +12,7 @@ import { YellowHighlightFeature } from '@features'
 export const Cases: CollectionConfig = {
   slug: 'cases',
   admin: {
-    useAsTitle: 'slug',
+    useAsTitle: 'name',
     defaultColumns: ['name', 'slug', 'updatedAt'],
   },
   hooks: {

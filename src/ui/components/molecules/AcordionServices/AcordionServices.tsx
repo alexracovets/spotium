@@ -5,12 +5,12 @@ import { Page } from '@payload-types'
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@atoms'
 import { RichTextRender } from '@molecules'
 
-type AcordionBlockProps = {
+type AcordionServicesProps = {
   items: NonNullable<NonNullable<Page['services_type_fields']>['services']>
   onOpenChange: (itemId: string | null) => void
 }
 
-export const AcordionBlock = ({ items, onOpenChange }: AcordionBlockProps) => {
+export const AcordionServices = ({ items, onOpenChange }: AcordionServicesProps) => {
   return (
     <Accordion type="single" collapsible onValueChange={(value) => onOpenChange(value || null)}>
       {items.map((item, idx) => (

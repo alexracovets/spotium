@@ -4,7 +4,7 @@ import { Page } from '@payload-types'
 import { useState } from 'react'
 
 import { CustomScroll, Wrapper, Text, Container, Button } from '@atoms'
-import { AcordionBlock } from '@molecules'
+import { AcordionServices } from '@molecules'
 
 import { useGetServicesMedia, useModelsWrapperDimensions } from '@hooks'
 
@@ -35,7 +35,7 @@ export const Services = ({ data }: ServicesProps) => {
             setScrollToElementId={setOpenItemId}
             className="content_wrapper_mask"
           >
-            {services && <AcordionBlock items={services} onOpenChange={setOpenItemId} />}
+            {services && <AcordionServices items={services} onOpenChange={setOpenItemId} />}
           </CustomScroll>
           {button && (
             <Button size="normal" arrow className="mx-auto">

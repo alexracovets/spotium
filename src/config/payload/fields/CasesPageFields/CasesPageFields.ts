@@ -1,18 +1,5 @@
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { type Field } from 'payload'
+import { FilterOptionsProps, Where, type Field } from 'payload'
 import { Case } from '@payload-types'
-
-import {
-  InlineToolbarFeature,
-  UnorderedListFeature,
-  ParagraphFeature,
-  HeadingFeature,
-  ItalicFeature,
-  IndentFeature,
-  BoldFeature,
-} from '@payloadcms/richtext-lexical'
-
-import { YellowHighlightFeature } from '@features'
 
 export const CasesPageFields = (): Field[] => {
   return [
@@ -43,20 +30,24 @@ export const CasesPageFields = (): Field[] => {
         },
         {
           name: 'elements',
-          label: 'Відображати Елементи',
+          label: {
+            uk: 'Відображати Кейси',
+            en: 'Display Cases',
+          },
           type: 'relationship',
           relationTo: 'cases',
           hasMany: true,
           required: false,
-          filterOptions: ({ siblingData }) => {
-            if (!siblingData || !(siblingData as Case).slug) {
-              return false
-            }
-            return {
-              slug: {
-                like: `${(siblingData as Case).slug}/%`,
-              },
-            }
+          filterOptions: ({ siblingData, id }: FilterOptionsProps<Case>): boolean | Where => {
+            const pageId = id ?? (siblingData as Case)?.id
+            const pageSlug = (siblingData as Case)?.slug ?? (siblingData as Case)?.slug_name
+
+            const conditions: Where[] = []
+            if (pageId) conditions.push({ parent: { equals: pageId } })
+            if (pageSlug) conditions.push({ slug: { like: `${pageSlug}/%` } })
+
+            if (!conditions.length) return false
+            return conditions.length === 1 ? conditions[0] : { or: conditions }
           },
         },
       ],

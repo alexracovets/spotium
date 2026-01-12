@@ -1,10 +1,9 @@
 import { notFound } from 'next/navigation'
-
 import { Page } from '@payload-types'
 import config from '@payload-config'
 import { getPayload } from 'payload'
 
-import { Main, Services } from '@pages'
+import { Cases, Main, Services } from '@pages'
 
 import { SupportedLocaleType } from '@types'
 
@@ -41,6 +40,8 @@ export default async function PagesPage({ params }: PagesPageProps) {
       return <Main data={data} />
     case 'services':
       return <Services data={data} />
+    case 'cases':
+      return <Cases data={data} />
     default:
       return <div>Page not found</div>
   }
