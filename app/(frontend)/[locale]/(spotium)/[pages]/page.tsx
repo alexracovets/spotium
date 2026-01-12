@@ -10,20 +10,19 @@ import { SupportedLocaleType } from '@types'
 interface PagesPageProps {
   params: Promise<{
     locale: SupportedLocaleType['name']
-    pages?: string[]
+    pages?: string
   }>
 }
 
 export default async function PagesPage({ params }: PagesPageProps) {
   const { locale, pages } = await params
   const payload = await getPayload({ config })
-  const pageSlug = !pages || pages.length === 0 ? 'home' : pages[0]
 
   const page = await payload.find({
     collection: 'pages',
     where: {
       slug: {
-        equals: pageSlug,
+        equals: pages,
       },
     },
     locale,

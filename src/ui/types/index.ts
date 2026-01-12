@@ -1,4 +1,5 @@
 export { type SupportedLocaleType } from './SupportedLocaleType'
+export { type VideoAtomType } from './VideoAtomType'
 export { type SeparatorType } from './SeparatorType'
 export { type ChildrenType } from './ChildrenType'
 export { type LinkAtomType } from './LinkAtomType'

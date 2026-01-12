@@ -17,6 +17,7 @@ const variantsImage = cva('', {
         'transition-all duration-300 ease-in-out',
       ),
       development: 'w-[48px] h-[24px]',
+      cases: 'w-[580px] h-[322px] rounded-[10px] overflow-hidden',
     },
   },
   defaultVariants: {
