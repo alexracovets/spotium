@@ -23,7 +23,7 @@ export const Developments = ({ developments }: DevelopmentsProps) => {
                   variant="development"
                 />
                 {item.captions && (
-                  <Wrapper variant="column">
+                  <Wrapper variant="column" className="gap-y-0">
                     {item.captions.map((caption) => {
                       return (
                         <Text key={caption.id} variant="development">
