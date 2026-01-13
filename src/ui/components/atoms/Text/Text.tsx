@@ -25,6 +25,7 @@ const variantText = cva('font-jetbrains_mono font-medium', {
         'hover:before:bg-primary',
         'transition-all duration-300 ease-in-out',
       ),
+      medium_paragraph: cn('text-[24px] font-jetbrains_mono text-base-white'),
       animated_text_first_word: cn(
         'text-[32px] font-press_start',
         'opacity-0 -translate-y-2.5 transition-all duration-300 ease-in-out',
@@ -51,6 +52,14 @@ const variantText = cva('font-jetbrains_mono font-medium', {
       development: cn(
         'text-[14px] text-neutral-white font-dm_sans font-[700] uppercase leading-[1]',
       ),
+      case_name: cn('text-[32px] leading-[2.1]'),
+      tag: cn(
+        'text-[12px] p-[4px] font-jetbrains_mono text-base-white whitespace-nowrap outline outline-[1px] outline-base-white rounded-[100px] px-[16px] py-[4px]',
+        'relative cursor-pointer bg-transparent will-change-transform transform-gpu backface-visibility-hidden',
+        'hover:z-1 hover:scale-[1.1] hover:bg-base-black hover:outline-primary',
+        'transition-all duration-300 ease-in-out',
+      ),
+      feature_title: cn('text-[32px] leading-[2.1] text-primary'),
     },
   },
   defaultVariants: {

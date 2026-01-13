@@ -135,19 +135,29 @@ export const Cases: CollectionConfig = {
               ],
             },
             {
-              name: 'show_button',
-              type: 'text',
-              required: true,
-              label: {
-                uk: 'Текст кнопки',
-                en: 'Button text',
-              },
-              admin: {
-                description: {
-                  uk: 'Текст кнопки кейсу',
-                  en: 'Case button text',
+              type: 'row',
+              fields: [
+                {
+                  name: 'show_button',
+                  type: 'text',
+                  required: true,
+                  localized: true,
+                  label: {
+                    uk: 'Текст кнопки для показу кейсу',
+                    en: 'Button text for showing the case',
+                  },
                 },
-              },
+                {
+                  name: 'form_button',
+                  type: 'text',
+                  required: true,
+                  localized: true,
+                  label: {
+                    uk: 'Текст кнопки для форми',
+                    en: 'Button text for form',
+                  },
+                },
+              ],
             },
             {
               name: 'impuct',
@@ -195,6 +205,7 @@ export const Cases: CollectionConfig = {
                   name: 'title',
                   type: 'text',
                   required: true,
+                  localized: true,
                   label: {
                     uk: 'Заголовок',
                     en: 'Title',
@@ -210,6 +221,7 @@ export const Cases: CollectionConfig = {
                   name: 'description',
                   type: 'richText',
                   required: true,
+                  localized: true,
                   label: {
                     uk: 'Опис',
                     en: 'Description',
@@ -264,6 +276,7 @@ export const Cases: CollectionConfig = {
                               name: 'title',
                               type: 'text',
                               required: true,
+                              localized: true,
                               label: {
                                 uk: 'Заголовок',
                                 en: 'Title',
@@ -279,6 +292,7 @@ export const Cases: CollectionConfig = {
                               name: 'description',
                               type: 'richText',
                               required: true,
+                              localized: true,
                               label: {
                                 uk: 'Опис',
                                 en: 'Description',
@@ -318,6 +332,7 @@ export const Cases: CollectionConfig = {
                               name: 'title',
                               type: 'text',
                               required: true,
+                              localized: true,
                               label: {
                                 uk: 'Заголовок',
                                 en: 'Title',
@@ -351,6 +366,7 @@ export const Cases: CollectionConfig = {
                                   name: 'question',
                                   type: 'text',
                                   required: true,
+                                  localized: true,
                                   label: {
                                     uk: 'Питання',
                                     en: 'Question',
@@ -366,6 +382,7 @@ export const Cases: CollectionConfig = {
                                   name: 'answer',
                                   type: 'richText',
                                   required: true,
+                                  localized: true,
                                   label: {
                                     uk: 'Відповідь',
                                     en: 'Answer',

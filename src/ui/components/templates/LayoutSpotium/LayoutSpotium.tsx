@@ -30,7 +30,7 @@ const LayoutSpotium = ({
     <>
       <AppHeader logo={logo} animatedTexts={animatedTexts} />
       <NavigationSheet />
-      <main id="main-content" tabIndex={-1} className="min-h-0 pointer-events-none">
+      <main id="main-content" className="min-h-0 pointer-events-none">
         {children}
       </main>
       <AppFooter footer={footer} lacales={lacales} locale={locale} />

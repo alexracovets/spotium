@@ -28,14 +28,14 @@ const FilterTextPart = (part: LexicalTextPart) => {
   return <span className={isHighlight ? 'text-primary' : ''}>{part.text}</span>
 }
 
-const FilterText = (text: LexicalNode, variant?: 'main' | 'primary') => {
+const FilterText = (text: LexicalNode, variant?: 'main' | 'primary' | 'medium') => {
   switch (text.type) {
     case 'paragraph': {
       const paragraphNode = text as TextNode
       if (!paragraphNode.children) return null
       const Tag: ElementType = 'p'
       return (
-        <Text variant={`${variant}_paragraph` as 'main_paragraph' | 'primary_paragraph'} asChild>
+        <Text variant={`${variant}_paragraph` as 'main_paragraph'} asChild>
           <Tag>
             {paragraphNode.children.map((part: LexicalTextPart, idx: number) => {
               return <Fragment key={idx}>{FilterTextPart(part)}</Fragment>
@@ -51,7 +51,7 @@ const FilterText = (text: LexicalNode, variant?: 'main' | 'primary') => {
       const Tag: ElementType = tag
 
       return (
-        <Text variant={`${variant}_heading` as 'main_heading' | 'primary_heading'} asChild>
+        <Text variant={`${variant}_heading` as 'main_heading'} asChild>
           <Tag>
             {headingNode.children.map((part: LexicalTextPart, idx: number) => {
               return <Fragment key={idx}>{FilterTextPart(part)}</Fragment>
@@ -64,16 +64,12 @@ const FilterText = (text: LexicalNode, variant?: 'main' | 'primary') => {
       const listNode = text as TextNode
       const items = listNode.children
       return (
-        <Wrapper variant={`${variant}_list` as 'main_list' | 'primary_list'} asChild>
+        <Wrapper variant={`${variant}_list` as 'main_list'} asChild>
           <ul>
             {items?.map((text: LexicalTextPart, idx: number) => {
               const parts = text.children as LexicalTextPart[]
               return (
-                <Text
-                  variant={`${variant}_list_item` as 'main_list_item' | 'primary_list_item'}
-                  asChild
-                  key={idx}
-                >
+                <Text variant={`${variant}_list_item` as 'main_list_item'} asChild key={idx}>
                   <li>
                     {parts?.map((part: LexicalTextPart, index: number) => {
                       return <Fragment key={index}>{FilterTextPart(part)}</Fragment>
@@ -93,7 +89,7 @@ const FilterText = (text: LexicalNode, variant?: 'main' | 'primary') => {
 
 interface RichTextRenderProps {
   text: LexicalRichTextType
-  variant?: 'main' | 'primary'
+  variant?: 'main' | 'primary' | 'medium'
 }
 
 export const RichTextRender = ({ text, variant }: RichTextRenderProps) => {

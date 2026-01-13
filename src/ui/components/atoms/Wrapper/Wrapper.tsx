@@ -13,9 +13,9 @@ const variantWrapper = cva('', {
       container: 'px-[50px] mx-auto h-full',
       app: 'relative grid grid-rows-[auto_1fr_auto] h-[100dvh] bg-base-black antialiased text-base-text max-h-screen h-screen',
       header:
-        'py-[12px] relative before:absolute before:content-[" "] before:left-0 before:bottom-[-2px] before:w-full before:h-[1px] before:bg-base-white',
+        'py-[4px] relative before:absolute before:content-[" "] before:left-0 before:bottom-[-2px] before:w-full before:h-[1px] before:bg-base-white',
       footer:
-        'relative py-[30px] relative before:absolute before:content-[" "] before:left-0 before:top-[-2px] before:w-full before:h-[1px] before:bg-base-white',
+        'relative py-[16px] relative before:absolute before:content-[" "] before:left-0 before:top-[-2px] before:w-full before:h-[1px] before:bg-base-white',
       heder_wrapper: 'flex justify-between items-center gap-x-[16px] relative',
       animated_text:
         'flex justify-center items-center gap-[32px] absolute top-0 left-0 w-full h-full z-[-1]',
@@ -29,10 +29,13 @@ const variantWrapper = cva('', {
       developments_wrapper: 'max-w-[640px] relative overflow-hidden developments_wrapper_mask',
       developments: 'flex justify-center items-center gap-x-[20px] px-[10px]',
       development_item: 'flex justify-center items-center gap-x-[16px]',
-      column: 'flex flex-col justify-start items-start',
+      column: 'flex flex-col justify-start items-start gap-y-[16px]',
       canvas_experience: 'absolute top-0 left-0 w-full h-full z-[-1]',
       primary_list: 'flex flex-col justify-start items-start gap-y-[4px]',
       main_list: 'flex flex-col justify-start items-start',
+      case_grid: 'grid grid-cols-[1fr_580px] gap-x-[32px] w-full',
+      tags: 'flex justify-start items-start flex-wrap gap-[8px]',
+      rich_text_wrapper: 'flex flex-col justify-start items-start gap-y-[8px] py-[16px]',
     },
   },
   defaultVariants: {

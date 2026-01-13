@@ -4,7 +4,7 @@ import config from '@payload-config'
 import { getPayload } from 'payload'
 import { CollectionSlug } from 'payload'
 
-import { Cases, Main, Services } from '@pages'
+import { CaseItem, Cases, Main, Services } from '@pages'
 
 import { SupportedLocaleType } from '@types'
 
@@ -43,8 +43,13 @@ export default async function ElementsPage({ params }: ElementsPageProps) {
   if (!page.docs || page.docs.length === 0) {
     notFound()
   }
- 
+
   const data = page.docs[0] as Case
-  console.log(data)
-  return <div>{data.name}</div>
+
+  switch (collection) {
+    case 'cases':
+      return <CaseItem data={data} />
+    default:
+      return notFound()
+  }
 }

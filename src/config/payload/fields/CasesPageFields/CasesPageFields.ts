@@ -37,18 +37,6 @@ export const CasesPageFields = (): Field[] => {
           type: 'relationship',
           relationTo: 'cases',
           hasMany: true,
-          required: false,
-          filterOptions: ({ siblingData, id }: FilterOptionsProps<Case>): boolean | Where => {
-            const pageId = id ?? (siblingData as Case)?.id
-            const pageSlug = (siblingData as Case)?.slug ?? (siblingData as Case)?.slug_name
-
-            const conditions: Where[] = []
-            if (pageId) conditions.push({ parent: { equals: pageId } })
-            if (pageSlug) conditions.push({ slug: { like: `${pageSlug}/%` } })
-
-            if (!conditions.length) return false
-            return conditions.length === 1 ? conditions[0] : { or: conditions }
-          },
         },
       ],
     },

@@ -19,10 +19,10 @@ const buttonVariants = cva(
         default: cn(
           'bg-primary text-base-black uppercase font-jetbrains_mono rounded-[100px] leading-[1] shadow-sm shadow-primary',
           'hover:bg-base-black hover:text-primary hover:outline-primary hover:shadow-md',
-          '[&>p>svg]:w-0 [&>p>svg]:h-0 [&>p>svg]:transition-all [&>p>svg]:duration-300 [&>p>svg]:ease-linear',
+          '[&>p>svg]:w-0 [&>p>svg]:h-0 [&>p>svg]:translate-y-[100%] [&>p>svg]:rotate-90 [&>p>svg]:transition-all [&>p>svg]:duration-300 [&>p>svg]:ease-linear',
 
           '[&>p]:flex [&>p]:items-center [&>p]:justify-center [&>p]:gap-x-0 [&>p]:px-[24px] [&>p]:transition-all [&>p]:duration-300 [&>p]:ease-linear',
-          'hover:[&>p]:px-0 hover:[&>p>svg]:w-[40px] hover:[&>p>svg]:h-[40px] hover:[&>p]:gap-x-[8px]',
+          'hover:[&>p]:px-0 hover:[&>p>svg]:w-[40px] hover:[&>p>svg]:h-[40px] hover:[&>p]:gap-x-[8px] hover:[&>p>svg]:rotate-0 hover:[&>p>svg]:translate-y-0',
           '[&>svg]:transition-all [&>svg]:duration-300 [&>svg]:ease-in-out',
           'transition-all duration-300 ease-in-out',
         ),
@@ -34,11 +34,17 @@ const buttonVariants = cva(
         outline: '',
         secondary: '',
         ghost: '',
-        link: '',
+        link: cn(
+          'bg-primary text-base-black uppercase font-jetbrains_mono rounded-[100px] leading-[1] shadow-sm shadow-primary',
+          '[&>svg]:my-[7px] hover:[&>svg]:scale-[1.2] hover:[&>svg]:animate-pulse',
+          'hover:bg-base-black hover:text-primary hover:outline-primary hover:shadow-md',
+          '[&>svg]:transition-all [&>svg]:duration-300 [&>svg]:ease-in-out',
+        ),
       },
       size: {
         default: '',
-        normal: 'text-[28px] font-[700] px-[30px] py-[16px]',
+        normal: 'text-[28px] font-[700] px-[24px] py-[8px]',
+        link: 'text-[42px] px-[30px] py-[16px]',
       },
     },
     defaultVariants: {
