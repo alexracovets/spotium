@@ -4,7 +4,7 @@ import { FaArrowLeftLong } from 'react-icons/fa6'
 import { Case, Media } from '@payload-types'
 
 import { Wrapper, Text, Container, VideoAtom, ImageAtom, Button, CustomScroll } from '@atoms'
-import { RichTextRender, Features } from '@molecules'
+import { RichTextRender, Features, CasesTabs } from '@molecules'
 
 import { useModelsWrapperDimensions } from '@hooks'
 
@@ -14,18 +14,15 @@ type CaseItemProps = {
 
 export const CaseItem = ({ data }: CaseItemProps) => {
   useModelsWrapperDimensions()
-  const { name, impuct, image, form_button, features } = data
+  const { name, impuct, image, form_button, features, tabs } = data
 
   const mimeType = typeof image === 'object' && image !== null ? image.mimeType : null
   const isVideo = mimeType?.startsWith('video') ?? false
-  console.log(data)
+
   return (
     <CustomScroll>
       <Container>
-        <Wrapper
-          variant="page_wrapper"
-          className="min-h-0 w-full py-[64px] gap-y-[32px] w-full"
-        >
+        <Wrapper variant="page_wrapper" className="min-h-0 w-full py-[64px] gap-y-[32px] w-full">
           <Wrapper variant="case_grid" asChild>
             <section>
               <Wrapper variant="column" className="gap-y-[32px]">
@@ -58,6 +55,7 @@ export const CaseItem = ({ data }: CaseItemProps) => {
             </section>
           </Wrapper>
           {features && <Features features={features} />}
+          {tabs && <CasesTabs items={tabs} />}
         </Wrapper>
       </Container>
     </CustomScroll>
