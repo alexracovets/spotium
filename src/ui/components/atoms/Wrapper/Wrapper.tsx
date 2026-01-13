@@ -36,6 +36,7 @@ const variantWrapper = cva('', {
       case_grid: 'grid grid-cols-[1fr_580px] gap-x-[32px] w-full',
       tags: 'flex justify-start items-start flex-wrap gap-[8px]',
       rich_text_wrapper: 'flex flex-col justify-start items-start gap-y-[8px] py-[16px]',
+      tab_wrapper: 'flex flex-col justify-start items-start gap-y-[8px]',
     },
   },
   defaultVariants: {

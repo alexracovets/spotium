@@ -45,12 +45,12 @@ export const CasesTabs = ({ items }: CasesTabsProps) => {
         <Separator />
         {tabs.map(({ value, data }) => (
           <TabsContent key={value} value={value}>
-            <Wrapper className="flex-col gap-y-[8px] py-[16px]">
+            <Wrapper variant="tab_wrapper" className="py-[16px]">
               {hasDescription(data) && data.description && (
                 <RichTextRender text={data.description} variant="primary" />
               )}
               {hasElements(data) && data.elements && data.elements.length > 0 && (
-                <Wrapper className="flex flex-col gap-y-[8px]">
+                <Wrapper variant="tab_wrapper">
                   {data.elements.map((element, idx) => (
                     <Wrapper key={element.id ?? idx}>
                       <Text variant="primary_paragraph">{element.question}</Text>
