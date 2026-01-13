@@ -1,5 +1,6 @@
 export { Services } from './Services'
 export { CaseItem } from './CaseItem'
+export { QAPage } from './QAPage'
 export { Cases } from './Cases'
 export { About } from './About'
 export { Main } from './Main'

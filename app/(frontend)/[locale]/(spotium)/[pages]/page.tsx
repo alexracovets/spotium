@@ -3,7 +3,7 @@ import { Page } from '@payload-types'
 import config from '@payload-config'
 import { getPayload } from 'payload'
 
-import { About, Cases, Main, Services } from '@pages'
+import { About, Cases, Main, Services, QAPage } from '@pages'
 
 import { SupportedLocaleType } from '@types'
 
@@ -43,6 +43,8 @@ export default async function PagesPage({ params }: PagesPageProps) {
       return <Cases data={data} />
     case 'about':
       return <About data={data} />
+    case 'q_a':
+      return <QAPage data={data} />
     default:
       return <div>Page not found</div>
   }

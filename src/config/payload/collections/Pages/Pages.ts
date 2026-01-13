@@ -1,6 +1,12 @@
 import type { CollectionConfig } from 'payload'
 
-import { MainPageFields, ServicesPageFields, CasesPageFields, AboutPageFields } from '@fields'
+import {
+  ServicesPageFields,
+  CasesPageFields,
+  AboutPageFields,
+  MainPageFields,
+  QAPageFields,
+} from '@fields'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -70,6 +76,13 @@ export const Pages: CollectionConfig = {
                   },
                   value: 'about',
                 },
+                {
+                  label: {
+                    uk: 'Q&A',
+                    en: 'Q&A',
+                  },
+                  value: 'q_a',
+                },
               ],
               defaultValue: 'main',
               admin: {
@@ -80,6 +93,7 @@ export const Pages: CollectionConfig = {
             ...ServicesPageFields(),
             ...CasesPageFields(),
             ...AboutPageFields(),
+            ...QAPageFields(),
           ],
         },
         {
