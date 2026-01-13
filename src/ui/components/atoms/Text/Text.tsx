@@ -42,7 +42,7 @@ const variantText = cva('font-jetbrains_mono font-medium', {
         'transition-all duration-300 ease-in-out',
       ),
       footer: cn(
-        'text-[16px] font-jetbrains_mono text-center font-medium text-base-white uppercase',
+        'text-[12px] font-jetbrains_mono text-center font-medium text-base-white uppercase',
       ),
       locale: cn(
         'text-[16px] font-jetbrains_mono text-center text-base-white uppercase',

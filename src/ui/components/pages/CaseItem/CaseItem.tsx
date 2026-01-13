@@ -20,11 +20,11 @@ export const CaseItem = ({ data }: CaseItemProps) => {
   const isVideo = mimeType?.startsWith('video') ?? false
   console.log(data)
   return (
-    <Container className="content_wrapper_mask">
-      <CustomScroll>
+    <CustomScroll>
+      <Container>
         <Wrapper
           variant="page_wrapper"
-          className="min-h-0 w-full py-[64px] gap-y-[32px] w-full pr-[4px]"
+          className="min-h-0 w-full py-[64px] gap-y-[32px] w-full"
         >
           <Wrapper variant="case_grid" asChild>
             <section>
@@ -59,7 +59,7 @@ export const CaseItem = ({ data }: CaseItemProps) => {
           </Wrapper>
           {features && <Features features={features} />}
         </Wrapper>
-      </CustomScroll>
-    </Container>
+      </Container>
+    </CustomScroll>
   )
 }

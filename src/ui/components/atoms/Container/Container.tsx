@@ -3,6 +3,7 @@
 import { Wrapper } from '@atoms'
 
 import { ChildrenType } from '@types'
+import { cn } from '@utils'
 
 type ContainerProps = ChildrenType & {
   asChild?: boolean
@@ -11,7 +12,7 @@ type ContainerProps = ChildrenType & {
 
 const Container = ({ children, asChild, className }: ContainerProps) => {
   return (
-    <Wrapper variant="container" className={className} asChild>
+    <Wrapper variant="container" className={cn(className, 'content_wrapper_mask')} asChild>
       <Wrapper className="h-full min-h-0" asChild={asChild}>
         {children}
       </Wrapper>

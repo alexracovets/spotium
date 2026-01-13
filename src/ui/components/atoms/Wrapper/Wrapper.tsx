@@ -13,9 +13,9 @@ const variantWrapper = cva('', {
       container: 'px-[50px] mx-auto h-full',
       app: 'relative grid grid-rows-[auto_1fr_auto] h-[100dvh] bg-base-black antialiased text-base-text max-h-screen h-screen',
       header:
-        'py-[4px] relative before:absolute before:content-[" "] before:left-0 before:bottom-[-2px] before:w-full before:h-[1px] before:bg-base-white',
+        'py-[4px] relative before:absolute before:content-[" "] before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-base-white',
       footer:
-        'relative py-[16px] relative before:absolute before:content-[" "] before:left-0 before:top-[-2px] before:w-full before:h-[1px] before:bg-base-white',
+        'relative py-[16px] relative before:absolute before:content-[" "] before:left-0 before:top-0 before:w-full before:h-[1px] before:bg-base-white',
       heder_wrapper: 'flex justify-between items-center gap-x-[16px] relative',
       animated_text:
         'flex justify-center items-center gap-[32px] absolute top-0 left-0 w-full h-full z-[-1]',
