@@ -16,6 +16,7 @@
   --color-base-dark: #292929;
   --color-neutral-white: rgba(228, 228, 231, 1);
   --color-bg-content: #0000004f;
+  --color-border-destructive: #4b4d5a;
 
   --shadow-custom: 0px 0px 4px white;
 }

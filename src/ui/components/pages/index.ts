@@ -1,4 +1,5 @@
 export { Services } from './Services'
 export { CaseItem } from './CaseItem'
 export { Cases } from './Cases'
+export { About } from './About'
 export { Main } from './Main'

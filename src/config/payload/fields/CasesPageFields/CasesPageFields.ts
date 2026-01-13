@@ -1,5 +1,4 @@
-import { FilterOptionsProps, Where, type Field } from 'payload'
-import { Case } from '@payload-types'
+import { type Field } from 'payload'
 
 export const CasesPageFields = (): Field[] => {
   return [
