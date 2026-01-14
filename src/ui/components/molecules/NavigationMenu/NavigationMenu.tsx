@@ -11,12 +11,12 @@ type NavigationMenuProps = {
 export const NavigationMenu = ({ navigation }: NavigationMenuProps) => {
   return (
     <div className="w-[450px] px-[50px] py-[64px]">
-      <div className="flex flex-col gap-y-[16px]">
+      <div className="flex flex-col">
         {navigation?.map((item, idx) => (
           <LinkAtom
             key={idx}
             href={`/${(item as Page).slug as string}`}
-            className="text-[38px] text-base-white font-jetbrains_mono uppercase border-b border-base-white"
+            className="text-[38px] py-[8px] text-base-white font-jetbrains_mono uppercase border-b border-base-white"
           >
             {(item as Page).title}
           </LinkAtom>
