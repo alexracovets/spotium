@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { Page, Media } from '@payload-types'
 
 import { Container, CustomScroll, Wrapper, Text, Button, LinkAtom, ImageAtom } from '@atoms'
-import { useModelsWrapperDimensions } from '@hooks'
+import { useModelsWrapperDimensions, useSwitchModel } from '@hooks'
 
 type ContactsProps = {
   data: Page
@@ -14,6 +14,8 @@ type ContactsProps = {
 export const Contacts = ({ data }: ContactsProps) => {
   const [isEmailAnimating, setIsEmailAnimating] = useState(false)
   const emailAnimationTimeout = useRef<NodeJS.Timeout | null>(null)
+  useModelsWrapperDimensions()
+  useSwitchModel({ newModel: 0 })
 
   const handleEmailClick = () => {
     if (emailAnimationTimeout.current) {
@@ -26,16 +28,6 @@ export const Contacts = ({ data }: ContactsProps) => {
       setIsEmailAnimating(false)
     }, 200)
   }
-
-  useEffect(() => {
-    return () => {
-      if (emailAnimationTimeout.current) {
-        clearTimeout(emailAnimationTimeout.current)
-      }
-    }
-  }, [])
-
-  useModelsWrapperDimensions()
 
   if (!data.contacts_type_fields) return null
 

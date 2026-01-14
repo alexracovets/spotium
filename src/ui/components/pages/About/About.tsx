@@ -5,7 +5,7 @@ import { Media, Page } from '@payload-types'
 import { Wrapper, Text, Container, CustomScroll, ImageAtom } from '@atoms'
 import { RichTextRender } from '@molecules'
 
-import { useModelsWrapperDimensions } from '@hooks'
+import { useModelsWrapperDimensions, useSwitchModel } from '@hooks'
 import { cn } from '@utils'
 
 type AboutProps = {
@@ -14,6 +14,7 @@ type AboutProps = {
 
 export const About = ({ data }: AboutProps) => {
   useModelsWrapperDimensions()
+  useSwitchModel({ newModel: 1 })
 
   if (!data.about_type_fields) return null
 

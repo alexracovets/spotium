@@ -25,6 +25,8 @@ export const useModelsWrapperDimensions = () => {
         const height = elementRect.height
 
         setModelsWrapperDimensions(width, height, x, y)
+      } else {
+        setModelsWrapperDimensions(0, 0, 0, 0)
       }
     }
 

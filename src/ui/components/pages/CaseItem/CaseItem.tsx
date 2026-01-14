@@ -6,7 +6,7 @@ import { Case, Media } from '@payload-types'
 import { Wrapper, Text, Container, VideoAtom, ImageAtom, Button, CustomScroll } from '@atoms'
 import { RichTextRender, Features, CasesTabs } from '@molecules'
 
-import { useModelsWrapperDimensions } from '@hooks'
+import { useModelsWrapperDimensions, useSwitchModel } from '@hooks'
 
 type CaseItemProps = {
   data: Case
@@ -14,6 +14,8 @@ type CaseItemProps = {
 
 export const CaseItem = ({ data }: CaseItemProps) => {
   useModelsWrapperDimensions()
+  useSwitchModel({ newModel: -1 })
+  
   const { name, impuct, image, form_button, features, tabs } = data
 
   const mimeType = typeof image === 'object' && image !== null ? image.mimeType : null

@@ -5,7 +5,7 @@ import { Page } from '@payload-types'
 import { Wrapper, Text, Container, CustomScroll } from '@atoms'
 import { CasesBlock } from '@molecules'
 
-import { useModelsWrapperDimensions } from '@hooks'
+import { useModelsWrapperDimensions, useSwitchModel } from '@hooks'
 
 type CasesProps = {
   data: Page
@@ -13,6 +13,7 @@ type CasesProps = {
 
 export const Cases = ({ data }: CasesProps) => {
   useModelsWrapperDimensions()
+  useSwitchModel({ newModel: -1 })
 
   if (!data.cases_type_fields) return null
 

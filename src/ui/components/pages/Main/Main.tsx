@@ -1,10 +1,11 @@
 'use client'
 
+import { Page } from '@payload-types' 
+
 import { Developments, RichTextRender } from '@molecules'
 
-import { Page } from '@payload-types'
+import { useModelsWrapperDimensions, useSwitchModel } from '@hooks'
 import { Button, Container, CustomScroll, Wrapper } from '@atoms'
-import { useModelsWrapperDimensions } from '@hooks'
 
 type MainProps = {
   data: Page
@@ -12,6 +13,7 @@ type MainProps = {
 
 export const Main = ({ data }: MainProps) => {
   useModelsWrapperDimensions()
+  useSwitchModel({ newModel: 0 })
 
   if (!data.main_type_fields) return null
 
@@ -42,7 +44,13 @@ export const Main = ({ data }: MainProps) => {
             )}
             {developments && <Developments developments={developments} />}
           </Wrapper>
-          <Wrapper variant="page_wrapper" id="models_wrapper" />
+          <div className="relative overflow-hidden">
+            <Wrapper
+              variant="page_wrapper"
+              id="models_wrapper"
+              className="scale-[1.3] absolute top-0 left-0 w-full h-full"
+            />
+          </div>
         </Wrapper>
       </Container>
     </CustomScroll>

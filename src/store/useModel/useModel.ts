@@ -3,7 +3,7 @@
 import { create } from 'zustand'
 
 type ModelStore = {
-  activeModel: number
+  activeModel: number 
   setActiveModel: (activeModel: number) => void
   modelsWrapperWidth: number | null
   modelsWrapperHeight: number | null

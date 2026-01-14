@@ -5,10 +5,11 @@ import { Page } from '@payload-types'
 import { CustomScroll, Wrapper, Text, Container } from '@atoms'
 import { Questions } from '@molecules'
 
-import { useModelsWrapperDimensions } from '@hooks'
+import { useModelsWrapperDimensions, useSwitchModel } from '@hooks'
 
 export const QAPage = ({ data }: { data: Page }) => {
   useModelsWrapperDimensions()
+  useSwitchModel({ newModel: -1 })
 
   if (!data.q_a_type_fields) return null
   const { questions } = data.q_a_type_fields

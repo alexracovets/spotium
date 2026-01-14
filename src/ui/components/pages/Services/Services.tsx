@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { CustomScroll, Wrapper, Text, Container, Button } from '@atoms'
 import { AcordionServices } from '@molecules'
 
-import { useGetServicesMedia, useModelsWrapperDimensions } from '@hooks'
+import { useGetServicesMedia, useModelsWrapperDimensions, useSwitchModel } from '@hooks'
 
 type ServicesProps = {
   data: Page
@@ -14,9 +14,9 @@ type ServicesProps = {
 
 export const Services = ({ data }: ServicesProps) => {
   const [openItemId, setOpenItemId] = useState<string | null>(null)
-
-  // Всі хуки повинні викликатися перед умовними поверненнями
   useModelsWrapperDimensions()
+  useSwitchModel({ newModel: 2 })
+
   useGetServicesMedia({
     items: data.services_type_fields?.services?.map((service) => service.media) || [],
   })
@@ -43,7 +43,7 @@ export const Services = ({ data }: ServicesProps) => {
             </Button>
           )}
         </Wrapper>
-        <Wrapper variant="page_wrapper" id="models_wrapper" />
+        <Wrapper variant="page_wrapper" id="models_wrapper" className="scale-[0.8]" />
       </Wrapper>
     </Container>
   )
