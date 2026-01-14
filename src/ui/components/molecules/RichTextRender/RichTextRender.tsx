@@ -5,7 +5,7 @@ import { Page } from '@payload-types'
 
 import { Text, Wrapper, LinkAtom } from '@atoms'
 
-type LexicalRichTextType = NonNullable<Page['main_type_fields']>['title']
+type LexicalRichTextType = NonNullable<Page['main_type_fields']>['title_main']
 type LexicalNode = NonNullable<LexicalRichTextType>['root']['children'][number]
 
 interface LexicalTextPart {
