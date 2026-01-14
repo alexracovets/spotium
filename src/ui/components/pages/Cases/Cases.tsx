@@ -22,7 +22,9 @@ export const Cases = ({ data }: CasesProps) => {
     <CustomScroll>
       <Container>
         <Wrapper variant="page_wrapper" className="min-h-0 w-full py-[64px] gap-y-[16px]">
-          <Text variant="primary_heading">{title}</Text>
+          <Text variant="primary_heading" asChild>
+            <h1>{title}</h1>
+          </Text>
           {elements && <CasesBlock items={elements} />}
         </Wrapper>
       </Container>

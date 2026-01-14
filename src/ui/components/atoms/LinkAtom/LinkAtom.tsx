@@ -11,6 +11,13 @@ const variantsLinkAtom = cva('outline-none!', {
     variant: {
       default: '',
       locale: 'flex items-center gap-x-[8px] p-[8px]',
+      phone:
+        'inline-flex items-center text-primary will-change-transform transform-gpu hover:scale-[1.1] transition-all duration-300 ease-in-out',
+      social: cn(
+        'font-jetbrains_mono font-[600] flex justify-start items-center gap-x-[8px]',
+        'will-change-transform transform-gpu hover:scale-[1.1]',
+        'transition-all duration-300 ease-in-out',
+      ),
     },
   },
   defaultVariants: {

@@ -1,3 +1,4 @@
+export { Contacts } from './Contacts'
 export { Services } from './Services'
 export { CaseItem } from './CaseItem'
 export { QAPage } from './QAPage'

@@ -41,7 +41,7 @@ const accordionTriggerVariants = cva(
     'text-[26px] py-[8px]',
     'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
     'disabled:pointer-events-none disabled:opacity-50',
-    '[&[data-state=open]]:text-primary [&[data-state=open]>svg]:rotate-180',
+    '[&[data-state=open]]:text-primary [&[data-state=open]>svg]:rotate-180 [&[data-state=open]]:border-b [&[data-state=open]]:border-b-base-white',
     'transition-all duration-300 ease-in-out',
   ),
   {
@@ -134,7 +134,7 @@ function AccordionContent({ className, children, triger, ...props }: AccordionCo
     >
       <div
         className={cn(
-          'flex flex-col gap-y-[8px] w-full bg-bg-content p-[16px] rounded-[8px] mb-[16px]',
+          'flex flex-col gap-y-[8px] w-full bg-bg-content p-[16px] rounded-[8px] my-[16px]',
           className,
         )}
         onClick={triger ? handleClick : undefined}

@@ -1,6 +1,7 @@
-import { Wrapper } from '@atoms'
 import { CanvasExperience } from '@organisms'
-import { bebas_neue, jetbrains_mono, press_start_2p, anton, dm_sans } from '@fonts'
+import { Wrapper } from '@atoms'
+
+import { bebas_neue, jetbrains_mono, press_start_2p, noto_sans } from '@fonts'
 import { ChildrenType } from '@types'
 import { cn } from '@utils'
 
@@ -13,11 +14,10 @@ export default function FrontendRootLayout({ children }: ChildrenType) {
         <body
           suppressHydrationWarning
           className={cn(
-            jetbrains_mono.variable,
             press_start_2p.variable,
             bebas_neue.variable,
-            anton.variable,
-            dm_sans.variable,
+            noto_sans.variable,
+            jetbrains_mono.variable,
           )}
         >
           {children}

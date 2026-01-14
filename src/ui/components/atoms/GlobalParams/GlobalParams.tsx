@@ -2,11 +2,11 @@
 
 import { useEffect } from 'react'
 
-type LangUpdaterProps = {
+type GlobalParamsProps = {
   locale: string
 }
 
-export const LangUpdater = ({ locale }: LangUpdaterProps) => {
+export const GlobalParams = ({ locale }: GlobalParamsProps) => {
   useEffect(() => {
     document.documentElement.lang = locale
   }, [locale])

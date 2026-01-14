@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import {
   ServicesPageFields,
+  ContactsPageFields,
   CasesPageFields,
   AboutPageFields,
   MainPageFields,
@@ -83,6 +84,13 @@ export const Pages: CollectionConfig = {
                   },
                   value: 'q_a',
                 },
+                {
+                  label: {
+                    uk: 'Контакти',
+                    en: 'Contacts',
+                  },
+                  value: 'contacts',
+                },
               ],
               defaultValue: 'main',
               admin: {
@@ -94,6 +102,7 @@ export const Pages: CollectionConfig = {
             ...CasesPageFields(),
             ...AboutPageFields(),
             ...QAPageFields(),
+            ...ContactsPageFields(),
           ],
         },
         {

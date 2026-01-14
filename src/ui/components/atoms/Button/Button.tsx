@@ -34,6 +34,10 @@ const buttonVariants = cva(
         outline: '',
         secondary: '',
         ghost: '',
+        email: cn(
+          'text-base-dark font-jetbrains_mono flex justify-between items-center w-full max-w-[550px] border border-primary email_bg rounded-[60px]',
+          'transition-all duration-300 ease-in-out',
+        ),
         link: cn(
           'bg-primary text-base-black uppercase font-jetbrains_mono rounded-[100px] leading-[1] shadow-sm shadow-primary',
           '[&>svg]:my-[7px] hover:[&>svg]:scale-[1.2] hover:[&>svg]:animate-pulse',
@@ -45,6 +49,7 @@ const buttonVariants = cva(
         default: '',
         normal: 'text-[28px] font-[700] px-[24px] py-[8px]',
         link: 'text-[42px] px-[30px] py-[16px]',
+        email: 'text-[14px] py-[16px] px-[32px] leading-[1]',
       },
     },
     defaultVariants: {

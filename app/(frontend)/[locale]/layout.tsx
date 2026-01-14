@@ -1,4 +1,4 @@
-import { LangUpdater } from '@atoms'
+import { GlobalParams } from '@atoms'
 import { ChildrenType, SupportedLocaleType } from '@types'
 
 interface LocaleLayoutProps extends ChildrenType {
@@ -10,7 +10,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   return (
     <>
-      <LangUpdater locale={locale} />
+      <GlobalParams locale={locale} />
       {children}
     </>
   )

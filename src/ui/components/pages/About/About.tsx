@@ -27,7 +27,9 @@ export const About = ({ data }: AboutProps) => {
       <Container>
         <Wrapper className="grid grid-cols-2 gap-x-[16px] h-full col-start-2 py-[64px]">
           <Wrapper className="grid grid-rows-[auto_1fr]">
-            <Text variant="primary_heading">{title}</Text>
+            <Text variant="primary_heading" asChild>
+              <h1>{title}</h1>
+            </Text>
             <Wrapper variant="page_wrapper" id="models_wrapper" />
           </Wrapper>
           <Wrapper variant="page_wrapper" className="gap-y-[16px] justify-center">

@@ -2,6 +2,9 @@
 
 import { Page } from '@payload-types'
 
+import { CustomScroll, Wrapper, Text, Container } from '@atoms'
+import { Questions } from '@molecules'
+
 import { useModelsWrapperDimensions } from '@hooks'
 
 export const QAPage = ({ data }: { data: Page }) => {
@@ -11,8 +14,15 @@ export const QAPage = ({ data }: { data: Page }) => {
   const { title, questions } = data.q_a_type_fields
 
   return (
-    <div>
-      <h1>QAPage</h1>
-    </div>
+    <CustomScroll>
+      <Container>
+        <Wrapper variant="page_wrapper" className="min-h-0 w-full py-[64px] gap-y-[16px]">
+          <Text variant="primary_heading" asChild>
+            <h1>{title}</h1>
+          </Text>
+          {questions && <Questions items={questions} />}
+        </Wrapper>
+      </Container>
+    </CustomScroll>
   )
 }

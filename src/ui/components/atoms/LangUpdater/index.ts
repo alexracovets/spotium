@@ -1,1 +1,0 @@
-export { LangUpdater } from './LangUpdater'

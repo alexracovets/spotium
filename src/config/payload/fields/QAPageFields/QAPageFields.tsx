@@ -66,6 +66,10 @@ export const QAPageFields = (): Field[] => {
               required: true,
               localized: true,
               type: 'richText',
+              label: {
+                uk: 'Питання',
+                en: 'Question',
+              },
               editor: lexicalEditor({
                 features: [
                   ParagraphFeature(),
@@ -80,6 +84,10 @@ export const QAPageFields = (): Field[] => {
               required: true,
               localized: true,
               type: 'richText',
+              label: {
+                uk: 'Відповідь',
+                en: 'Answer',
+              },
               editor: lexicalEditor({
                 features: [
                   ParagraphFeature(),

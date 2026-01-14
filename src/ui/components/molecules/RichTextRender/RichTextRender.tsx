@@ -3,7 +3,7 @@
 import { Fragment, type ElementType } from 'react'
 import { Page } from '@payload-types'
 
-import { Text, Wrapper } from '@atoms'
+import { Text, Wrapper, LinkAtom } from '@atoms'
 
 type LexicalRichTextType = NonNullable<Page['main_type_fields']>['title']
 type LexicalNode = NonNullable<LexicalRichTextType>['root']['children'][number]
@@ -12,6 +12,15 @@ interface LexicalTextPart {
   text?: string
   style?: string
   [k: string]: unknown
+}
+
+interface LinkNode extends LexicalNode {
+  type: 'link'
+  children?: LexicalTextPart[]
+  fields: {
+    url: string
+    newTab: boolean
+  }
 }
 
 interface TextNode extends LexicalNode {
@@ -25,7 +34,26 @@ interface TextNode extends LexicalNode {
 
 const FilterTextPart = (part: LexicalTextPart) => {
   const isHighlight = (part as TextNode).$?.highlight === 'yellow'
-  return <span className={isHighlight ? 'text-primary' : ''}>{part.text}</span>
+  switch (part.type) {
+    case 'text':
+      return <span className={isHighlight ? 'text-primary' : ''}>{part.text}</span>
+    case 'link':
+      const link = part as LinkNode
+      
+      return (
+        <LinkAtom
+          href={link.fields.url}
+          className={isHighlight ? 'text-primary' : ''}
+          target={link.fields.newTab ? '_blank' : '_self'}
+        >
+          {link.children?.map((child: LexicalTextPart, idx: number) => {
+            return <Fragment key={idx}>{FilterTextPart(child)}</Fragment>
+          })}
+        </LinkAtom>
+      )
+    default:
+      return <span className={isHighlight ? 'text-primary' : ''}>{part.text}</span>
+  }
 }
 
 const FilterText = (text: LexicalNode, variant?: 'main' | 'primary' | 'medium') => {

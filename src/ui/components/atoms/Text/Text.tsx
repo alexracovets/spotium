@@ -15,7 +15,9 @@ const variantText = cva('font-jetbrains_mono font-medium', {
       main_list: cn('text-[16px] font-jetbrains_mono text-base-white'),
       main_list_item: cn('text-[16px] font-jetbrains_mono text-base-white'),
       primary_paragraph: cn('text-[16px] font-jetbrains_mono text-base-white'),
-      primary_heading: cn('text-[64px] font-dm_sans font-[800] uppercase text-primary leading-[1]'),
+      primary_heading: cn(
+        'text-[64px] font-noto_sans font-[800] uppercase text-primary leading-[1]',
+      ),
       primary_list: cn('text-[16px] font-jetbrains_mono text-base-white'),
       primary_list_item: cn(
         'pl-[32px] text-[16px] font-jetbrains_mono text-base-white relative',
@@ -50,7 +52,7 @@ const variantText = cva('font-jetbrains_mono font-medium', {
         'transition-all duration-300 ease-in-out',
       ),
       development: cn(
-        'text-[14px] text-neutral-white font-dm_sans font-[700] uppercase leading-[1]',
+        'text-[14px] text-neutral-white font-noto_sans font-[700] uppercase leading-[1]',
       ),
       case_name: cn('text-[32px] leading-[2.1]'),
       tag: cn(
@@ -60,6 +62,8 @@ const variantText = cva('font-jetbrains_mono font-medium', {
         'transition-all duration-300 ease-in-out',
       ),
       feature_title: cn('text-[32px] leading-[2.1] text-primary'),
+      contacts_title: cn('text-[64px] text-base-white font-noto_sans font-[900] leading-[1] uppercase'),
+      contacts_under_title: cn('text-[32px] text-base-white font-[800] uppercase'),
     },
   },
   defaultVariants: {

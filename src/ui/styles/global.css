@@ -2,13 +2,12 @@
 @import 'tw-animate-css';
 @import 'overlayscrollbars/overlayscrollbars.css';
 
-@theme {
-  --font-jetbrains_mono: var(--font-jetbrains_mono);
+@theme { 
   --font-press_start: var(--font-press_start);
   --font-bebas_neue: var(--font-bebas_neue);
-  --font-anton: var(--font-anton);
-  --font-dm_sans: var(--font-dm_sans);
-
+  --font-noto_sans: var(--font-noto_sans);
+  --font-jetbrains_mono: var(--font-jetbrains_mono);
+  
   --color-base-black: rgba(41, 41, 41, 1);
   --color-base-white: rgba(255, 255, 255, 1);
   --color-primary: rgba(254, 197, 50, 1);
@@ -19,6 +18,10 @@
   --color-border-destructive: #4b4d5a;
 
   --shadow-custom: 0px 0px 4px white;
+}
+
+.email_bg {
+  background: linear-gradient(.25turn, #FEC532 50%, rgba(152, 118, 30, 0));
 }
 
 @keyframes navShadowAppear {
