@@ -1,14 +1,20 @@
 'use client'
 
+import type { SiteSetting } from '@payload-types'
 import { useEffect } from 'react'
 
 import { Sheet, SheetContent, SheetTitle } from '@atoms'
 import { NavigationMenu } from '@molecules'
+
 import { useNavigation } from '@store'
 
 const NAVIGATION_MENU_ID = 'navigation-menu'
 
-const NavigationSheet = () => {
+type NavigationSheetProps = {
+  navigation: SiteSetting['navigation']
+}
+
+const NavigationSheet = ({ navigation }: NavigationSheetProps) => {
   const { isOpenNavigation, setIsOpenNavigation } = useNavigation()
 
   useEffect(() => {
@@ -40,8 +46,8 @@ const NavigationSheet = () => {
         id={NAVIGATION_MENU_ID}
         aria-describedby={undefined}
       >
-        <SheetTitle className="sr-only">Навігація</SheetTitle>
-        <NavigationMenu />
+        <SheetTitle className="sr-only">Navigation menu</SheetTitle>
+        <NavigationMenu navigation={navigation} />
       </SheetContent>
     </Sheet>
   )

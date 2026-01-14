@@ -2,12 +2,12 @@
 @import 'tw-animate-css';
 @import 'overlayscrollbars/overlayscrollbars.css';
 
-@theme { 
+@theme {
   --font-press_start: var(--font-press_start);
   --font-bebas_neue: var(--font-bebas_neue);
   --font-noto_sans: var(--font-noto_sans);
   --font-jetbrains_mono: var(--font-jetbrains_mono);
-  
+
   --color-base-black: rgba(41, 41, 41, 1);
   --color-base-white: rgba(255, 255, 255, 1);
   --color-primary: rgba(254, 197, 50, 1);
@@ -59,30 +59,6 @@
 
 [data-lexical-text-state-highlight='yellow'] {
   color: var(--color-primary) !important;
-}
-
-/* Skip link для доступності */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-.sr-only:focus {
-  position: fixed;
-  width: auto;
-  height: auto;
-  padding: 0.5rem 1rem;
-  margin: 0;
-  overflow: visible;
-  clip: auto;
-  white-space: normal;
 }
 
 /* Підтримка prefers-reduced-motion */

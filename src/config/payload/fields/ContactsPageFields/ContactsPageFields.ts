@@ -11,43 +11,21 @@ export const ContactsPageFields = (): Field[] => {
       },
       fields: [
         {
-          type: 'row',
-          fields: [
-            {
-              name: 'title',
-              type: 'text',
-              required: true,
-              localized: true,
-              label: {
-                uk: 'Заголовок',
-                en: 'Title',
-              },
-              admin: {
-                description: {
-                  uk: 'Основний заголовок сторінки.',
-                  en: 'Main page title.',
-                },
-                width: '50%',
-              },
+          name: 'under_title',
+          type: 'text',
+          required: true,
+          localized: true,
+          label: {
+            uk: 'Надзаголовок',
+            en: 'Under title',
+          },
+          admin: {
+            description: {
+              uk: 'Надзаголовок сторінки.',
+              en: 'Under page title.',
             },
-            {
-              name: 'under_title',
-              type: 'text',
-              required: true,
-              localized: true,
-              label: {
-                uk: 'Надзаголовок',
-                en: 'Under title',
-              },
-              admin: {
-                description: {
-                  uk: 'Надзаголовок сторінки.',
-                  en: 'Under page title.',
-                },
-                width: '50%',
-              },
-            },
-          ],
+            width: '50%',
+          },
         },
         {
           type: 'row',

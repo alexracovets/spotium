@@ -23,15 +23,15 @@ export const MainPageFields = (): Field[] => {
       },
       fields: [
         {
-          name: 'title',
+          name: 'title_main',
           type: 'richText',
-          required: true,
           localized: true,
           label: {
             uk: 'Заголовок',
             en: 'Title',
           },
           admin: {
+            condition: (data) => data.type === 'main',
             description: {
               uk: 'Основний заголовок сторінки. Виділіть текст та використайте кнопку "Жовте виділення" для виділення частини тексту жовтим кольором.',
               en: 'Main page title. Select text and use the "Yellow highlight" button to highlight the text in yellow.',

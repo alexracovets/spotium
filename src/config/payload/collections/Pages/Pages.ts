@@ -97,6 +97,23 @@ export const Pages: CollectionConfig = {
                 width: '50%',
               },
             },
+            {
+              name: 'title',
+              type: 'text',
+              localized: true,
+              label: {
+                uk: 'Заголовок',
+                en: 'Title',
+              },
+              admin: {
+                condition: (data) => data.type !== 'main',
+                description: {
+                  uk: 'Основний заголовок сторінки.',
+                  en: 'Main page title.',
+                },
+                width: '50%',
+              },
+            },
             ...MainPageFields(),
             ...ServicesPageFields(),
             ...CasesPageFields(),

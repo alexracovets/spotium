@@ -23,13 +23,13 @@ export const Services = ({ data }: ServicesProps) => {
 
   if (!data.services_type_fields) return null
 
-  const { title, services, button } = data.services_type_fields
+  const { services, button } = data.services_type_fields
 
   return (
     <Container>
       <Wrapper className="grid grid-cols-2 gap-x-[16px] h-full col-start-2 py-[64px]">
         <Wrapper variant="page_wrapper" className="min-h-0 w-full gap-y-[16px]">
-          <Text variant="primary_heading">{title}</Text>
+          <Text variant="primary_heading">{data.title}</Text>
           <CustomScroll
             scrollToElementId={openItemId}
             setScrollToElementId={setOpenItemId}

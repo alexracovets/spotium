@@ -29,6 +29,23 @@ export const SiteSettings: GlobalConfig = {
       },
     },
     {
+      name: 'navigation',
+      type: 'relationship',
+      relationTo: 'pages',
+      label: {
+        uk: 'Навігація',
+        en: 'Navigation',
+      },
+      localized: true,
+      hasMany: true,
+      admin: {
+        description: {
+          uk: 'Навігація сайту',
+          en: 'Site navigation',
+        },
+      },
+    },
+    {
       name: 'animatedTexts',
       type: 'array',
       label: {

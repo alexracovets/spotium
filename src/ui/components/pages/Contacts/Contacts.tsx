@@ -39,17 +39,8 @@ export const Contacts = ({ data }: ContactsProps) => {
 
   if (!data.contacts_type_fields) return null
 
-  const {
-    phone_value,
-    under_title,
-    email_copy,
-    phone_name,
-    work_time,
-    socials,
-    button,
-    title,
-    email,
-  } = data.contacts_type_fields
+  const { phone_value, under_title, email_copy, phone_name, work_time, socials, button, email } =
+    data.contacts_type_fields
   const phoneValueSanitized = phone_value?.replace(/\s+/g, '') || ''
 
   return (
@@ -60,12 +51,12 @@ export const Contacts = ({ data }: ContactsProps) => {
             variant="page_wrapper"
             className="min-h-0 h-full py-[64px] items-start justify-center gap-y-[16px]"
           >
-            <Wrapper className="flex flex-col gap-y-[32px]">
+            <Wrapper className="flex flex-col gap-y-[24px]">
               {under_title && <Text variant="contacts_under_title">{under_title}</Text>}
               <Wrapper className="flex gap-x-[16px]">
-                {title && (
+                {data.title && (
                   <Text variant="contacts_title" asChild>
-                    <h1>{title}</h1>
+                    <h1>{data.title}</h1>
                   </Text>
                 )}
                 {button && (

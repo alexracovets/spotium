@@ -11,23 +11,6 @@ export const CasesPageFields = (): Field[] => {
       },
       fields: [
         {
-          name: 'title',
-          type: 'text',
-          required: true,
-          localized: true,
-          label: {
-            uk: 'Заголовок',
-            en: 'Title',
-          },
-          admin: {
-            description: {
-              uk: 'Основний заголовок сторінки.',
-              en: 'Main page title.',
-            },
-            width: '50%',
-          },
-        },
-        {
           name: 'elements',
           label: {
             uk: 'Відображати Кейси',

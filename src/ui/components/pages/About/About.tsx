@@ -17,7 +17,7 @@ export const About = ({ data }: AboutProps) => {
 
   if (!data.about_type_fields) return null
 
-  const { title, subtitle, description, developments } = data.about_type_fields
+  const { subtitle, description, developments } = data.about_type_fields
   const developmentCount = developments?.length ?? 0
   const itemsPerRow = 3
   const lastRowStartIndex = developmentCount - (developmentCount % itemsPerRow || itemsPerRow)
@@ -28,7 +28,7 @@ export const About = ({ data }: AboutProps) => {
         <Wrapper className="grid grid-cols-2 gap-x-[16px] h-full col-start-2 py-[64px]">
           <Wrapper className="grid grid-rows-[auto_1fr]">
             <Text variant="primary_heading" asChild>
-              <h1>{title}</h1>
+              <h1>{data.title}</h1>
             </Text>
             <Wrapper variant="page_wrapper" id="models_wrapper" />
           </Wrapper>

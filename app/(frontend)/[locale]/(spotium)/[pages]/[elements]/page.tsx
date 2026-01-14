@@ -4,7 +4,7 @@ import config from '@payload-config'
 import { getPayload } from 'payload'
 import { CollectionSlug } from 'payload'
 
-import { CaseItem, Cases, Main, Services } from '@pages'
+import { CaseItem } from '@pages'
 
 import { SupportedLocaleType } from '@types'
 

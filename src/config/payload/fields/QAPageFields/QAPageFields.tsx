@@ -22,28 +22,6 @@ export const QAPageFields = (): Field[] => {
       },
       fields: [
         {
-          type: 'row',
-          fields: [
-            {
-              name: 'title',
-              type: 'text',
-              required: true,
-              localized: true,
-              label: {
-                uk: 'Заголовок',
-                en: 'Title',
-              },
-              admin: {
-                description: {
-                  uk: 'Основний заголовок сторінки.',
-                  en: 'Main page title.',
-                },
-                width: '50%',
-              },
-            },
-          ],
-        },
-        {
           name: 'questions',
           type: 'array',
           label: {

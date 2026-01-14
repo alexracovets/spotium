@@ -21,22 +21,6 @@ export const AboutPageFields = (): Field[] => {
       },
       fields: [
         {
-          name: 'title',
-          type: 'text',
-          required: true,
-          localized: true,
-          label: {
-            uk: 'Заголовок',
-            en: 'Title',
-          },
-          admin: {
-            description: {
-              uk: 'Основний заголовок сторінки.',
-              en: 'Main page title.',
-            },
-          },
-        },
-        {
           name: 'subtitle',
           type: 'text',
           required: true,
@@ -99,7 +83,7 @@ export const AboutPageFields = (): Field[] => {
             {
               name: 'name',
               type: 'text',
-              required: true, 
+              required: true,
               label: {
                 uk: 'Назва',
                 en: 'Name',

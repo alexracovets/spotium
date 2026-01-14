@@ -32,6 +32,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   const footer = siteSettings.footer as SiteSetting['footer']
 
   const lacales = localizations.lacales as LocalizationApp['lacales']
+  const navigation = siteSettings.navigation as SiteSetting['navigation']
 
   return (
     <LayoutSpotium
@@ -40,6 +41,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
       footer={footer}
       lacales={lacales}
       locale={locale}
+      navigation={navigation}
     >
       {children}
     </LayoutSpotium>

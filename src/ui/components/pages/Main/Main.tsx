@@ -15,16 +15,19 @@ export const Main = ({ data }: MainProps) => {
 
   if (!data.main_type_fields) return null
 
-  const { title, description, button, developments } = data.main_type_fields
+  const { description, button, developments, title_main } = data.main_type_fields
 
   return (
     <CustomScroll className="h-full">
       <Container>
         <Wrapper className="grid grid-cols-2 gap-x-[16px] h-full col-start-2 py-[64px]">
-          <Wrapper variant="page_wrapper" className="min-h-0 h-full py-[64px] items-start">
-            {title && (
+          <Wrapper
+            variant="page_wrapper"
+            className="min-h-0 h-full py-[64px] items-start justify-center"
+          >
+            {title_main && (
               <Wrapper>
-                <RichTextRender text={title} variant="main" />
+                <RichTextRender text={title_main} variant="main" />
               </Wrapper>
             )}
             {description && (

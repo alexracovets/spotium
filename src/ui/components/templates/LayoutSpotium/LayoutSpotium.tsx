@@ -13,6 +13,7 @@ type LayoutSpotiumProps = ChildrenType & {
   footer: SiteSetting['footer']
   lacales: LocalizationApp['lacales']
   locale?: string
+  navigation: SiteSetting['navigation']
 }
 
 const LayoutSpotium = ({
@@ -22,6 +23,7 @@ const LayoutSpotium = ({
   footer,
   lacales,
   locale,
+  navigation,
 }: LayoutSpotiumProps) => {
   useLayoutDimensions()
   useLocaleLang()
@@ -29,7 +31,7 @@ const LayoutSpotium = ({
   return (
     <>
       <AppHeader logo={logo} animatedTexts={animatedTexts} />
-      <NavigationSheet />
+      <NavigationSheet navigation={navigation} />
       <main id="main-content" className="min-h-0 pointer-events-none">
         {children}
       </main>
