@@ -5,10 +5,7 @@ import * as THREE from 'three'
 
 interface GetGeometryProps {
   FIXED_INSTANCE_COUNT: number
-  HIDDEN_POSITION: THREE.Vector3
 }
-
-const HIDDEN_POSITION = new THREE.Vector3(0, -1000, 0)
 
 const params = {
   boxSize: 0.18,
@@ -47,13 +44,13 @@ export const getGeometry = ({ FIXED_INSTANCE_COUNT }: GetGeometryProps) => {
     aMisc[idx3 + 1] = 0
     aMisc[idx3 + 2] = Math.random()
 
-    aPositionStart[idx3] = HIDDEN_POSITION.x
-    aPositionStart[idx3 + 1] = HIDDEN_POSITION.y
-    aPositionStart[idx3 + 2] = HIDDEN_POSITION.z
+    aPositionStart[idx3] = Math.random() * 20 - 10
+    aPositionStart[idx3 + 1] = Math.random() * 20 - 10
+    aPositionStart[idx3 + 2] = Math.random() * 20 - 10
 
-    aPositionEnd[idx3] = HIDDEN_POSITION.x
-    aPositionEnd[idx3 + 1] = HIDDEN_POSITION.y
-    aPositionEnd[idx3 + 2] = HIDDEN_POSITION.z
+    aPositionEnd[idx3] = Math.random() * 20 - 10
+    aPositionEnd[idx3 + 1] = Math.random() * 20 - 10
+    aPositionEnd[idx3 + 2] = Math.random() * 20 - 10
 
     aJitter[idx3] = 0
     aJitter[idx3 + 1] = 0

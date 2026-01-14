@@ -1,9 +1,16 @@
 'use client'
 
-import { SRGBColorSpace, InstancedMesh, TextureLoader, Vector3, Group, Box3 } from 'three'
+import {
+  SRGBColorSpace,
+  InstancedMesh,
+  TextureLoader,
+  Vector3,
+  Group,
+  Box3,
+  InstancedBufferAttribute,
+} from 'three'
 import { useEffect, useRef, useCallback, useMemo, useState } from 'react'
-import { useThree } from '@react-three/fiber'
-import { uniform } from 'three/tsl'
+import { useThree, useFrame } from '@react-three/fiber'
 
 import { loadTextureMaterial } from './loadTextureMaterial'
 import { computeModelTransform } from './computeModelTransform'
@@ -16,7 +23,6 @@ import { useModel } from '@store'
 
 // Кількість воекселів
 const FIXED_INSTANCE_COUNT = 20000
-const HIDDEN_POSITION = new Vector3(0, -1000, 0)
 
 const SCATTER_RADIUS = 6
 
@@ -42,16 +48,19 @@ export const Voxels = () => {
   const groupRef = useRef<Group>(null)
 
   // Анімації
-  const uProgress = useMemo(() => uniform(0), [])
   const currentModelIdxRef = useRef<number>(0)
   const isAnimatingRef = useRef<boolean>(false)
+  const animProgressRef = useRef<number>(0)
+  const lastActiveCountRef = useRef<number>(0)
+  const usesWorldSpacePositionsRef = useRef(false)
+  const lastTransformRef = useRef<TransformObject | null>(null)
   const lastModelChangeRef = useRef<{
     activeModel: number | null
     modelsData: (VoxelPreparedItem[] | null)[] | null
   }>({ activeModel: null, modelsData: null })
 
   const geometry = useMemo(() => {
-    return getGeometry({ FIXED_INSTANCE_COUNT, HIDDEN_POSITION })
+    return getGeometry({ FIXED_INSTANCE_COUNT })
   }, [])
 
   const voxelTexture = useMemo(() => {
@@ -62,37 +71,67 @@ export const Voxels = () => {
   }, [])
 
   const material = useMemo(() => {
-    return loadTextureMaterial({ uProgress, voxelTexture })
-  }, [uProgress, voxelTexture])
+    return loadTextureMaterial({ voxelTexture })
+  }, [voxelTexture])
 
   const animateModel = useCallback(
-    (newModelIdx: number, mode: 'shape' | 'scatter', providedData?: VoxelPreparedItem[]) => {
+    (
+      newModelIdx: number,
+      mode: 'shape' | 'scatter',
+      providedData?: VoxelPreparedItem[],
+      transform?: TransformObject,
+      fadeOut?: boolean,
+      resetProgress?: boolean,
+      prevActiveCount?: number,
+    ) => {
       animateModelUtil({
         newModelIdx,
         mode,
         providedData,
+        fadeOut,
+        resetProgress,
+        prevActiveCount,
         modelsData,
+        transform,
         geometry,
         isAnimatingRef,
+        animProgressRef,
         currentModelIdxRef,
         FIXED_INSTANCE_COUNT,
         SCATTER_RADIUS,
-        HIDDEN_POSITION,
-        uProgress,
       })
     },
-    [geometry, modelsData, uProgress],
+    [geometry, modelsData],
   )
 
   const switchToModel = useCallback(
-    (newModelIdx: number, providedData?: VoxelPreparedItem[]) =>
-      animateModel(newModelIdx, 'shape', providedData),
+    (
+      newModelIdx: number,
+      providedData?: VoxelPreparedItem[],
+      transform?: TransformObject,
+      resetProgress?: boolean,
+      prevActiveCount?: number,
+    ) =>
+      animateModel(
+        newModelIdx,
+        'shape',
+        providedData,
+        transform,
+        false,
+        resetProgress,
+        prevActiveCount,
+      ),
     [animateModel],
   )
 
   const scatterModel = useCallback(
-    (newModelIdx: number, providedData?: VoxelPreparedItem[]) =>
-      animateModel(newModelIdx, 'scatter', providedData),
+    (
+      newModelIdx: number,
+      providedData?: VoxelPreparedItem[],
+      transform?: TransformObject,
+      fadeOut?: boolean,
+      resetProgress?: boolean,
+    ) => animateModel(newModelIdx, 'scatter', providedData, transform, fadeOut, resetProgress),
     [animateModel],
   )
 
@@ -114,6 +153,72 @@ export const Voxels = () => {
     return modelTransform.worldCenter
   }, [modelTransform])
 
+  const bakePositionsToWorldSpace = useCallback(
+    (transform: TransformObject) => {
+      const attrPosStart = geometry.attributes.aPositionStart as InstancedBufferAttribute
+      const attrPosEnd = geometry.attributes.aPositionEnd as InstancedBufferAttribute
+      const startArray = attrPosStart.array as Float32Array
+      const endArray = attrPosEnd.array as Float32Array
+
+      for (let i = 0; i < FIXED_INSTANCE_COUNT; i++) {
+        const idx3 = i * 3
+        startArray[idx3] = startArray[idx3] * transform.scale + transform.groupPosition.x
+        startArray[idx3 + 1] = startArray[idx3 + 1] * transform.scale + transform.groupPosition.y
+        startArray[idx3 + 2] = startArray[idx3 + 2] * transform.scale + transform.groupPosition.z
+
+        endArray[idx3] = endArray[idx3] * transform.scale + transform.groupPosition.x
+        endArray[idx3 + 1] = endArray[idx3 + 1] * transform.scale + transform.groupPosition.y
+        endArray[idx3 + 2] = endArray[idx3 + 2] * transform.scale + transform.groupPosition.z
+      }
+
+      attrPosStart.needsUpdate = true
+      attrPosEnd.needsUpdate = true
+    },
+    [geometry],
+  )
+
+  useFrame((_, delta) => {
+    if (!isAnimatingRef.current) return
+
+    const attrPosStart = geometry.attributes.aPositionStart as InstancedBufferAttribute
+    const attrPosEnd = geometry.attributes.aPositionEnd as InstancedBufferAttribute
+    const attrMisc = geometry.attributes.aMisc as InstancedBufferAttribute
+    const startArray = attrPosStart.array as Float32Array
+    const endArray = attrPosEnd.array as Float32Array
+    const miscArray = attrMisc.array as Float32Array
+
+    const transitionDuration = 10.0
+    animProgressRef.current = Math.min(1, animProgressRef.current + delta / transitionDuration)
+    const t = animProgressRef.current
+    const lerpSpeed = t < 0.7 ? 5 : 16
+    const lerpFactor = 1 - Math.exp(-lerpSpeed * delta)
+    let maxDelta = 0
+
+    for (let i = 0; i < FIXED_INSTANCE_COUNT; i++) {
+      const idx3 = i * 3
+      const dx = endArray[idx3] - startArray[idx3]
+      const dy = endArray[idx3 + 1] - startArray[idx3 + 1]
+      const dz = endArray[idx3 + 2] - startArray[idx3 + 2]
+
+      startArray[idx3] += dx * lerpFactor
+      startArray[idx3 + 1] += dy * lerpFactor
+      startArray[idx3 + 2] += dz * lerpFactor
+
+      const scaleDelta = miscArray[idx3 + 1] - miscArray[idx3]
+      miscArray[idx3] += scaleDelta * lerpFactor
+
+      const localMax = Math.max(Math.abs(dx), Math.abs(dy), Math.abs(dz), Math.abs(scaleDelta))
+      if (localMax > maxDelta) maxDelta = localMax
+    }
+
+    attrPosStart.needsUpdate = true
+    attrMisc.needsUpdate = true
+
+    if (maxDelta < 1e-3 && animProgressRef.current >= 1) {
+      isAnimatingRef.current = false
+    }
+  })
+
   useEffect(() => {
     if (!modelsData || modelsData.length === 0) return
 
@@ -121,19 +226,20 @@ export const Voxels = () => {
       lastModelChangeRef.current.activeModel !== activeModel ||
       lastModelChangeRef.current.modelsData !== modelsData
 
-    if (shouldRunModelChange) {
-      const data = activeModel >= 0 ? modelsData[activeModel] : null
-      if (data && data.length > 0) {
-        switchToModel(activeModel, data)
-      } else {
+    if (activeModel < 0) {
+      if (shouldRunModelChange) {
         const fallbackIdx = currentModelIdxRef.current
         const fallbackData =
           modelsData[fallbackIdx] ?? modelsData.find((model) => model && model.length > 0)
+        const transformForPositions = usesWorldSpacePositionsRef.current
+          ? (lastTransformRef.current ?? undefined)
+          : undefined
         if (!fallbackData) return
-        scatterModel(fallbackIdx, fallbackData)
+        scatterModel(fallbackIdx, fallbackData, transformForPositions, true)
+        lastModelChangeRef.current = { activeModel, modelsData }
+        setModelTransform(null)
       }
-
-      lastModelChangeRef.current = { activeModel, modelsData }
+      return
     }
 
     if (
@@ -162,9 +268,63 @@ export const Voxels = () => {
       return
     }
 
-    groupRef.current.scale.set(nextTransform.scale, nextTransform.scale, nextTransform.scale)
-    groupRef.current.position.copy(nextTransform.groupPosition)
-    setModelTransform(nextTransform)
+    if (!usesWorldSpacePositionsRef.current && lastTransformRef.current) {
+      bakePositionsToWorldSpace(lastTransformRef.current)
+      usesWorldSpacePositionsRef.current = true
+    }
+
+    if (usesWorldSpacePositionsRef.current) {
+      groupRef.current.scale.set(1, 1, 1)
+      groupRef.current.position.set(0, 0, 0)
+    }
+
+    const transformForPositions = usesWorldSpacePositionsRef.current ? nextTransform : undefined
+
+    const transformChanged =
+      !lastTransformRef.current ||
+      lastTransformRef.current.scale !== nextTransform.scale ||
+      lastTransformRef.current.groupPosition.x !== nextTransform.groupPosition.x ||
+      lastTransformRef.current.groupPosition.y !== nextTransform.groupPosition.y ||
+      lastTransformRef.current.groupPosition.z !== nextTransform.groupPosition.z
+
+    if (shouldRunModelChange) {
+      const data = modelsData[activeModel]
+      if (data && data.length > 0) {
+        switchToModel(
+          activeModel,
+          data,
+          transformForPositions,
+          undefined,
+          lastActiveCountRef.current,
+        )
+        lastActiveCountRef.current = data.length
+      } else {
+        const fallbackIdx = currentModelIdxRef.current
+        const fallbackData =
+          modelsData[fallbackIdx] ?? modelsData.find((model) => model && model.length > 0)
+        if (!fallbackData) return
+        scatterModel(fallbackIdx, fallbackData, transformForPositions, true)
+      }
+
+      lastModelChangeRef.current = { activeModel, modelsData }
+    } else if (transformChanged) {
+      const data = modelsData[activeModel]
+      const fallbackData = data ?? modelsData.find((model) => model && model.length > 0)
+      if (!fallbackData) return
+      switchToModel(
+        activeModel,
+        fallbackData,
+        transformForPositions,
+        false,
+        lastActiveCountRef.current,
+      )
+      lastActiveCountRef.current = fallbackData.length
+    }
+
+    if (transformChanged) {
+      setModelTransform(nextTransform)
+      lastTransformRef.current = nextTransform
+    }
   }, [
     activeModel,
     modelsData,
@@ -175,6 +335,7 @@ export const Voxels = () => {
     currentModelBoundingBox,
     scatterModel,
     switchToModel,
+    bakePositionsToWorldSpace,
     camera,
     size,
   ])
