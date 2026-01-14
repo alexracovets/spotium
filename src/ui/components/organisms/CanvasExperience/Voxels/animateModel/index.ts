@@ -1,0 +1,1 @@
+export { animateModel } from './animateModel'

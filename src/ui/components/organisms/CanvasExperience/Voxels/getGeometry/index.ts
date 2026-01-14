@@ -1,0 +1,1 @@
+export { getGeometry } from './getGeometry'
