@@ -24,16 +24,16 @@ export const About = ({ data }: AboutProps) => {
   const lastRowStartIndex = developmentCount - (developmentCount % itemsPerRow || itemsPerRow)
 
   return (
-    <CustomScroll>
-      <Container>
-        <Wrapper className="grid grid-cols-2 gap-x-[16px] h-full col-start-2 py-[64px]">
-          <Wrapper className="grid grid-rows-[auto_1fr]">
-            <Text variant="primary_heading" asChild>
-              <h1>{data.title}</h1>
-            </Text>
-            <Wrapper variant="page_wrapper" id="models_wrapper" />
-          </Wrapper>
-          <Wrapper variant="page_wrapper" className="gap-y-[16px] justify-center">
+    <Container>
+      <Wrapper className="grid grid-cols-2 gap-x-[16px] h-full col-start-2 py-[64px]">
+        <Wrapper className="grid grid-rows-[auto_1fr]">
+          <Text variant="primary_heading" asChild>
+            <h1>{data.title}</h1>
+          </Text>
+          <Wrapper variant="page_wrapper" id="models_wrapper" />
+        </Wrapper>
+        <CustomScroll>
+          <Wrapper variant="page_wrapper" className="gap-y-[16px] justify-center h-full min-h-fit">
             <Wrapper className="flex flex-col gap-y-[24px] bg-bg-content rounded-[8px] p-[16px]">
               <Text className="text-[32px] leading-[1]">{subtitle}</Text>
               <Wrapper className="flex flex-col gap-y-[12px]">
@@ -64,8 +64,8 @@ export const About = ({ data }: AboutProps) => {
               </div>
             </Wrapper>
           </Wrapper>
-        </Wrapper>
-      </Container>
-    </CustomScroll>
+        </CustomScroll>
+      </Wrapper>
+    </Container>
   )
 }

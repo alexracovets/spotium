@@ -11,19 +11,17 @@ interface QuestionsProps {
 
 export const Questions = ({ items }: QuestionsProps) => {
   return (
-    <Wrapper>
-      <Accordion type="single" collapsible>
-        {items.map((item, idx) => (
-          <AccordionItem key={idx} value={idx.toString()}>
-            <AccordionTrigger>
-              <RichTextRender text={item.question} variant="medium" />
-            </AccordionTrigger>
-            <AccordionContent>
-              <RichTextRender text={item.answer} variant="primary" />
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </Wrapper>
+    <Accordion type="single" collapsible>
+      {items.map((item, idx) => (
+        <AccordionItem key={idx} value={idx.toString()}>
+          <AccordionTrigger>
+            <RichTextRender text={item.question} variant="medium" />
+          </AccordionTrigger>
+          <AccordionContent>
+            <RichTextRender text={item.answer} variant="primary" />
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
   )
 }

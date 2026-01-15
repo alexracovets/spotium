@@ -18,6 +18,7 @@
   --color-border-destructive: #4b4d5a;
 
   --shadow-custom: 0px 0px 4px white;
+  --breakpoint-md: 1024px;
 }
 
 .email_bg {

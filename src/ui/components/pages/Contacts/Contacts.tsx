@@ -36,80 +36,74 @@ export const Contacts = ({ data }: ContactsProps) => {
   const phoneValueSanitized = phone_value?.replace(/\s+/g, '') || ''
 
   return (
-    <CustomScroll className="h-full">
-      <Container>
-        <Wrapper className="grid grid-cols-2 gap-x-[16px] h-full col-start-2 py-[64px] ">
-          <Wrapper
-            variant="page_wrapper"
-            className="min-h-0 h-full py-[64px] items-start justify-center gap-y-[16px]"
-          >
-            <Wrapper className="flex flex-col gap-y-[24px]">
-              {under_title && <Text variant="contacts_under_title">{under_title}</Text>}
-              <Wrapper className="flex gap-x-[16px]">
-                {data.title && (
-                  <Text variant="contacts_title" asChild>
-                    <h1>{data.title}</h1>
+    <Wrapper variant="main_wrapper">
+      <Wrapper variant="page_wrapper" className="min-h-0 h-full items-start justify-center">
+        <CustomScroll className="h-full">
+          <Container>
+            <Wrapper className="flex flex-col justify-center h-full items-start gap-y-[32px] min-h-fit py-[24px]">
+              <Wrapper className="flex flex-col gap-y-[16px]">
+                <Wrapper className="flex flex-col gap-y-[24px]">
+                  {under_title && <Text variant="contacts_under_title">{under_title}</Text>}
+                  <Wrapper className="flex gap-x-[16px]">
+                    {data.title && (
+                      <Text variant="contacts_title" asChild>
+                        <h1>{data.title}</h1>
+                      </Text>
+                    )}
+                    {button && (
+                      <Button
+                        variant="email"
+                        size="email"
+                        onClick={handleEmailClick}
+                        className={isEmailAnimating ? 'scale-[1.1]' : ''}
+                      >
+                        {email}
+                        <span className="text-base-white">{email_copy}</span>
+                      </Button>
+                    )}
+                  </Wrapper>
+                  <ul>
+                    {work_time?.map((item) => (
+                      <li key={item.id} className="grid grid-cols-[100px_1fr] gap-x-[16px]">
+                        <Text>{item.name}</Text>
+                        <Text>{item.time}</Text>
+                      </li>
+                    ))}
+                  </ul>
+                </Wrapper>
+                {phone_value && (
+                  <Text>
+                    {phone_name}
+                    <LinkAtom variant="phone" href={`tel:${phoneValueSanitized}`}>
+                      &nbsp;{phone_value}
+                    </LinkAtom>
                   </Text>
                 )}
-                {button && (
-                  <Button
-                    variant="email"
-                    size="email"
-                    onClick={handleEmailClick}
-                    className={isEmailAnimating ? 'scale-[1.1]' : ''}
-                  >
-                    {email}
-                    <span className="text-base-white">{email_copy}</span>
-                  </Button>
-                )}
               </Wrapper>
-              <ul>
-                {work_time?.map((item) => (
-                  <li key={item.id} className="grid grid-cols-[100px_1fr] gap-x-[16px]">
-                    <Text>{item.name}</Text>
-                    <Text>{item.time}</Text>
-                  </li>
-                ))}
-              </ul>
+              {socials && (
+                <ul className="flex justify-start items-center gap-x-[16px]">
+                  {socials?.map((item) => {
+                    return (
+                      <li key={item.id}>
+                        <LinkAtom variant="social" href={item.href} target="_blank">
+                          <ImageAtom image={item.icon as Media} alt={item.name} variant="social" />
+                          {item.name}
+                        </LinkAtom>
+                      </li>
+                    )
+                  })}
+                </ul>
+              )}
+              {button && (
+                <Button size="normal" arrow>
+                  {button}
+                </Button>
+              )}
             </Wrapper>
-            {phone_value && (
-              <Text>
-                {phone_name}
-                <LinkAtom variant="phone" href={`tel:${phoneValueSanitized}`}>
-                  &nbsp;{phone_value}
-                </LinkAtom>
-              </Text>
-            )}
-            {socials && (
-              <ul className="flex justify-start items-center gap-x-[16px]">
-                {socials?.map((item) => {
-                  return (
-                    <li key={item.id}>
-                      <LinkAtom variant="social" href={item.href} target="_blank">
-                        <ImageAtom image={item.icon as Media} alt={item.name} variant="social" />
-                        {item.name}
-                      </LinkAtom>
-                    </li>
-                  )
-                })}
-              </ul>
-            )}
-
-            {button && (
-              <Button size="normal" arrow>
-                {button}
-              </Button>
-            )}
-          </Wrapper>
-          <div className="relative overflow-hidden">
-            <Wrapper
-              variant="page_wrapper"
-              id="models_wrapper"
-              className="scale-[1.3] absolute top-0 left-0 w-full h-full"
-            />
-          </div>
-        </Wrapper>
-      </Container>
-    </CustomScroll>
+          </Container>
+        </CustomScroll>
+      </Wrapper>
+      <Wrapper variant="page_wrapper" id="models_wrapper" />
+    </Wrapper>
   )
 }
