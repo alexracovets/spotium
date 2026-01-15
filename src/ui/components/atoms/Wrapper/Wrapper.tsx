@@ -26,7 +26,8 @@ const variantWrapper = cva('', {
       main_page_wrapper: 'flex flex-col justify-center items-start',
       page_wrapper: 'flex flex-col justify-start items-start gap-y-[32px] pointer-events-auto',
       page_content: 'flex flex-col justify-start items-start gap-y-[32px]',
-      developments_wrapper: 'max-w-[640px] relative overflow-hidden developments_wrapper_mask',
+      developments_wrapper:
+        'w-full max-w-[640px] relative overflow-hidden developments_wrapper_mask min-h-fit',
       developments: 'flex justify-center items-center gap-x-[20px] px-[10px]',
       development_item: 'flex justify-center items-center gap-x-[16px]',
       column: 'flex flex-col justify-start items-start gap-y-[16px]',
@@ -37,6 +38,7 @@ const variantWrapper = cva('', {
       tags: 'flex justify-start items-start flex-wrap gap-[8px]',
       rich_text_wrapper: 'flex flex-col justify-start items-start gap-y-[8px] py-[16px]',
       tab_wrapper: 'flex flex-col justify-start items-start gap-y-[8px]',
+      main_wrapper: 'grid grid-cols-2 gap-x-[16px] h-full col-start-2',
     },
   },
   defaultVariants: {

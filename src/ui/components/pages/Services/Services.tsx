@@ -35,7 +35,9 @@ export const Services = ({ data }: ServicesProps) => {
             setScrollToElementId={setOpenItemId}
             className="content_wrapper_mask"
           >
-            {services && <AcordionServices items={services} onOpenChange={setOpenItemId} />}
+            <div className="flex flex-col justify-center items-start min-h-fit h-full">
+              {services && <AcordionServices items={services} onOpenChange={setOpenItemId} />}
+            </div>
           </CustomScroll>
           {button && (
             <Button size="normal" arrow className="mx-auto">

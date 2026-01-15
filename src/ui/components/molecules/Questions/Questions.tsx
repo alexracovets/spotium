@@ -10,7 +10,6 @@ interface QuestionsProps {
 }
 
 export const Questions = ({ items }: QuestionsProps) => {
-  console.log(items)
   return (
     <Wrapper>
       <Accordion type="single" collapsible>

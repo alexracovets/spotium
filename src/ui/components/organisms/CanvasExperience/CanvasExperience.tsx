@@ -39,11 +39,11 @@ export const CanvasExperience = memo(() => {
     <Wrapper variant="canvas_experience">
       <Canvas
         gl={initRenderer}
-        camera={{ position: [0, 0.5, 2].map((v) => v * 8) as [number, number, number], fov: 45 }}
+        camera={{ position: [0, 0, 2].map((v) => v * 8) as [number, number, number], fov: 45 }}
         shadows
         dpr={[1, 2]}
       >
-        <ambientLight intensity={1} />
+        <ambientLight intensity={1.4} />
         <LightHolder />
         <Voxels />
       </Canvas>

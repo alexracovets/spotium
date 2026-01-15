@@ -11,6 +11,8 @@ interface AnimateModelProps {
   fadeOut?: boolean
   resetProgress?: boolean
   prevActiveCount?: number
+  rotationY?: number
+  rotationCenter?: Vector3
   modelsData: ({ position: Vector3 }[] | null)[] | null
   transform?: {
     scale: number
@@ -31,6 +33,8 @@ export const animateModel = ({
   fadeOut = false,
   resetProgress = true,
   prevActiveCount,
+  rotationY,
+  rotationCenter,
   modelsData,
   transform,
   geometry,
@@ -57,6 +61,9 @@ export const animateModel = ({
   const miscArray = attrMisc.array as Float32Array
   const posEndArray = attrPosEnd.array as Float32Array
   const jitterArray = attrJitter.array as Float32Array
+  const hasRotation = typeof rotationY === 'number' && rotationCenter
+  const cosY = hasRotation ? Math.cos(rotationY as number) : 1
+  const sinY = hasRotation ? Math.sin(rotationY as number) : 0
 
   for (let i = 0; i < FIXED_INSTANCE_COUNT; i++) {
     const idx3 = i * 3
@@ -71,15 +78,22 @@ export const animateModel = ({
 
     if (i < targetData.length) {
       const voxel = targetData[i]
-      const baseX = transform
+      let baseX = transform
         ? voxel.position.x * transform.scale + transform.groupPosition.x
         : voxel.position.x
-      const baseY = transform
+      let baseY = transform
         ? voxel.position.y * transform.scale + transform.groupPosition.y
         : voxel.position.y
-      const baseZ = transform
+      let baseZ = transform
         ? voxel.position.z * transform.scale + transform.groupPosition.z
         : voxel.position.z
+
+      if (hasRotation && rotationCenter) {
+        const dx = baseX - rotationCenter.x
+        const dz = baseZ - rotationCenter.z
+        baseX = rotationCenter.x + dx * cosY - dz * sinY
+        baseZ = rotationCenter.z + dx * sinY + dz * cosY
+      }
       if (mode === 'scatter') {
         posEndArray[idx3] = baseX + jitterX
         posEndArray[idx3 + 1] = baseY + jitterY

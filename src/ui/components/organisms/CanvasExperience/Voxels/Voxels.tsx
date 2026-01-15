@@ -83,6 +83,8 @@ export const Voxels = () => {
       fadeOut?: boolean,
       resetProgress?: boolean,
       prevActiveCount?: number,
+      rotationY?: number,
+      rotationCenter?: Vector3,
     ) => {
       animateModelUtil({
         newModelIdx,
@@ -91,6 +93,8 @@ export const Voxels = () => {
         fadeOut,
         resetProgress,
         prevActiveCount,
+        rotationY,
+        rotationCenter,
         modelsData,
         transform,
         geometry,
@@ -111,6 +115,8 @@ export const Voxels = () => {
       transform?: TransformObject,
       resetProgress?: boolean,
       prevActiveCount?: number,
+      rotationY?: number,
+      rotationCenter?: Vector3,
     ) =>
       animateModel(
         newModelIdx,
@@ -120,6 +126,8 @@ export const Voxels = () => {
         false,
         resetProgress,
         prevActiveCount,
+        rotationY,
+        rotationCenter,
       ),
     [animateModel],
   )
@@ -147,6 +155,11 @@ export const Voxels = () => {
     })
     return box
   }, [modelsData, activeModel])
+
+  const currentModelCenter = useMemo(() => {
+    if (!currentModelBoundingBox) return null
+    return currentModelBoundingBox.getCenter(new Vector3())
+  }, [currentModelBoundingBox])
 
   const carouselPosition = useMemo(() => {
     if (!modelTransform) return null
@@ -249,6 +262,9 @@ export const Voxels = () => {
       modelsWrapperX === null ||
       modelsWrapperY === null
     ) {
+      if (groupRef.current) {
+        groupRef.current.scale.set(0, 0, 0)
+      }
       setModelTransform(null)
       return
     }
@@ -276,9 +292,16 @@ export const Voxels = () => {
     if (usesWorldSpacePositionsRef.current) {
       groupRef.current.scale.set(1, 1, 1)
       groupRef.current.position.set(0, 0, 0)
+    } else {
+      groupRef.current.scale.set(nextTransform.scale, nextTransform.scale, nextTransform.scale)
+      groupRef.current.position.copy(nextTransform.groupPosition)
     }
 
     const transformForPositions = usesWorldSpacePositionsRef.current ? nextTransform : undefined
+    const rotationY = activeModel === 0 ? 2.5 : 0
+    const rotationCenter = usesWorldSpacePositionsRef.current
+      ? nextTransform.worldCenter
+      : (currentModelCenter ?? undefined)
 
     const transformChanged =
       !lastTransformRef.current ||
@@ -296,6 +319,8 @@ export const Voxels = () => {
           transformForPositions,
           undefined,
           lastActiveCountRef.current,
+          rotationY,
+          rotationCenter,
         )
         lastActiveCountRef.current = data.length
       } else {
@@ -317,6 +342,8 @@ export const Voxels = () => {
         transformForPositions,
         false,
         lastActiveCountRef.current,
+        rotationY,
+        rotationCenter,
       )
       lastActiveCountRef.current = fallbackData.length
     }
@@ -339,7 +366,6 @@ export const Voxels = () => {
     camera,
     size,
   ])
-
   return (
     <>
       <LoadModels setModelsData={setModelsData} modelsData={modelsData} />
