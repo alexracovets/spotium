@@ -27,7 +27,7 @@ const buttonVariants = cva(
           'transition-all duration-300 ease-in-out',
         ),
         navigation: cn(
-          'flex justify-end items-center min-w-[280px] gap-x-[24px] disabled:opacity-100 disabled:cursor-pointer shadow-none!',
+          'flex justify-end items-center gap-x-[24px] disabled:opacity-100 disabled:cursor-pointer shadow-none!',
           'outline-none',
         ),
         destructive: '',

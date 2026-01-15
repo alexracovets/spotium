@@ -25,9 +25,19 @@ const NavigationButton = () => {
         aria-controls="navigation-menu"
         aria-haspopup="dialog"
       >
-        <Text variant="navigation_button" data-active={isOpenNavigation || isHovered}>
-          {isOpenNavigation ? 'Close' : 'Menu'}
-        </Text>
+        <div className="relative">
+          <Text variant="navigation_button" className="opacity-0">
+            Menu
+          </Text>
+          <Text
+            variant="navigation_button"
+            data-active={isOpenNavigation || isHovered}
+            className="absolute top-0 right-0"
+          >
+            {isOpenNavigation ? 'Close' : 'Menu'}
+          </Text>
+        </div>
+
         <Wrapper variant="navigation_button">
           <Wrapper variant="navigation_button_inner">
             <div

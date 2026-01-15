@@ -17,8 +17,7 @@ const variantWrapper = cva('', {
       footer:
         'relative py-[16px] relative before:absolute before:content-[" "] before:left-0 before:top-0 before:w-full before:h-[1px] before:bg-base-white',
       heder_wrapper: 'flex justify-between items-center gap-x-[16px] relative',
-      animated_text:
-        'flex justify-center items-center gap-[32px] absolute top-0 left-0 w-full h-full z-[-1]',
+      animated_text: 'flex justify-center items-center gap-[32px] w-full h-full z-[-1]',
       navigation_button: 'w-[72px] min-w-[72px] h-[72px] min-h-[72px] relative',
       navigation_button_inner:
         'w-[72px] h-[76px] absolute top-[50%] left-0 translate-y-[-50%] flex items-center justify-center',
