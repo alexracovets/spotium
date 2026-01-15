@@ -10,23 +10,30 @@ const variantWrapper = cva('', {
   variants: {
     variant: {
       default: 'w-full',
-      container: 'px-[50px] mx-auto h-full',
+      container: cn('px-[50px] mx-auto h-full', 'max-md:px-[24px]', 'max-sm:px-[16px]'),
       app: 'relative grid grid-rows-[auto_1fr_auto] h-[100dvh] bg-base-black antialiased text-base-text max-h-screen h-screen',
       header:
         'py-[4px] relative before:absolute before:content-[" "] before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-base-white',
       footer:
         'relative py-[16px] relative before:absolute before:content-[" "] before:left-0 before:top-0 before:w-full before:h-[1px] before:bg-base-white',
       heder_wrapper: 'flex justify-between items-center gap-x-[16px] relative',
-      animated_text: 'flex justify-center items-center gap-[32px] w-full h-full z-[-1]',
+      animated_text: cn(
+        'flex justify-center items-center gap-[32px] w-full h-full z-[-1]',
+        'max-md:gap-[16px]',
+      ),
       navigation_button: 'w-[72px] min-w-[72px] h-[72px] min-h-[72px] relative',
       navigation_button_inner:
         'w-[72px] h-[76px] absolute top-[50%] left-0 translate-y-[-50%] flex items-center justify-center',
       localization: 'absolute right-0 top-0 h-full flex items-center justify-center gap-x-[8px]',
-      main_page_wrapper: 'flex flex-col justify-center items-start h-full min-h-0',
-      page_wrapper: 'flex flex-col justify-start items-start h-full min-h-0',
+      main_page_wrapper: 'flex flex-col justify-center items-start h-full min-h-0 relative',
+      page_wrapper: 'flex flex-col justify-start items-start h-full min-h-0 pointer-events-auto',
       page_content: 'flex flex-col justify-start items-start gap-y-[32px]',
-      developments_wrapper:
+      developments_wrapper: cn(
         'w-full max-w-[640px] relative overflow-hidden developments_wrapper_mask min-h-fit',
+        'max-sm:max-w-[400px] max-sm:mx-auto',
+        'max-xs:max-w-[320px]',
+        'max-xxs:max-w-[280px]',
+      ),
       developments: 'flex justify-center items-center gap-x-[20px] px-[10px]',
       development_item: 'flex justify-center items-center gap-x-[16px]',
       column: 'flex flex-col justify-start items-start gap-y-[16px]',
@@ -39,8 +46,15 @@ const variantWrapper = cva('', {
       tab_wrapper: 'flex flex-col justify-start items-start gap-y-[8px]',
       main_wrapper: 'relative h-full',
       main_content: cn(
-        'flex flex-col justify-center items-start py-[32px] gap-y-[32px] h-full min-h-fit',
+        'flex flex-col justify-center items-start py-[32px] gap-y-[32px] w-fit h-full min-h-fit',
         'max-xl:gap-y-[16px]',
+        'max-sm:justify-start max-sm:mx-auto max-sm:gap-y-[32px]',
+      ),
+      main_models: cn(
+        'absolute top-0 right-0 w-full max-w-[900px] h-full',
+        'max-[1500px]:max-w-[600px]',
+        'max-[1350px]:max-w-[500px]',
+        'max-sm:relative max-sm:max-w-full max-sm:h-[80dvw] max-sm:scale-[1.3] max-sm:order-1 ',
       ),
     },
   },

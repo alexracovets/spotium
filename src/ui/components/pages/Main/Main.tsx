@@ -4,9 +4,8 @@ import { Page } from '@payload-types'
 
 import { Developments, MainTitle, MainDescription } from '@molecules'
 
-import { useModelsWrapperDimensions, useSwitchModel } from '@hooks'
+import { useMobile, useModelsWrapperDimensions, useSwitchModel } from '@hooks'
 import { Button, Container, CustomScroll, Wrapper } from '@atoms'
-import { cn } from '@utils'
 
 type MainProps = {
   data: Page
@@ -15,6 +14,7 @@ type MainProps = {
 export const Main = ({ data }: MainProps) => {
   useModelsWrapperDimensions()
   useSwitchModel({ newModel: 0 })
+  const isMobile = useMobile()
 
   if (!data.main_type_fields) return null
 
@@ -23,12 +23,14 @@ export const Main = ({ data }: MainProps) => {
   return (
     <Wrapper variant="main_wrapper">
       <Wrapper variant="page_wrapper">
+        {isMobile === false && <Wrapper variant="main_models" id="models_wrapper" />}
         <CustomScroll>
           <Container>
             <Wrapper variant="main_content">
+              {isMobile === true && <Wrapper variant="main_models" id="models_wrapper" />}
               <MainTitle title_main={title_main} />
               <MainDescription description={description} />
-              <Button size="normal" arrow>
+              <Button size="normal" arrow className="max-sm:order-3">
                 {button}
               </Button>
               <Developments developments={developments} />
@@ -36,15 +38,6 @@ export const Main = ({ data }: MainProps) => {
           </Container>
         </CustomScroll>
       </Wrapper>
-      <Wrapper
-        className={cn(
-          'absolute top-0 right-0 w-full max-w-[900px] h-full',
-          'max-[1500px]:max-w-[600px]',
-          'max-[1350px]:max-w-[500px]',
-        )}
-        variant="page_wrapper"
-        id="models_wrapper"
-      />
     </Wrapper>
   )
 }

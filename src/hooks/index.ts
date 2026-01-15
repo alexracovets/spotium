@@ -1,5 +1,6 @@
-export { useLayoutDimensions } from './useLayoutDimensions'
-export { useLocaleLang } from './useLocaleLang'
 export { useModelsWrapperDimensions } from './useModelsWrapperDimensions'
 export { useGetServicesMedia } from './useGetServicesMedia'
+export { useLayoutDimensions } from './useLayoutDimensions'
 export { useSwitchModel } from './useSwitchModel'
+export { useLocaleLang } from './useLocaleLang'
+export { useMobile } from './useMobile'

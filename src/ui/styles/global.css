@@ -20,6 +20,9 @@
   --shadow-custom: 0px 0px 4px white;
   --breakpoint-xl: 1440px;
   --breakpoint-md: 1024px;
+  --breakpoint-sm: 768px;
+  --breakpoint-xs: 480px;
+  --breakpoint-xxs: 360px;
 }
 
 .email_bg {

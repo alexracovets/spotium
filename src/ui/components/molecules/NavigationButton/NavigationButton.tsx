@@ -4,11 +4,13 @@ import { useState } from 'react'
 
 import { Button, Text, Wrapper } from '@atoms'
 import { useNavigation } from '@store'
-import { cn } from '@/utils'
+import { useMobile } from '@hooks'
+import { cn } from '@utils'
 
 const NavigationButton = () => {
   const { isOpenNavigation, setIsOpenNavigation } = useNavigation()
   const [isHovered, setIsHovered] = useState(false)
+  const isMobile = useMobile()
 
   return (
     <div className="cursor-pointer">
@@ -25,19 +27,20 @@ const NavigationButton = () => {
         aria-controls="navigation-menu"
         aria-haspopup="dialog"
       >
-        <div className="relative">
-          <Text variant="navigation_button" className="opacity-0">
-            Close
-          </Text>
-          <Text
-            variant="navigation_button"
-            data-active={isOpenNavigation || isHovered}
-            className="absolute top-0 right-0"
-          >
-            {isOpenNavigation ? 'Close' : 'Menu'}
-          </Text>
-        </div>
-
+        {isMobile === false && (
+          <div className="relative">
+            <Text variant="navigation_button" className="opacity-0">
+              Close
+            </Text>
+            <Text
+              variant="navigation_button"
+              data-active={isOpenNavigation || isHovered}
+              className="absolute top-0 right-0"
+            >
+              {isOpenNavigation ? 'Close' : 'Menu'}
+            </Text>
+          </div>
+        )}
         <Wrapper variant="navigation_button">
           <Wrapper variant="navigation_button_inner">
             <div

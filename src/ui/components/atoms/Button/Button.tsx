@@ -24,6 +24,7 @@ const buttonVariants = cva(
           '[&>p]:flex [&>p]:items-center [&>p]:justify-center [&>p]:gap-x-0 [&>p]:px-[24px] [&>p]:transition-all [&>p]:duration-300 [&>p]:ease-linear',
           'hover:[&>p]:px-0 hover:[&>p>svg]:w-[40px] hover:[&>p>svg]:h-[40px] hover:[&>p]:gap-x-[8px] hover:[&>p>svg]:rotate-0 hover:[&>p>svg]:translate-y-0',
           '[&>svg]:transition-all [&>svg]:duration-300 [&>svg]:ease-in-out',
+          "max-sm:hover:[&>p>svg]:w-[36px] max-sm:hover:[&>p>svg]:h-[36px]",
           'transition-all duration-300 ease-in-out',
         ),
         navigation: cn(
@@ -47,7 +48,10 @@ const buttonVariants = cva(
       },
       size: {
         default: '',
-        normal: 'text-[28px] font-[700] px-[24px] py-[8px]',
+        normal: cn(
+          'text-[28px] font-[700] px-[24px] py-[8px]',
+          'max-sm:text-[24px] max-sm:px-[20px] max-sm:mx-auto',
+        ),
         link: 'text-[42px] px-[30px] py-[16px]',
         email: 'text-[14px] py-[16px] px-[32px] leading-[1]',
       },

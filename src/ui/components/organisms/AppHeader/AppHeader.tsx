@@ -7,6 +7,7 @@ import { Logo } from '@molecules'
 import type { Media, SiteSetting } from '@payload-types'
 import { Container, Wrapper } from '@atoms'
 import { AnimatedText, NavigationButton } from '@molecules'
+import { useMobile } from '@hooks'
 
 type AppHeaderProps = {
   logo: Media
@@ -14,13 +15,14 @@ type AppHeaderProps = {
 }
 
 const AppHeader = memo(({ logo, animatedTexts }: AppHeaderProps) => {
+  const isMobile = useMobile()
   return (
     <Container asChild>
       <header className="relative z-51 bg-base-dark">
         <Wrapper variant="header" asChild>
           <Wrapper variant="heder_wrapper">
             <Logo image={logo} />
-            <AnimatedText texts={animatedTexts} />
+            {isMobile === false && <AnimatedText texts={animatedTexts} />}
             <NavigationButton />
           </Wrapper>
         </Wrapper>

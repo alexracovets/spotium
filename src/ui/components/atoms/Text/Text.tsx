@@ -13,10 +13,12 @@ const variantText = cva('font-jetbrains_mono font-medium', {
       main_heading: cn(
         'text-[80px] font-bebas_neue uppercase text-base-white leading-[1]',
         'max-xl:text-[64px]',
+        'max-sm:text-[46px] max-sm:[&>span:first-child]:block max-sm:w-fit max-sm:mx-auto max-sm:order-2',
       ),
       main_paragraph: cn(
         'text-[40px] uppercase text-base-white font-[700] leading-[1]',
         'max-xl:text-[32px]',
+        'max-sm:text-[18px] max-sm:text-center',
       ),
       main_list: cn('text-[16px] font-jetbrains_mono text-base-white'),
       main_list_item: cn('text-[16px] font-jetbrains_mono text-base-white'),
@@ -38,6 +40,7 @@ const variantText = cva('font-jetbrains_mono font-medium', {
         'text-[32px] font-press_start text-primary',
         'opacity-0 -translate-y-2.5 transition-all duration-300 ease-in-out',
         '[&[data-active="true"]]:opacity-100 [&[data-active="true"]]:translate-y-0',
+        'max-md:text-[24px]',
       ),
       navigation_button: cn(
         'text-[44px] font-bebas_neue uppercase text-base-white tracking-[1px]',

@@ -9,7 +9,7 @@ import '@styles/global.css'
 
 export default function FrontendRootLayout({ children }: ChildrenType) {
   return (
-    <html lang="en" data-scroll-behavior={'smooth'}>
+    <html lang="en" data-scroll-behavior={'smooth'} className="overflow-hidden">
       <Wrapper variant="app" asChild>
         <body
           suppressHydrationWarning
@@ -18,6 +18,7 @@ export default function FrontendRootLayout({ children }: ChildrenType) {
             bebas_neue.variable,
             noto_sans.variable,
             jetbrains_mono.variable,
+            'overflow-hidden',
           )}
         >
           {children}
