@@ -27,7 +27,7 @@ const NavigationButton = () => {
       >
         <div className="relative">
           <Text variant="navigation_button" className="opacity-0">
-            Menu
+            Close
           </Text>
           <Text
             variant="navigation_button"

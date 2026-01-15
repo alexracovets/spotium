@@ -10,8 +10,14 @@ const variantText = cva('font-jetbrains_mono font-medium', {
   variants: {
     variant: {
       default: '',
-      main_heading: cn('text-[80px] font-bebas_neue uppercase text-base-white leading-[1]'),
-      main_paragraph: cn('text-[40px] uppercase text-base-white font-[700] leading-[1]'),
+      main_heading: cn(
+        'text-[80px] font-bebas_neue uppercase text-base-white leading-[1]',
+        'max-xl:text-[64px]',
+      ),
+      main_paragraph: cn(
+        'text-[40px] uppercase text-base-white font-[700] leading-[1]',
+        'max-xl:text-[32px]',
+      ),
       main_list: cn('text-[16px] font-jetbrains_mono text-base-white'),
       main_list_item: cn('text-[16px] font-jetbrains_mono text-base-white'),
       primary_paragraph: cn('text-[16px] font-jetbrains_mono text-base-white'),
@@ -28,18 +34,13 @@ const variantText = cva('font-jetbrains_mono font-medium', {
         'transition-all duration-300 ease-in-out',
       ),
       medium_paragraph: cn('text-[24px] font-jetbrains_mono text-base-white'),
-      animated_text_first_word: cn(
-        'text-[32px] font-press_start',
-        'opacity-0 -translate-y-2.5 transition-all duration-300 ease-in-out',
-        '[&[data-active="true"]]:opacity-100 [&[data-active="true"]]:translate-y-0',
-      ),
-      animated_text_second_word: cn(
+      animated_text: cn(
         'text-[32px] font-press_start text-primary',
         'opacity-0 -translate-y-2.5 transition-all duration-300 ease-in-out',
         '[&[data-active="true"]]:opacity-100 [&[data-active="true"]]:translate-y-0',
       ),
       navigation_button: cn(
-        'text-[32px] font-press_start uppercase text-base-white',
+        'text-[44px] font-bebas_neue uppercase text-base-white tracking-[1px]',
         "data-[active='true']:text-primary",
         'transition-all duration-300 ease-in-out',
       ),
@@ -62,7 +63,9 @@ const variantText = cva('font-jetbrains_mono font-medium', {
         'transition-all duration-300 ease-in-out',
       ),
       feature_title: cn('text-[32px] leading-[2.1] text-primary'),
-      contacts_title: cn('text-[64px] text-base-white font-noto_sans font-[900] leading-[1] uppercase'),
+      contacts_title: cn(
+        'text-[64px] text-base-white font-noto_sans font-[900] leading-[1] uppercase',
+      ),
       contacts_under_title: cn('text-[32px] text-base-white font-[800] uppercase'),
     },
   },

@@ -2,10 +2,11 @@
 
 import { Page } from '@payload-types'
 
-import { Developments, RichTextRender } from '@molecules'
+import { Developments, MainTitle, MainDescription } from '@molecules'
 
 import { useModelsWrapperDimensions, useSwitchModel } from '@hooks'
 import { Button, Container, CustomScroll, Wrapper } from '@atoms'
+import { cn } from '@utils'
 
 type MainProps = {
   data: Page
@@ -21,31 +22,29 @@ export const Main = ({ data }: MainProps) => {
 
   return (
     <Wrapper variant="main_wrapper">
-      <Wrapper variant="page_wrapper" className="min-h-0 h-full items-start justify-center">
-        <CustomScroll className="h-full">
+      <Wrapper variant="page_wrapper">
+        <CustomScroll>
           <Container>
-            <Wrapper className="flex flex-col justify-center h-full items-start gap-y-[32px] min-h-fit py-[32px]">
-              {title_main && (
-                <Wrapper>
-                  <RichTextRender text={title_main} variant="main" />
-                </Wrapper>
-              )}
-              {description && (
-                <Wrapper>
-                  <RichTextRender text={description} variant="main" />
-                </Wrapper>
-              )}
-              {button && (
-                <Button size="normal" arrow>
-                  {button}
-                </Button>
-              )}
-              {developments && <Developments developments={developments} />}
+            <Wrapper variant="main_content">
+              <MainTitle title_main={title_main} />
+              <MainDescription description={description} />
+              <Button size="normal" arrow>
+                {button}
+              </Button>
+              <Developments developments={developments} />
             </Wrapper>
           </Container>
         </CustomScroll>
       </Wrapper>
-      <Wrapper variant="page_wrapper" id="models_wrapper" />
+      <Wrapper
+        className={cn(
+          'absolute top-0 right-0 w-full max-w-[900px] h-full',
+          'max-[1500px]:max-w-[600px]',
+          'max-[1350px]:max-w-[500px]',
+        )}
+        variant="page_wrapper"
+        id="models_wrapper"
+      />
     </Wrapper>
   )
 }

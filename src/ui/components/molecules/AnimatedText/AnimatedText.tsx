@@ -49,10 +49,10 @@ const AnimatedText = ({ texts, interval = 6000, className }: AnimatedTextProps) 
 
   return (
     <Wrapper variant="animated_text" className={className}>
-      <Text variant="animated_text_first_word" asChild data-active={isVisible}>
+      <Text variant="animated_text" asChild data-active={isVisible}>
         <span>{currentText?.firstWord}</span>
       </Text>
-      <Text variant="animated_text_second_word" asChild data-active={isVisible}>
+      <Text variant="animated_text" className="text-primary" asChild data-active={isVisible}>
         <span>{currentText?.secondWord}</span>
       </Text>
     </Wrapper>

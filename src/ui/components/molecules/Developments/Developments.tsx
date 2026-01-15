@@ -6,10 +6,12 @@ import Marquee from 'react-fast-marquee'
 import type { Media, Page } from '@payload-types'
 
 interface DevelopmentsProps {
-  developments: NonNullable<NonNullable<Page['main_type_fields']>['developments']>
+  developments: NonNullable<Page['main_type_fields']>['developments']
 }
 
 export const Developments = ({ developments }: DevelopmentsProps) => {
+  if (!developments) return null
+
   return (
     <Wrapper variant="developments_wrapper">
       <Marquee autoFill className="overflow-hidden">

@@ -16,7 +16,7 @@ type AppHeaderProps = {
 const AppHeader = memo(({ logo, animatedTexts }: AppHeaderProps) => {
   return (
     <Container asChild>
-      <header className="relative z-[51] bg-base-dark">
+      <header className="relative z-51 bg-base-dark">
         <Wrapper variant="header" asChild>
           <Wrapper variant="heder_wrapper">
             <Logo image={logo} />

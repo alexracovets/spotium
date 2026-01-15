@@ -22,8 +22,8 @@ const variantWrapper = cva('', {
       navigation_button_inner:
         'w-[72px] h-[76px] absolute top-[50%] left-0 translate-y-[-50%] flex items-center justify-center',
       localization: 'absolute right-0 top-0 h-full flex items-center justify-center gap-x-[8px]',
-      main_page_wrapper: 'flex flex-col justify-center items-start',
-      page_wrapper: 'flex flex-col justify-start items-start gap-y-[32px] pointer-events-auto',
+      main_page_wrapper: 'flex flex-col justify-center items-start h-full min-h-0',
+      page_wrapper: 'flex flex-col justify-start items-start h-full min-h-0',
       page_content: 'flex flex-col justify-start items-start gap-y-[32px]',
       developments_wrapper:
         'w-full max-w-[640px] relative overflow-hidden developments_wrapper_mask min-h-fit',
@@ -37,7 +37,11 @@ const variantWrapper = cva('', {
       tags: 'flex justify-start items-start flex-wrap gap-[8px]',
       rich_text_wrapper: 'flex flex-col justify-start items-start gap-y-[8px] py-[16px]',
       tab_wrapper: 'flex flex-col justify-start items-start gap-y-[8px]',
-      main_wrapper: 'grid grid-cols-2 gap-x-[16px] h-full col-start-2',
+      main_wrapper: 'relative h-full',
+      main_content: cn(
+        'flex flex-col justify-center items-start py-[32px] gap-y-[32px] h-full min-h-fit',
+        'max-xl:gap-y-[16px]',
+      ),
     },
   },
   defaultVariants: {
