@@ -2,10 +2,11 @@
 
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { SupportedLocaleType } from '@types'
 
 interface GetPageCollectionProps {
   slug: string
-  locale: string
+  locale: SupportedLocaleType['name']
 }
 
 export const getPageCollection = async ({ slug, locale }: GetPageCollectionProps) => {
@@ -17,7 +18,7 @@ export const getPageCollection = async ({ slug, locale }: GetPageCollectionProps
         equals: slug,
       },
     },
-    locale: locale as unknown as 'uk' | 'en',
+    locale: locale,
   })
 
   return page

@@ -33,5 +33,5 @@ export default async function PagesPage({ params }: PagesPageProps) {
 
   const data = page.docs[0] as Page
 
-  return <Main data={data} />
+  return <Main data={data} locale={locale} />
 }

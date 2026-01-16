@@ -1,24 +1,42 @@
 'use client'
 
+import { useState, useEffect, useCallback } from 'react'
 import { Page } from '@payload-types'
-import { useState, useEffect } from 'react'
+
+import { RichTextRender } from '@molecules'
+import { Wrapper, Text } from '@atoms'
 
 import { getPageCollection } from '@api'
+import { SupportedLocaleType } from '@types'
 
-export const AboutMobile = ({ locale }: { locale: string }) => {
+interface AboutMobileProps {
+  locale: SupportedLocaleType['name']
+}
+
+export const AboutMobile = ({ locale }: AboutMobileProps) => {
   const [data, setData] = useState<Page | null>(null)
-
-  const fetchData = async () => {
+  console.log(locale)
+  const fetchData = useCallback(async () => {
     const data = await getPageCollection({
       slug: 'about',
       locale: locale,
     })
+    console.log(data)
     setData(data.docs[0])
-  }
+  }, [locale])
 
   useEffect(() => {
     fetchData()
-  }, [])
-  
-  return <h1>AboutMobile</h1>
+  }, [fetchData])
+
+  return (
+    <Wrapper>
+      {data && data.title && (
+        <Text variant="primary_heading" asChild>
+          <h2> {data.title}</h2>
+        </Text>
+      )}
+      <RichTextRender text={data?.about_type_fields?.description} variant="primary" />
+    </Wrapper>
+  )
 }

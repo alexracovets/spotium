@@ -3,7 +3,7 @@ import { Page } from '@payload-types'
 import config from '@payload-config'
 import { getPayload } from 'payload'
 
-import { About, Cases, Main, Services, QAPage, Contacts } from '@pages'
+import { About, Cases, Services, QAPage, Contacts } from '@pages'
 
 import { SupportedLocaleType } from '@types'
 
@@ -35,8 +35,6 @@ export default async function PagesPage({ params }: PagesPageProps) {
   const data = page.docs[0] as Page
 
   switch (data.type) {
-    case 'main':
-      return <Main data={data} locale={locale} />
     case 'services':
       return <Services data={data} />
     case 'cases':
