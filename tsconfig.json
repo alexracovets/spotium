@@ -37,7 +37,8 @@
       "@fonts": ["./src/ui/fonts"],
       "@hooks": ["./src/hooks"],
       "@utils": ["./src/utils"],
-      "@store": ["./src/store"]
+      "@store": ["./src/store"],
+      "@api": ["./src/api"]
     },
     "target": "ES2022"
   },

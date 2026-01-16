@@ -54,7 +54,7 @@ const variantWrapper = cva('', {
         'absolute top-0 right-0 w-full max-w-[900px] h-full',
         'max-[1500px]:max-w-[600px]',
         'max-[1350px]:max-w-[500px]',
-        'max-sm:relative max-sm:max-w-full max-sm:h-[80dvw] max-sm:scale-[1.3] max-sm:order-1 ',
+        'max-sm:relative max-sm:max-w-full max-sm:w-full max-sm:h-[80dvw] max-sm:order-1 ',
       ),
     },
   },

@@ -6,12 +6,14 @@ import { Developments, MainTitle, MainDescription } from '@molecules'
 
 import { useMobile, useModelsWrapperDimensions, useSwitchModel } from '@hooks'
 import { Button, Container, CustomScroll, Wrapper } from '@atoms'
+import { AboutMobile } from '@molecules'
 
 type MainProps = {
   data: Page
+  locale: string
 }
 
-export const Main = ({ data }: MainProps) => {
+export const Main = ({ data, locale }: MainProps) => {
   useModelsWrapperDimensions()
   useSwitchModel({ newModel: 0 })
   const isMobile = useMobile()
@@ -35,6 +37,7 @@ export const Main = ({ data }: MainProps) => {
               </Button>
               <Developments developments={developments} />
             </Wrapper>
+            <AboutMobile locale={locale} />
           </Container>
         </CustomScroll>
       </Wrapper>

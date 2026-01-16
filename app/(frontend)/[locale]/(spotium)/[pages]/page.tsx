@@ -36,7 +36,7 @@ export default async function PagesPage({ params }: PagesPageProps) {
 
   switch (data.type) {
     case 'main':
-      return <Main data={data} />
+      return <Main data={data} locale={locale} />
     case 'services':
       return <Services data={data} />
     case 'cases':
