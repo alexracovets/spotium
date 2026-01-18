@@ -12,19 +12,22 @@ const variantText = cva('font-jetbrains_mono font-medium', {
       default: '',
       main_heading: cn(
         'text-[80px] font-bebas_neue uppercase text-base-white leading-[1]',
-        'max-xl:text-[64px]',
-        'max-sm:text-[46px] max-sm:[&>span:first-child]:block max-sm:w-fit max-sm:mx-auto max-sm:order-2',
+        'max-md:text-[86px]',
+        'max-sm:text-[72px] max-sm:[&>span:first-child]:block max-sm:w-fit max-sm:mx-auto max-sm:order-2',
+        'max-xs:text-[46px]',
       ),
       main_paragraph: cn(
         'text-[40px] uppercase text-base-white font-[700] leading-[1]',
         'max-xl:text-[32px]',
-        'max-sm:text-[18px] max-sm:text-center',
+        'max-sm:inline max-sm:text-center',
+        'max-xs:text-[26px]',
       ),
       main_list: cn('text-[16px] font-jetbrains_mono text-base-white'),
       main_list_item: cn('text-[16px] font-jetbrains_mono text-base-white'),
       primary_paragraph: cn('text-[16px] font-jetbrains_mono text-base-white'),
       primary_heading: cn(
         'text-[64px] font-noto_sans font-[800] uppercase text-primary leading-[1]',
+        'max-sm:text-[54px] max-sm:text-center max-sm:mx-auto',
       ),
       primary_list: cn('text-[16px] font-jetbrains_mono text-base-white'),
       primary_list_item: cn(
@@ -70,6 +73,12 @@ const variantText = cva('font-jetbrains_mono font-medium', {
         'text-[64px] text-base-white font-noto_sans font-[900] leading-[1] uppercase',
       ),
       contacts_under_title: cn('text-[32px] text-base-white font-[800] uppercase'),
+      about_content_title: cn('text-[32px] leading-[1]'),
+      about_developments_item: cn(
+        'text-[14px] leading-[1] whitespace-nowrap',
+        "max-sm:text-[12px]",
+        "max-[650px]:text-[16px]",
+      ),
     },
   },
   defaultVariants: {

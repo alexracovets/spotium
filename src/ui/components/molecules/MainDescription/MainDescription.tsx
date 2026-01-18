@@ -13,7 +13,7 @@ export const MainDescription = ({ description }: MainDescriptionProps) => {
   return (
     <>
       {description && (
-        <Wrapper className="max-sm:order-4 max-sm:max-w-[300px] max-sm:mx-auto">
+        <Wrapper className="max-sm:order-4 max-sm:max-w-[480px] max-sm:mx-auto max-xs:max-w-[300px]">
           <RichTextRender text={description} variant="main" />
         </Wrapper>
       )}

@@ -10,7 +10,8 @@ const variantWrapper = cva('', {
   variants: {
     variant: {
       default: 'w-full',
-      container: cn('px-[50px] mx-auto h-full', 'max-md:px-[24px]', 'max-sm:px-[16px]'),
+      container: cn('px-[50px] mx-auto h-fit', 'max-md:px-[24px]', 'max-sm:px-[16px]'),
+      page: 'relative h-full',
       app: 'relative grid grid-rows-[auto_1fr_auto] h-[100dvh] bg-base-black antialiased text-base-text max-h-screen h-screen',
       header:
         'py-[4px] relative before:absolute before:content-[" "] before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-base-white',
@@ -44,9 +45,12 @@ const variantWrapper = cva('', {
       tags: 'flex justify-start items-start flex-wrap gap-[8px]',
       rich_text_wrapper: 'flex flex-col justify-start items-start gap-y-[8px] py-[16px]',
       tab_wrapper: 'flex flex-col justify-start items-start gap-y-[8px]',
-      main_wrapper: 'relative h-full',
+      main_page: cn(
+        'flex flex-col justify-center items-start w-full h-full!',
+        'max-sm:h-fit! max-sm:justify-start max-sm:gap-y-[32px]',
+      ),
       main_content: cn(
-        'flex flex-col justify-center items-start py-[32px] gap-y-[32px] w-fit h-full min-h-fit',
+        'flex flex-col justify-center items-start py-[32px] gap-y-[32px] w-fit h-full min-h-fit pointer-events-auto',
         'max-xl:gap-y-[16px]',
         'max-sm:justify-start max-sm:mx-auto max-sm:gap-y-[32px]',
       ),
@@ -55,6 +59,26 @@ const variantWrapper = cva('', {
         'max-[1500px]:max-w-[600px]',
         'max-[1350px]:max-w-[500px]',
         'max-sm:relative max-sm:max-w-full max-sm:w-full max-sm:h-[80dvw] max-sm:order-1 ',
+      ),
+      about_content_wrapper: cn(
+        'flex flex-col justify-start items-start h-fit min-h-0 pointer-events-auto',
+        'gap-y-[24px] py-[8px]',
+        'max-sm:py-[16px]',
+      ),
+      about_content: cn(
+        'w-full h-full min-h-fit flex flex-col gap-y-[16px] p-[16px] rounded-[8px]',
+        'border border-primary bg-bg-content',
+        "max-sm:gap-y-[32px]"
+      ),
+      about_content_text: 'flex flex-col gap-y-[12px] w-full',
+      about_developments: cn(
+        'grid grid-cols-3 w-full',
+        "max-[650px]:grid-cols-1",
+      ),
+      about_developments_item: cn(
+        'flex justify-start items-center gap-x-[16px] py-[16px]',
+        "border-b border-border-destructive nth-last-of-type-3:border-b-0 nth-last-of-type-2:border-b-0 nth-last-of-type-3:border-b-0 nth-last-of-type-1:border-b-0",
+        "max-sm:nth-last-of-type-3:border-b max-sm:nth-last-of-type-2:border-b max-sm:nth-last-of-type-1:border-b"
       ),
     },
   },

@@ -149,10 +149,10 @@
   --os-handle-right: 1px;
 }
 
-.os-scrollbar-vertical {
+/* .os-scrollbar-vertical {
   height: 90%;
   transform: translateY(5%);
-}
+} */
 
 .os-scrollbar {
   z-index: 1;

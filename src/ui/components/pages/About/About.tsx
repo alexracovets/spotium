@@ -33,24 +33,22 @@ export const About = ({ data }: AboutProps) => {
           <Wrapper variant="page_wrapper" id="models_wrapper" />
         </Wrapper>
         <CustomScroll>
-          <Wrapper variant="page_wrapper" className="gap-y-[16px] justify-center h-full min-h-fit">
-            <Wrapper className="flex flex-col gap-y-[24px] bg-bg-content rounded-[8px] p-[16px]">
-              <Text className="text-[32px] leading-[1]">{subtitle}</Text>
-              <Wrapper className="flex flex-col gap-y-[12px]">
+          <Wrapper variant="about_content_wrapper">
+            <Wrapper variant="about_content">
+              <Text variant="about_content_title">{subtitle}</Text>
+              <Wrapper variant="about_content_text">
                 <RichTextRender text={description} variant="primary" />
               </Wrapper>
             </Wrapper>
-            <Wrapper className="flex flex-col gap-y-[24px] bg-bg-content rounded-[8px] px-[16px]">
-              <div className="grid grid-cols-3">
+            <Wrapper variant="about_content">
+              <Wrapper variant="about_developments">
                 {developments?.map((development, idx) => {
                   const isLastRow = idx >= lastRowStartIndex
                   return (
                     <Wrapper
                       key={idx}
-                      className={cn(
-                        'flex justify-start items-center gap-x-[16px] py-[16px]',
-                        !isLastRow && 'border-b border-border-destructive',
-                      )}
+                      variant="about_developments_item"
+                      className={!isLastRow ? 'border-b border-border-destructive' : ''}
                     >
                       <ImageAtom
                         image={development.image as Media}
@@ -61,7 +59,7 @@ export const About = ({ data }: AboutProps) => {
                     </Wrapper>
                   )
                 })}
-              </div>
+              </Wrapper>
             </Wrapper>
           </Wrapper>
         </CustomScroll>

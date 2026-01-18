@@ -2,15 +2,15 @@
 
 import { Page } from '@payload-types'
 
-import { Developments, MainTitle, MainDescription } from '@molecules'
+import { Developments, MainTitle, MainDescription, AboutMobile } from '@molecules'
+import { Button, Container, CustomScroll, Wrapper } from '@atoms'
 
 import { useMobile, useModelsWrapperDimensions, useSwitchModel } from '@hooks'
-import { Button, Container, CustomScroll, Wrapper } from '@atoms'
-import { AboutMobile } from '@molecules'
 
+import { SupportedLocaleType } from '@types'
 type MainProps = {
   data: Page
-  locale: string
+  locale: SupportedLocaleType['name']
 }
 
 export const Main = ({ data, locale }: MainProps) => {
@@ -23,11 +23,11 @@ export const Main = ({ data, locale }: MainProps) => {
   const { description, button, developments, title_main } = data.main_type_fields
 
   return (
-    <Wrapper variant="main_wrapper">
-      <Wrapper variant="page_wrapper">
-        {isMobile === false && <Wrapper variant="main_models" id="models_wrapper" />}
-        <CustomScroll>
-          <Container>
+    <Wrapper variant="page">
+      {isMobile === false && <Wrapper variant="main_models" id="models_wrapper" />}
+      <CustomScroll>
+        <Container asChild>
+          <Wrapper variant="main_page">
             <Wrapper variant="main_content">
               {isMobile === true && <Wrapper variant="main_models" id="models_wrapper" />}
               <MainTitle title_main={title_main} />
@@ -37,10 +37,10 @@ export const Main = ({ data, locale }: MainProps) => {
               </Button>
               <Developments developments={developments} />
             </Wrapper>
-            <AboutMobile locale={locale} />
-          </Container>
-        </CustomScroll>
-      </Wrapper>
+            {isMobile === true && <AboutMobile locale={locale} />}
+          </Wrapper>
+        </Container>
+      </CustomScroll>
     </Wrapper>
   )
 }

@@ -13,7 +13,7 @@ type ContainerProps = ChildrenType & {
 const Container = ({ children, asChild, className }: ContainerProps) => {
   return (
     <Wrapper variant="container" className={cn(className, 'content_wrapper_mask')} asChild>
-      <Wrapper className="h-full min-h-0" asChild={asChild}>
+      <Wrapper className="h-fit min-h-0" asChild={asChild}>
         {children}
       </Wrapper>
     </Wrapper>

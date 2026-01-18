@@ -1,13 +1,13 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Page } from '@payload-types'
+import { Page, Media } from '@payload-types'
 
+import { Wrapper, Text, ImageAtom } from '@atoms'
 import { RichTextRender } from '@molecules'
-import { Wrapper, Text } from '@atoms'
 
-import { getPageCollection } from '@api'
 import { SupportedLocaleType } from '@types'
+import { getPageCollection } from '@api'
 
 interface AboutMobileProps {
   locale: SupportedLocaleType['name']
@@ -15,13 +15,12 @@ interface AboutMobileProps {
 
 export const AboutMobile = ({ locale }: AboutMobileProps) => {
   const [data, setData] = useState<Page | null>(null)
-  console.log(locale)
+
   const fetchData = useCallback(async () => {
     const data = await getPageCollection({
       slug: 'about',
       locale: locale,
     })
-    console.log(data)
     setData(data.docs[0])
   }, [locale])
 
@@ -30,13 +29,37 @@ export const AboutMobile = ({ locale }: AboutMobileProps) => {
   }, [fetchData])
 
   return (
-    <Wrapper>
+    <Wrapper variant="about_content_wrapper">
       {data && data.title && (
         <Text variant="primary_heading" asChild>
-          <h2> {data.title}</h2>
+          <h2>{data.title}</h2>
         </Text>
       )}
-      <RichTextRender text={data?.about_type_fields?.description} variant="primary" />
+      <Wrapper variant="about_content">
+        <Text variant="about_content_title">{data?.about_type_fields?.subtitle}</Text>
+        <Wrapper variant="about_content_text">
+          <RichTextRender text={data?.about_type_fields?.description} variant="primary" />
+        </Wrapper>
+      </Wrapper>
+      <Wrapper variant="about_content">
+        <Wrapper variant="about_developments">
+          {data?.about_type_fields?.developments?.map((development, idx) => {
+            return (
+              <Wrapper
+                key={idx}
+                variant="about_developments_item"
+              >
+                <ImageAtom
+                  image={development.image as Media}
+                  alt={development.name}
+                  variant="development_about"
+                />
+                <Text variant="about_developments_item">{development.name}</Text>
+              </Wrapper>
+            )
+          })}
+        </Wrapper>
+      </Wrapper>
     </Wrapper>
   )
 }
