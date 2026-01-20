@@ -2,7 +2,7 @@
 
 import { Page } from '@payload-types'
 
-import { Developments, MainTitle, MainDescription, AboutMobile } from '@molecules'
+import { Developments, MainTitle, MainDescription, AboutMobile, ServicesMobile } from '@molecules'
 import { Button, Container, CustomScroll, Wrapper } from '@atoms'
 
 import { useMobile, useModelsWrapperDimensions, useSwitchModel } from '@hooks'
@@ -38,6 +38,7 @@ export const Main = ({ data, locale }: MainProps) => {
               <Developments developments={developments} />
             </Wrapper>
             {isMobile === true && <AboutMobile locale={locale} />}
+            {isMobile === true && <ServicesMobile locale={locale} />}
           </Wrapper>
         </Container>
       </CustomScroll>

@@ -3,7 +3,7 @@
   "npm.packageManager": "pnpm",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "explicit"
